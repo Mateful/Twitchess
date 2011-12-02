@@ -16,7 +16,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Rook;
 
-public class ChessBoard {
+public class Chessboard {
 	// private Figure[][] board;
 	private Map<Position, Figure> board;
 	private Color playerToMove;
@@ -24,7 +24,7 @@ public class ChessBoard {
 	private boolean kingCastling[];
 	private boolean queenCastling[];
 
-	public ChessBoard() {
+	public Chessboard() {
 		clearBoard();
 		setStartingPosition();
 	}
@@ -132,8 +132,8 @@ public class ChessBoard {
 		return board.get(position);
 	}
 
-	public List<Move> generateNaiveMoves() {
-		List<Move> moves = new ArrayList<Move>();
+	public List<RelativeMove> generateNaiveMoves() {
+		List<RelativeMove> moves = new ArrayList<RelativeMove>();
 
 		for (Figure f : board.values())
 			if (isItFiguresTurn(f))
@@ -146,7 +146,7 @@ public class ChessBoard {
 		return f != null && f.getColor() == getPlayerToMove();
 	}
 
-	public void doMove(Move m) {
+	public void doMove(RelativeMove m) {
 		Figure f = board.get(m.getStart());
 
 		if (f != null) {
@@ -158,9 +158,9 @@ public class ChessBoard {
 
 	}
 
-	public boolean isCheckAfterMove(Move m) {
+	public boolean isCheckAfterMove(RelativeMove m) {
 		HashMap<Position, Figure> boardCopy = new HashMap<Position, Figure>();
-		List<Move> moves = new ArrayList<Move>();
+		List<RelativeMove> moves = new ArrayList<RelativeMove>();
 		boolean isCheck = false;
 		Color playerToMoveCopy = playerToMove;
 
@@ -227,14 +227,14 @@ public class ChessBoard {
 	}
 
 	public static void main(String[] args) {
-		ChessBoard b = new ChessBoard();
+		Chessboard b = new Chessboard();
 
 		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		String s;
 
 		while (true) {
-			List<Move> moves = b.generateNaiveMoves();
+			List<RelativeMove> moves = b.generateNaiveMoves();
 
 			System.out.println(b);
 			System.out.println("move count: " + moves.size());
