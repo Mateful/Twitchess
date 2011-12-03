@@ -10,15 +10,13 @@ import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
 public abstract class Player {
 	protected Color color;
 	public Player opponent;
+	public boolean inCheck;
 	protected List<Figure> figuresInGame;
 
 	public Player() {
 		figuresInGame = new ArrayList<Figure>();
 		color = Color.NOCOLOR;
-	}
-
-	public Player(List<Figure> figuresInGame) {
-		this.figuresInGame = figuresInGame;
+		inCheck = false;
 	}
 
 	public void add(Figure figure) {

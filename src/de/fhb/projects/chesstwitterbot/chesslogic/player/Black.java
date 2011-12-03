@@ -9,8 +9,4 @@ public class Black extends Player {
 		super();
 		color = Color.BLACK;
 	}
-	
-	public Black(List<Figure> figuresInGame) {
-		super(figuresInGame);
-	}
 }

@@ -9,8 +9,4 @@ public class White extends Player {
 		super();
 		color = Color.WHITE;
 	}
-	
-	public White(List<Figure> figuresInGame) {
-		super(figuresInGame);
-	}
 }
