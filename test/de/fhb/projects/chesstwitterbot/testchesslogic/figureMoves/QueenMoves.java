@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
+import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
@@ -14,15 +15,15 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMoveList;
 
 public class QueenMoves {
-	private ChessLogic cl;
+	private GameState state;
 	private Position start;
 
 	@Before
 	public void initPawnTests() {
-		cl = new ChessLogic();
+		state = new GameState();
 		start = new Position(3, 3);
-		cl.white.add(new Queen(start));
-		cl.updatePositions();
+		state.white.add(new Queen(start));
+		state.updatePositions();
 	}	
 
 	@Test
@@ -48,15 +49,15 @@ public class QueenMoves {
 	
 	@Test
 	public void validMoves() {
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(3, 4))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(3, 5))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(3, 2))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(2, 3))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(4, 3))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(4, 4))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(5, 5))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(2, 2))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(2, 4))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(4, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(3, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(3, 5))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(3, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(2, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(4, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(4, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(5, 5))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(2, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(2, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start, new Position(4, 2))));
 	}
 }

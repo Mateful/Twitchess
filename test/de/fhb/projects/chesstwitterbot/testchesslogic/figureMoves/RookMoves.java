@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
+import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
 import de.fhb.projects.chesstwitterbot.chesslogic.InvalidMoveException;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Rook;
@@ -15,16 +16,16 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMoveList;
 
 public class RookMoves {
-	private ChessLogic cl;
+	private GameState state;
 	private Position start;
 
 	@Before
 	public void initPawnTests() {
-		cl = new ChessLogic();
+		state = new GameState();
 		start = new Position(3, 3);
-		cl.white.add(new Rook(start));
-		cl.updatePositions();
-	}	
+		state.white.add(new Rook(start));
+		state.updatePositions();
+	}
 
 	@Test
 	public void getMoves() {
@@ -38,33 +39,42 @@ public class RookMoves {
 		assertTrue(naiveMoves.contains(up));
 		assertTrue(naiveMoves.contains(down));
 	}
-	
+
 	@Test
 	public void validMoves() {
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(3, 4))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(3, 5))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(3, 2))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(2, 3))));
-		assertTrue(cl.isValidMove(new AbsoluteMove(start, new Position(4, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(3, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(3, 5))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(3, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(2, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(4, 3))));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void upRight() {
-		cl.isValidMove(new AbsoluteMove(start, new Position(4, 4)));
+		ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(4, 4)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void downRight() {
-		cl.isValidMove(new AbsoluteMove(start, new Position(4, 2)));
+		ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(4, 2)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void downLeft() {
-		cl.isValidMove(new AbsoluteMove(start, new Position(2, 2)));
+		ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(2, 2)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void upLeft() {
-		cl.isValidMove(new AbsoluteMove(start, new Position(2, 4)));
+		ChessLogic.isValidMove(state, new AbsoluteMove(start,
+				new Position(2, 4)));
 	}
 }

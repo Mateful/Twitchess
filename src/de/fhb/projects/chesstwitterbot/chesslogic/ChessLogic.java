@@ -8,44 +8,16 @@ import de.fhb.projects.chesstwitterbot.chesslogic.figures.Figure;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Black;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.White;
 
-public class ChessLogic implements IChessLogic {
-	public Figure[][] board;
-	public Player currentTurnPlayer;
-	public Player white, black;
-	public AbsoluteMove lastMove;
-
-	public ChessLogic() {
-		board = new Figure[8][8];
-		for(int x = 0; x < 8; x++)
-			for(int y = 0; y < 8; y++)
-				board[x][y] = NO_FIGURE;
-		white = new White();
-		black = new Black();
-		white.opponent = black;
-		black.opponent = white;
-		currentTurnPlayer = white;
-		lastMove = AbsoluteMove.NO_MOVE;
-	}
-
-	public void updatePositions() {
-		for(int i = 0; i < white.getFiguresInGame().size(); i++)
-			board[white.getFiguresInGame().get(i).position.getX()][white
-					.getFiguresInGame().get(i).position.getY()] = white
-					.getFiguresInGame().get(i);
-		for(int i = 0; i < black.getFiguresInGame().size(); i++)
-			board[black.getFiguresInGame().get(i).position.getX()][black
-					.getFiguresInGame().get(i).position.getY()] = black
-					.getFiguresInGame().get(i);
-	}
-
-	@Override
-	public boolean isValidMove(AbsoluteMove absoluteMove) {
-		Figure figure = getFigure(absoluteMove);
+public class ChessLogic {
+	private static GameState stateInProcess;
+	private ChessLogic() {}
+	
+	public static boolean isValidMove(GameState state, AbsoluteMove absoluteMove) {
+		stateInProcess = state;
+		Figure figure = state.getMovingFigure(absoluteMove);
 
 		checkNoFigure(absoluteMove, figure);
 		checkWrongColor(absoluteMove, figure);
@@ -54,14 +26,14 @@ public class ChessLogic implements IChessLogic {
 		return true;
 	}
 
-	private void checkIsBlocked(AbsoluteMove absoluteMove) {
+	private static void checkIsBlocked(AbsoluteMove absoluteMove) {
 		if(isMoveBlocked(absoluteMove))
 			throw new InvalidMoveException(
 					"The move is invalid because there is a figure blocking the way. Your move:"
 							+ absoluteMove.toString());
 	}
 
-	private void checkDirection(AbsoluteMove absoluteMove, Figure figure) {
+	private static void checkDirection(AbsoluteMove absoluteMove, Figure figure) {
 		if(!figure.getNaiveMoves().contains(absoluteMove))
 			if(!isPawnHit(absoluteMove, figure)
 					&& !isInitialPawn2Step(absoluteMove, figure))
@@ -70,46 +42,46 @@ public class ChessLogic implements IChessLogic {
 								+ absoluteMove.toString());
 	}
 
-	private boolean isInitialPawn2Step(AbsoluteMove absoluteMove, Figure figure) {
-		return figure instanceof Pawn && isPawnInInitialLine((Pawn)figure, absoluteMove) && absoluteMove.getTotalYDistance() == 2;
-	}
-	
-	private boolean isPawnInInitialLine(Pawn pawn, AbsoluteMove absoluteMove) {
-		return pawn.color.equals(Color.WHITE) ? absoluteMove.getStart()
-				.getY() == 1 : absoluteMove.getStart().getY() == 6;
+	private static boolean isInitialPawn2Step(AbsoluteMove absoluteMove, Figure figure) {
+		return figure instanceof Pawn
+				&& isPawnInInitialLine((Pawn)figure, absoluteMove)
+				&& absoluteMove.getTotalYDistance() == 2;
 	}
 
-	private void checkWrongColor(AbsoluteMove absoluteMove, Figure figure) {
-		if(!figure.color.equals(currentTurnPlayer.getColor()))
+	private static boolean isPawnInInitialLine(Pawn pawn, AbsoluteMove absoluteMove) {
+		return pawn.color.equals(Color.WHITE) ? absoluteMove.getStart().getY() == 1
+				: absoluteMove.getStart().getY() == 6;
+	}
+
+	private static void checkWrongColor(AbsoluteMove absoluteMove, Figure figure) {
+		if(!figure.color.equals(stateInProcess.currentTurnPlayer.getColor()))
 			throw new InvalidMoveException(
 					"The move is invalid this is not your figure. Your move:"
 							+ absoluteMove.toString());
 	}
 
-	private void checkNoFigure(AbsoluteMove absoluteMove, Figure figure) {
+	private static void checkNoFigure(AbsoluteMove absoluteMove, Figure figure) {
 		if(figure.equals(NO_FIGURE))
 			throw new InvalidMoveException(
 					"The move is invalid because there is no figure on the designated position. Your move:"
 							+ absoluteMove.toString());
 	}
 
-	private Figure getFigure(AbsoluteMove absoluteMove) {
-		return board[absoluteMove.getStart().getX()][absoluteMove.getStart()
-				.getY()];
-	}
-
-	private boolean isPawnHit(AbsoluteMove absoluteMove, Figure figure) {
+	private static boolean isPawnHit(AbsoluteMove absoluteMove, Figure figure) {
 		return figure instanceof Pawn
-				&& ((Pawn)figure).getHitMoves().contains(absoluteMove) && (isDestinationOccupied(absoluteMove).equals(currentTurnPlayer.opponent.getColor()) || isEnPassant());
+				&& ((Pawn)figure).getHitMoves().contains(absoluteMove)
+				&& (isDestinationOccupied(absoluteMove).equals(
+						stateInProcess.currentTurnPlayer.opponent.getColor()) || isEnPassant());
 	}
 
-	private boolean isEnPassant() {
-		return isInitialPawn2Step(lastMove, board[lastMove.getDestination().getX()][lastMove.getDestination().getY()]);
+	private static boolean isEnPassant() {
+		return isInitialPawn2Step(stateInProcess.lastMove, stateInProcess.board[stateInProcess.lastMove.getDestination()
+				.getX()][stateInProcess.lastMove.getDestination().getY()]);
 	}
 
-	public boolean isMoveBlocked(AbsoluteMove absoluteMove) {
+	private static boolean isMoveBlocked(AbsoluteMove absoluteMove) {
 		if(isDestinationOccupied(absoluteMove).equals(
-				currentTurnPlayer.getColor()))
+				stateInProcess.currentTurnPlayer.getColor()))
 			return true;
 
 		IsMoveBlockedHelper imbh = new IsMoveBlockedHelper();
@@ -146,24 +118,24 @@ public class ChessLogic implements IChessLogic {
 
 		for(int y = imbh.yStart, x = imbh.xStart; y < imbh.yDest
 				|| x < imbh.xDest; y += imbh.yToAdd, x += imbh.xToAdd)
-			if(!board[absoluteMove.getStart().getX()][y].equals(NO_FIGURE))
+			if(!stateInProcess.board[absoluteMove.getStart().getX()][y].equals(NO_FIGURE))
 				return true;
 
 		return false;
 	}
 
-	private Color isDestinationOccupied(AbsoluteMove absoluteMove) {
-		return board[absoluteMove.getDestination().getX()][absoluteMove
+	private static Color isDestinationOccupied(AbsoluteMove absoluteMove) {
+		return stateInProcess.board[absoluteMove.getDestination().getX()][absoluteMove
 				.getDestination().getY()].color;
 	}
 
-	@Override
-	public boolean isCheck(Player playerInCheck) {
+	public static boolean isCheck(GameState state, Player playerInCheck) {
+		stateInProcess = state;
 		Position kingPos = playerInCheck.getKing();
 		Player opponent = playerInCheck.opponent;
 		for(int i = 0; i < opponent.getFiguresInGame().size(); i++)
 			try {
-				if(isValidMove(new AbsoluteMove(opponent.getFiguresInGame()
+				if(isValidMove(state, new AbsoluteMove(opponent.getFiguresInGame()
 						.get(i).position, kingPos)))
 					return true;
 			} catch(RuntimeException e) {
@@ -172,20 +144,20 @@ public class ChessLogic implements IChessLogic {
 		return false;
 	}
 
-	@Override
-	public boolean isCheckMate(Player playerInCheck) {
+	public static boolean isCheckMate(GameState state, Player playerInCheck) {
+		stateInProcess = state;
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public boolean isDraw() {
+	public static boolean isDraw(GameState state) {
+		stateInProcess = state;
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public List<RelativeMove> generateAllValidMoves() {
+	public static List<RelativeMove> generateAllValidMoves(GameState state) {
+		stateInProcess = state;
 		// TODO Auto-generated method stub
 		return null;
 	}
