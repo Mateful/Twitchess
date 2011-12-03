@@ -13,8 +13,35 @@ Autoren
 * SM
 
 Kurzbeschreibung
+===============
+
+
+Anforderungen
 ----------------
 
+Mindestanforderungen des Projekts:
+
+  -Spielen gegen KI (Anbindung einer Schachengine)
+  
+  -Anbindung an Twitter (Steuerung über Nachrichten)
+  
+  -Aktuelle Status-/Spielfeldanzeige durch Grafiken (über Twitter)
+  
+  -Speicherung laufender und vergangener Spiele/Spieler
+  
+
+Zusatzanforderungen:
+
+  -Änderung des Schwierigkeitsgrades
+  
+  -Eigene KI
+  
+  -Spieler gegen Spieler
+  
+  -GUI
+  
+  -Andere Spiele wie TicTacToe, Vier Gewinnt
+  
 
 Start
 =====
