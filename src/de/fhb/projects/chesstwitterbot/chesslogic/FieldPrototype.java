@@ -1,5 +1,7 @@
 package de.fhb.projects.chesstwitterbot.chesslogic;
 
+import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
+
 public enum FieldPrototype {
 	EMPTY(null, null), 
 	KING_WHITE(Type.KING, Color.WHITE), KING_BLACK(Type.KING, Color.BLACK),

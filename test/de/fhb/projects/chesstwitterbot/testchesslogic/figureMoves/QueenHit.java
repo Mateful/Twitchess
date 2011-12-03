@@ -1,6 +1,7 @@
 package de.fhb.projects.chesstwitterbot.testchesslogic.figureMoves;
 
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
+import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -11,7 +12,8 @@ import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
-public class QueenBlock {
+
+public class QueenHit {
 	private ChessLogic cl;
 	private Position start;
 
@@ -21,74 +23,74 @@ public class QueenBlock {
 		start = new Position(3, 3);
 		cl.white.add(new Queen(start));
 
-		cl.white.add(new Pawn(new Position(3, 4), WHITE));
-		cl.white.add(new Pawn(new Position(4, 4), WHITE));
-		cl.white.add(new Pawn(new Position(4, 3), WHITE));
-		cl.white.add(new Pawn(new Position(4, 2), WHITE));
-		cl.white.add(new Pawn(new Position(3, 2), WHITE));
-		cl.white.add(new Pawn(new Position(2, 2), WHITE));
-		cl.white.add(new Pawn(new Position(2, 3), WHITE));
-		cl.white.add(new Pawn(new Position(2, 4), WHITE));
+		cl.black.add(new Pawn(new Position(3, 4), BLACK));
+		cl.black.add(new Pawn(new Position(4, 4), BLACK));
+		cl.black.add(new Pawn(new Position(4, 3), BLACK));
+		cl.black.add(new Pawn(new Position(4, 2), BLACK));
+		cl.black.add(new Pawn(new Position(3, 2), BLACK));
+		cl.black.add(new Pawn(new Position(2, 2), BLACK));
+		cl.black.add(new Pawn(new Position(2, 3), BLACK));
+		cl.black.add(new Pawn(new Position(2, 4), BLACK));
 		cl.updatePositions();
 	}
 
 	@Test
 	public void isQueenUpMove1StepBlocked() {
-		assertTrue(cl
+		assertFalse(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(3, 4))));
 	}
-	
+
 	@Test
 	public void isQueenUpMove2StepsBlocked() {
 		assertTrue(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(3, 5))));
 	}
-	
+
 	@Test
 	public void isQueenRightMoveBlocked() {
-		assertTrue(cl
+		assertFalse(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(4, 3))));
 	}
 
 	@Test
 	public void isQueenLeftMoveBlocked() {
-		assertTrue(cl
+		assertFalse(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(2, 3))));
 	}
-	
+
 	@Test
 	public void isQueenDownMoveBlocked() {
-		assertTrue(cl
+		assertFalse(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(3, 2))));
 	}
 
 	@Test
 	public void isQueenUpRightMove1StepBlocked() {
-		assertTrue(cl
+		assertFalse(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(4, 4))));
 	}
-	
+
 	@Test
 	public void isQueenUpRightMove2StepsBlocked() {
 		assertTrue(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(5, 5))));
 	}
-	
+
 	@Test
 	public void isQueenDownRightMoveBlocked() {
-		assertTrue(cl
+		assertFalse(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(4, 2))));
 	}
 
 	@Test
 	public void isQueenDownLeftMoveBlocked() {
-		assertTrue(cl
+		assertFalse(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(2, 2))));
 	}
 
 	@Test
 	public void isQueenUpLeftMoveBlocked() {
-		assertTrue(cl
+		assertFalse(cl
 				.isMoveBlocked(new AbsoluteMove(start, new Position(2, 4))));
 	}
 }

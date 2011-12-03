@@ -5,16 +5,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.AbsoluteMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
-import de.fhb.projects.chesstwitterbot.chesslogic.Color;
-import de.fhb.projects.chesstwitterbot.chesslogic.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.InvalidMoveException;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.RelativeMove;
-import de.fhb.projects.chesstwitterbot.chesslogic.RelativeMoveList;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Figure;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMoveList;
 
 public class KingMoves {
 	private ChessLogic cl;
@@ -23,16 +21,14 @@ public class KingMoves {
 	@Before
 	public void initPawnTests() {
 		cl = new ChessLogic();
-		Figure[][] board = new Figure[8][8];
 		start = new Position(3, 3);
-		board[3][3] = new King(Color.WHITE);
-		cl.board = board;
-		cl.currentTurnPlayer = Color.WHITE;
+		cl.white.add(new King(start));
+		cl.updatePositions();
 	}	
 
 	@Test
 	public void getMoves() {
-		RelativeMoveList naiveMoves = new King(Color.WHITE).getNaiveMoves();
+		RelativeMoveList naiveMoves = new King(start).getNaiveMoves();
 		RelativeMove up = new RelativeMove(Direction.UP, false);
 		RelativeMove down = new RelativeMove(Direction.DOWN, false);
 		RelativeMove left = new RelativeMove(Direction.LEFT, false);

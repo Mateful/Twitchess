@@ -1,12 +1,13 @@
 package de.fhb.projects.chesstwitterbot.chesslogic.figures;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.Color;
-import de.fhb.projects.chesstwitterbot.chesslogic.Direction;
-import de.fhb.projects.chesstwitterbot.chesslogic.RelativeMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.Position;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 
 public class King extends Figure {
-	public King(Color color) {
-		super(color);
+	public King(Position position) {
+		super(position);
 		naiveMoves.add(new RelativeMove(Direction.UPRIGHT, false));
 		naiveMoves.add(new RelativeMove(Direction.DOWNRIGHT, false));
 		naiveMoves.add(new RelativeMove(Direction.UPLEFT, false));

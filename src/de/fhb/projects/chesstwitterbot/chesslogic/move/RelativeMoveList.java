@@ -1,10 +1,14 @@
-package de.fhb.projects.chesstwitterbot.chesslogic;
+package de.fhb.projects.chesstwitterbot.chesslogic.move;
 
 import java.util.ArrayList;
 
 public class RelativeMoveList extends ArrayList<RelativeMove> {
 	private static final long serialVersionUID = 1L;
 
+	public boolean contains(AbsoluteMove move) {
+		return contains(move.getRelativeMove());
+	}
+	
 	public boolean contains(RelativeMove move) {
 		RelativeMove moveInList;
 		for(int i = 0; i < size(); i++) {

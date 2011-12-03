@@ -1,22 +1,18 @@
 package de.fhb.projects.chesstwitterbot.testchesslogic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.AbsoluteMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
-import de.fhb.projects.chesstwitterbot.chesslogic.Color;
 import de.fhb.projects.chesstwitterbot.chesslogic.InvalidMoveException;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Bishop;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Figure;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Knight;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Rook;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 
 public class GeneralTests {
 	private ChessLogic cl;
@@ -24,13 +20,20 @@ public class GeneralTests {
 	@Before
 	public void initGame() {
 		cl = new ChessLogic();
-		Figure[][] board = new Figure[8][8];
-		cl.board = board;
-		cl.currentTurnPlayer = Color.WHITE;
+		cl.white.add(new King(new Position(0, 0)));
+		cl.white.add(new Queen(new Position(1, 0)));
+		cl.black.add(new King(new Position(1, 3)));
+		cl.updatePositions();
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isNoFigureToMove() {
 		cl.isValidMove(new AbsoluteMove(new Position(0, 4), new Position(0, 5)));
+	}
+	
+	@Test
+	public void isInCheck() {
+		assertFalse(cl.isCheck(cl.white));
+		assertTrue(cl.isCheck(cl.black));
 	}
 }

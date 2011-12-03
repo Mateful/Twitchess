@@ -6,10 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.AbsoluteMove;
-import de.fhb.projects.chesstwitterbot.chesslogic.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.RelativeMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
 
 public class MoveClassesTest {
 	@Test

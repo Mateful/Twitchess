@@ -15,6 +15,8 @@ import de.fhb.projects.chesstwitterbot.chesslogic.figures.Knight;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Rook;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 
 public class Chessboard {
 	// private Figure[][] board;

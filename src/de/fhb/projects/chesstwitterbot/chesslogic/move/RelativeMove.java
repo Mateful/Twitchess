@@ -1,4 +1,4 @@
-package de.fhb.projects.chesstwitterbot.chesslogic;
+package de.fhb.projects.chesstwitterbot.chesslogic.move;
 
 public class RelativeMove {
 	private Direction direction;
