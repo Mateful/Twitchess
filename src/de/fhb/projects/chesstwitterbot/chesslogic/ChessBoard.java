@@ -33,7 +33,6 @@ public class ChessBoard {
 		setBoard(new HashMap<Position, Figure>());
 		playerToMove = Color.WHITE;
 		setEnPassant(null);
-
 	}
 
 	private void setStartingPosition() {
