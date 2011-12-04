@@ -1,4 +1,4 @@
-package de.fhb.projects.chesstwitterbot.testchesslogic;
+package de.fhb.projects.chesstwitterbot;
 
 import org.junit.Before;
 import org.junit.Test;
