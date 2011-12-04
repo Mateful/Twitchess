@@ -3,7 +3,6 @@ package de.fhb.projects.chesstwitterbot.chesslogic.figures;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 
 public class Queen extends Figure {
 	public Queen(Position position) {
