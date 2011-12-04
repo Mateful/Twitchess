@@ -1,5 +1,12 @@
 package de.fhb.projects.chesstwitterbot.unittests;
 
-public class UnitTest {
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
+public class UnitTest {
+	@Test
+	public void test() {
+		assertTrue(true);
+	}
 }

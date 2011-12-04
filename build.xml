@@ -36,6 +36,9 @@
 		<javac srcdir="${test.dir}" destdir="${classes.dir}" debug="yes" includeantruntime="false">
 			<classpath refid="junit.classpath" />
 		</javac>
+		<javac srcdir="${integrationtest.dir}" destdir="${classes.dir}" debug="yes" includeantruntime="false">
+			<classpath refid="junit.classpath" />
+		</javac>
 	</target>
 
 	<target name="test" depends="compile">
@@ -57,6 +60,9 @@
 				 	-->
 			<batchtest todir="${reports.xml.dir}" unless="testcase">
 				<fileset dir="${test.dir}">
+					<include name="**/*Test.java" />
+				</fileset>
+				<fileset dir="${integrationtest.dir}">
 					<include name="**/*Test.java" />
 				</fileset>
 			</batchtest>
