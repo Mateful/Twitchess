@@ -14,7 +14,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
 
-public class QueenHit {
+public class QueenHitTest {
 	private GameState state;
 	private Position start;
 

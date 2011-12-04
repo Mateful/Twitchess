@@ -15,7 +15,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMoveList;
 
-public class RookMoves {
+public class RookMovesTest {
 	private GameState state;
 	private Position start;
 

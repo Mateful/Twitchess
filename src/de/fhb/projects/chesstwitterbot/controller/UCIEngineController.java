@@ -73,7 +73,7 @@ public class UCIEngineController {
 			moves.add(line);
 			System.out.println(line);
 			if (line.equals("(none)")) {
-				System.out.println((whiteToMove ? "Weiﬂ" : "Schwarz") + " ist matt");
+				System.out.println((whiteToMove ? "Weiss" : "Schwarz") + " ist matt");
 				line = "";
 			}
 			sendCommandString("isready");

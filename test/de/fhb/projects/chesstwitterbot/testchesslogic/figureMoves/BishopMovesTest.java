@@ -15,7 +15,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMoveList;
 
-public class BishopMoves {
+public class BishopMovesTest {
 	private GameState state;
 	private Position start;
 

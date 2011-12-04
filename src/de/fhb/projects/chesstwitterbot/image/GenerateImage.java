@@ -53,7 +53,7 @@ public class GenerateImage extends JFrame {
 			setBoardFilename((String) p.get("boardFilename"));
 			setFigureFilenamePatter((String) p.get("figureFilenamePatter"));
 		} catch (FileNotFoundException e) {
-			System.err.println("Can’t find " + propertyFilename);
+			System.err.println("Can't find " + propertyFilename);
 		} catch (IOException e) {
 			System.err
 					.println("I/O failed. Could not initialise image generation!");

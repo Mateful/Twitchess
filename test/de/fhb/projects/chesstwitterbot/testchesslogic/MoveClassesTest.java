@@ -11,7 +11,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
 
-public class MoveClasses {
+public class MoveClassesTest {
 	@Test
 	public void relativeMoveEquals() {
 		assertEquals(new RelativeMove(Direction.UP, true), new RelativeMove(

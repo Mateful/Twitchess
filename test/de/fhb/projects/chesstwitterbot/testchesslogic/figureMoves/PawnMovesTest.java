@@ -18,7 +18,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMoveList;
 
-public class PawnMoves {
+public class PawnMovesTest {
 	private GameState state;
 	private Position whiteStart, blackStart, initWhitePawn;
 

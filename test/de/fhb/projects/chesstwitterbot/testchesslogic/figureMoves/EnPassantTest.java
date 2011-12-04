@@ -13,7 +13,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
 
-public class EnPassant {
+public class EnPassantTest {
 	private GameState state;
 	private Pawn blackPawn, whitePawn;
 

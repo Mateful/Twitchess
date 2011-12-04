@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="TwitterBot" default="cob-rep" basedir=".">
+	<description>Twitchesst</description>
+	<property file="build.properties" />
+
+	<path id="junit.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${reports.xml.dir}" />
+		<mkdir dir="${reports.html.dir}" />
+		<mkdir dir="${inst.dir}" />
+		<mkdir dir="${cob.rep.html}" />
+		<mkdir dir="${cob.rep.xml}" />
+		<mkdir dir="${cob.rep.xml}" />
+	</target>
+
+	<target name="clean" description="Remove all files created by the build/test process.">
+		<delete dir="${classes.dir}" />
+		<delete dir="${reports.xml.dir}" />
+		<delete dir="${reports.html.dir}" />
+		<delete file="${cobdata}" />
+		<delete dir="${inst.dir}" />
+		<delete dir="${cob.rep}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="yes" includeantruntime="false">
+			<classpath refid="junit.classpath" />
+		</javac>
+		<javac srcdir="${test.dir}" destdir="${classes.dir}" debug="yes" includeantruntime="false">
+			<classpath refid="junit.classpath" />
+		</javac>
+	</target>
+
+	<target name="test" depends="compile">
+		<junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
+
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobdata}" />
+			<classpath location="${inst.dir}" />
+
+			<classpath location="${classes.dir}" />
+			<classpath refid="junit.classpath" />
+
+			<formatter type="brief" usefile="false" />
+			<formatter type="xml" />
+			<test name="${testcase}" todir="${reports.xml.dir}" if="testcase" />
+			<!-- ant test -Dtestcase=<fully qualified classname> -->
+			<!--
+				 	  <sysproperty key="docs.dir" value="${test.dir}/org"/>  
+				 	  Manche Tests benötigen System Properties, diese können im Test umdefiniert werden.
+				 	-->
+			<batchtest todir="${reports.xml.dir}" unless="testcase">
+				<fileset dir="${test.dir}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<junitreport todir="${reports.xml.dir}">
+			<fileset dir="${reports.xml.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${reports.html.dir}" />
+		</junitreport>
+		<fail message="Tests failed. Check log and/or reports." if="test.failed" />
+	</target>
+
+	<taskdef classpathref="junit.classpath" resource="tasks.properties" />
+	<target name="cob-instr" depends="compile">
+		<cobertura-instrument todir="${inst.dir}" datafile="${cobdata}">
+			<fileset dir="${classes.dir}">
+				<include name="**/*.class" />
+				<exclude name="**/*Test.class" />
+				<exclude name="**/*Suite.class" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+
+	<target name="cob-rep" depends="cob-instr, test" description="erzeugt Cobertura Reports">
+		<cobertura-report format="html" datafile="${cobdata}" destdir="${cob.rep.html}" srcdir="${src.dir}" />
+		<cobertura-report format="xml" datafile="${cobdata}" destdir="${cob.rep.xml}" srcdir="${src.dir}" />
+	</target>
+</project>

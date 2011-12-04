@@ -14,7 +14,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
 
-public class GeneralTests {
+public class GeneralTest {
 	private GameState state;
 
 	@Before

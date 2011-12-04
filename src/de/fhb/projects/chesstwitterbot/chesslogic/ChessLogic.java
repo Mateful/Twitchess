@@ -38,7 +38,7 @@ public class ChessLogic {
 			if(!isPawnHit(absoluteMove, figure)
 					&& !isInitialPawn2Step(absoluteMove, figure))
 				throw new InvalidMoveException(
-						"The move is invalid because this figure can´t make this move. Your move:"
+						"The move is invalid because this figure can't make this move. Your move:"
 								+ absoluteMove.toString());
 	}
 
@@ -139,7 +139,7 @@ public class ChessLogic {
 						.get(i).position, kingPos)))
 					return true;
 			} catch(RuntimeException e) {
-				// This move can´t be done, thank goodness.
+				// This move can't be done, thank goodness.
 			}
 		return false;
 	}
