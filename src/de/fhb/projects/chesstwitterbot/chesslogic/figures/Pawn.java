@@ -23,9 +23,12 @@ public class Pawn extends Figure {
 			hitMoves.add(new RelativeMove(Direction.DOWNLEFT, false));
 			hitMoves.add(new RelativeMove(Direction.DOWNRIGHT, false));
 			break;
+		default:
+			throw new RuntimeException(
+					"Pawn can only be initialized with Color.BLACK or Color.WHITE.");
 		}
 	}
-	
+
 	public RelativeMoveList getHitMoves() {
 		return hitMoves;
 	}

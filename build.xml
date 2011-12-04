@@ -91,7 +91,7 @@
 		</cobertura-instrument>
 	</target>
 
-	<target name="cob-rep" depends="cob-instr, test, checkstyle" description="erzeugt Cobertura Reports">
+	<target name="cob-rep" depends="cob-instr, test, checkstyle, findbugs" description="erzeugt Cobertura Reports">
 		<cobertura-report format="html" datafile="${cobdata}" destdir="${cob.rep.html}" srcdir="${src.dir}" />
 		<cobertura-report format="xml" datafile="${cobdata}" destdir="${cob.rep.xml}" srcdir="${src.dir}" />
 	</target>
@@ -108,6 +108,20 @@
 		</checkstyle>
 
 		<xslt in="reports/checkstyle.xml" out="${cs.rep.html}/csreport.html" style="config/checkstyle/xls/checkstyle-author.xsl" />
-
+	</target>
+	
+	<!-- =================================
+		          target: FindBugs
+		 ================================= -->
+	<target name="findbugs" depends="compile">
+		<property name="findbugs.home" value="${lib.dir}/findbugs" />
+		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${findbugs.home}/findbugs-ant.jar"/>
+		<findbugs home="${findbugs.home}" output="html"
+	        outputFile="reports/findbugs-ant-results.html" >
+			<class location="${classes.dir}" />
+			<sourcePath path="${src.dir}" />
+			<!-- Classes needed by our code but that we don't want tested -->
+			<auxClasspath path="${lib.dir}/junit-4.5.jar" />
+		</findbugs>
 	</target>
 </project>

@@ -52,6 +52,7 @@ public class GenerateImage extends JFrame {
 
 			setBoardFilename((String) p.get("boardFilename"));
 			setFigureFilenamePatter((String) p.get("figureFilenamePatter"));
+			input.close();
 		} catch (FileNotFoundException e) {
 			System.err.println("Can't find " + propertyFilename);
 		} catch (IOException e) {

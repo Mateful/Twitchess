@@ -5,8 +5,7 @@ public final class ChessboardPositionToArrayPosition {
 		if(isOutOfChessboard(pos))
 			throw new InvalidMoveException(
 					"Your move was invalid because it was out of the chessboard!");
-		return new String((char)(pos.getX() + 'a')
-				+ Integer.toString(pos.getY() + 1));
+		return (char)(pos.getX() + 'a') + Integer.toString(pos.getY() + 1);
 	}
 
 	public static Position parseChessboardPosition(String pos) {
