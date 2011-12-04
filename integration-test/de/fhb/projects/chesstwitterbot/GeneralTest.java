@@ -28,9 +28,10 @@ public class GeneralTest {
 
 	@Test(expected = InvalidMoveException.class)
 	public void isNoFigureToMove() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(new Position(0, 4), new Position(0, 5)));
+		ChessLogic.isValidMove(state, new AbsoluteMove(new Position(0, 4),
+				new Position(0, 5)));
 	}
-	
+
 	@Test
 	public void isInCheck() {
 		assertFalse(ChessLogic.isCheck(state, state.white));

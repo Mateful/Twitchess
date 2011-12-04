@@ -41,7 +41,7 @@ public class MoveProcessorTest {
 		state.white.add(new King(new Position(4, 0)));
 		state.black.add(new King(new Position(4, 7)));
 
-		for(int i = 0; i < 8; i++) {
+		for (int i = 0; i < 8; i++) {
 			state.white.add(new Pawn(new Position(i, 1), Color.WHITE));
 			state.black.add(new Pawn(new Position(i, 6), Color.BLACK));
 		}
