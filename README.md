@@ -11,7 +11,7 @@ Autoren
 * CM
 * MK
 * SM
-ss
+
 Kurzbeschreibung
 ===============
 
