@@ -77,6 +77,9 @@
 		<fail message="Tests failed. Check log and/or reports." if="test.failed" />
 	</target>
 
+	<!-- =================================
+		          target: Cobertura
+		 ================================= -->
 	<taskdef classpathref="junit.classpath" resource="tasks.properties" />
 	<target name="cob-instr" depends="compile">
 		<cobertura-instrument todir="${inst.dir}" datafile="${cobdata}">
@@ -88,8 +91,23 @@
 		</cobertura-instrument>
 	</target>
 
-	<target name="cob-rep" depends="cob-instr, test" description="erzeugt Cobertura Reports">
+	<target name="cob-rep" depends="cob-instr, test, checkstyle" description="erzeugt Cobertura Reports">
 		<cobertura-report format="html" datafile="${cobdata}" destdir="${cob.rep.html}" srcdir="${src.dir}" />
 		<cobertura-report format="xml" datafile="${cobdata}" destdir="${cob.rep.xml}" srcdir="${src.dir}" />
+	</target>
+
+	<!-- =================================
+		          target: Checkstyle
+		 ================================= -->
+	<taskdef resource="checkstyletask.properties" classpath="${lib.dir}/checkstyle-5.5-all.jar" />
+	<target name="checkstyle" description="Generates a report of code convention violations.">
+
+		<checkstyle config="config/checkstyle/sun_checks.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="reports/checkstyle.xml" />
+			<fileset dir="src" includes="**/*.java" />
+		</checkstyle>
+
+		<xslt in="reports/checkstyle.xml" out="${cs.rep.html}/csreport.html" style="config/checkstyle/xls/checkstyle-author.xsl" />
+
 	</target>
 </project>

@@ -10,7 +10,8 @@ public final class ChessboardPositionToArrayPosition {
 	}
 
 	public static Position parseChessboardPosition(String pos) {
-		Position position = new Position(pos.charAt(0) - 'a',Integer.parseInt(pos.charAt(1) + "") - 1);
+		Position position = new Position(pos.charAt(0) - 'a',
+				Integer.parseInt(pos.charAt(1) + "") - 1);
 		if(isOutOfChessboard(position))
 			throw new InvalidMoveException(
 					"Your move was invalid because it was out of the chessboard!");

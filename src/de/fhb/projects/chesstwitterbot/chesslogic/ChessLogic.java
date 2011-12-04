@@ -11,10 +11,11 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
 
-public class ChessLogic {
+public final class ChessLogic {
 	private static GameState stateInProcess;
-	private ChessLogic() {}
-	
+
+	private ChessLogic() { }
+
 	public static boolean isValidMove(GameState state, AbsoluteMove absoluteMove) {
 		stateInProcess = state;
 		Figure figure = state.getMovingFigure(absoluteMove);
