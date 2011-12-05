@@ -8,11 +8,11 @@ import org.junit.Test;
 
 import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
 import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
-import de.fhb.projects.chesstwitterbot.chesslogic.InvalidMoveException;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
+import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
 
 public class QueenBlockTest {
 	private GameState state;
@@ -37,61 +37,82 @@ public class QueenBlockTest {
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenUpMove1StepBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(3, 4)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(3, 4)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenUpMove2StepsBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(3, 5)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(3, 5)));
+	}
+	
+	@Test(expected = InvalidMoveException.class)
+	public void isQueenLeftMove2StepsBlocked() {
+		ChessLogic.isValidMove(state, new Move(start, new Position(1, 3)));
+	}
+	
+	@Test(expected = InvalidMoveException.class)
+	public void isQueenRightMove2StepsBlocked() {
+		ChessLogic.isValidMove(state, new Move(start, new Position(5, 3)));
+	}
+	
+	@Test(expected = InvalidMoveException.class)
+	public void isQueenDownMove2StepsBlocked() {
+		ChessLogic.isValidMove(state, new Move(start, new Position(3, 1)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenRightMoveBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(4, 3)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(4, 3)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenLeftMoveBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(2, 3)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(2, 3)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenDownMoveBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(3, 2)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(3, 2)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenUpRightMove1StepBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(4, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 4))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenUpRightMove2StepsBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(5, 5)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(5, 5)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
+	public void isQueenUpLeftMove2StepsBlocked() {
+		ChessLogic.isValidMove(state, new Move(start, new Position(5, 1)));
+	}
+	
+	@Test(expected = InvalidMoveException.class)
+	public void isQueenDownLeftMove2StepsBlocked() {
+		ChessLogic.isValidMove(state, new Move(start, new Position(1, 1)));
+	}
+	
+	@Test(expected = InvalidMoveException.class)
+	public void isQueenDownRightMove2StepsBlocked() {
+		ChessLogic.isValidMove(state, new Move(start, new Position(3, 1)));
+	}
+	
+	@Test(expected = InvalidMoveException.class)
 	public void isQueenDownRightMoveBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(4, 2)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(4, 2)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenDownLeftMoveBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(2, 2)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(2, 2)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenUpLeftMoveBlocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
-				new Position(2, 4)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(2, 4)));
 	}
 }

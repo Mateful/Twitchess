@@ -1,27 +1,32 @@
 package de.fhb.projects.chesstwitterbot.chesslogic.figures;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMoveList;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 
 public class Pawn extends Figure {
-	protected RelativeMoveList hitMoves;
+	protected List<Direction> hitMoves;
 
 	public Pawn(Position position, Color color) {
 		super(position, color);
-		hitMoves = new RelativeMoveList();
+		hitMoves = new ArrayList<Direction>();
 		switch(color) {
 		case WHITE:
-			naiveMoves.add(new RelativeMove(Direction.UP, false));
-			hitMoves.add(new RelativeMove(Direction.UPLEFT, false));
-			hitMoves.add(new RelativeMove(Direction.UPRIGHT, false));
+			directions.add(new OneStepDirection(DirectionType.UP));
+			hitMoves.add(new OneStepDirection(DirectionType.UPLEFT));
+			hitMoves.add(new OneStepDirection(DirectionType.UPRIGHT));
 			break;
 		case BLACK:
-			naiveMoves.add(new RelativeMove(Direction.DOWN, false));
-			hitMoves.add(new RelativeMove(Direction.DOWNLEFT, false));
-			hitMoves.add(new RelativeMove(Direction.DOWNRIGHT, false));
+			directions.add(new OneStepDirection(DirectionType.DOWN));
+			hitMoves.add(new OneStepDirection(DirectionType.DOWNLEFT));
+			hitMoves.add(new OneStepDirection(DirectionType.DOWNRIGHT));
 			break;
 		default:
 			throw new RuntimeException(
@@ -29,7 +34,15 @@ public class Pawn extends Figure {
 		}
 	}
 
-	public RelativeMoveList getHitMoves() {
+	public List<Direction> getHitMoves() {
 		return hitMoves;
+	}
+	
+	public boolean canDoHit(Move move) {		
+		for (Direction d : hitMoves) {
+			if(d instanceof OneStepDirection && move.getDirection() instanceof OneStepDirection && d.getType().equals(move.getDirectionType()))
+					return true;
+		}
+		return false;
 	}
 }

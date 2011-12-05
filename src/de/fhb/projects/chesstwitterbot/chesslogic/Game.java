@@ -2,7 +2,7 @@ package de.fhb.projects.chesstwitterbot.chesslogic;
 
 import java.util.ArrayList;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 
 public class Game {
 	private ArrayList<GameState> states;
@@ -12,7 +12,7 @@ public class Game {
 		states.add(new GameState());
 	}
 	
-	public void doMove(AbsoluteMove move) {
+	public void doMove(Move move) {
 		
 	}
 }

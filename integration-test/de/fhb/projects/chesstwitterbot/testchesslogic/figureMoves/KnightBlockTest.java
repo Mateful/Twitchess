@@ -8,11 +8,11 @@ import org.junit.Test;
 
 import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
 import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
-import de.fhb.projects.chesstwitterbot.chesslogic.InvalidMoveException;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Knight;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
+import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
 
 public class KnightBlockTest {
 	private GameState state;
@@ -37,49 +37,49 @@ public class KnightBlockTest {
 
 	@Test(expected = InvalidMoveException.class)
 	public void isKnightMove1Blocked() {
-		ChessLogic.isValidMove(state, new AbsoluteMove(start,
+		ChessLogic.isValidMove(state, new Move(start,
 				new Position(4, 5)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isKnightMove2Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+		assertTrue(ChessLogic.isValidMove(state, new Move(start,
 				new Position(5, 4))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isKnightMove3Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+		assertTrue(ChessLogic.isValidMove(state, new Move(start,
 				new Position(2, 1))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isKnightMove4Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+		assertTrue(ChessLogic.isValidMove(state, new Move(start,
 				new Position(1, 2))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isKnightMove5Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+		assertTrue(ChessLogic.isValidMove(state, new Move(start,
 				new Position(2, 5))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isKnightMove6Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+		assertTrue(ChessLogic.isValidMove(state, new Move(start,
 				new Position(5, 2))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isKnightMove7Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+		assertTrue(ChessLogic.isValidMove(state, new Move(start,
 				new Position(4, 1))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isKnightMove8Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(start,
+		assertTrue(ChessLogic.isValidMove(state, new Move(start,
 				new Position(1, 4))));
 	}
 }

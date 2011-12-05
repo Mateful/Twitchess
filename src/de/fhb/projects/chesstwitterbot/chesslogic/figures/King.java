@@ -1,19 +1,19 @@
 package de.fhb.projects.chesstwitterbot.chesslogic.figures;
 
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
 
 public class King extends Figure {
 	public King(Position position) {
 		super(position);
-		naiveMoves.add(new RelativeMove(Direction.UPRIGHT, false));
-		naiveMoves.add(new RelativeMove(Direction.DOWNRIGHT, false));
-		naiveMoves.add(new RelativeMove(Direction.UPLEFT, false));
-		naiveMoves.add(new RelativeMove(Direction.DOWNLEFT, false));
-		naiveMoves.add(new RelativeMove(Direction.UP, false));
-		naiveMoves.add(new RelativeMove(Direction.DOWN, false));
-		naiveMoves.add(new RelativeMove(Direction.LEFT, false));
-		naiveMoves.add(new RelativeMove(Direction.RIGHT, false));
+		directions.add(new OneStepDirection(DirectionType.UP));
+		directions.add(new OneStepDirection(DirectionType.DOWN));
+		directions.add(new OneStepDirection(DirectionType.LEFT));
+		directions.add(new OneStepDirection(DirectionType.RIGHT));
+		directions.add(new OneStepDirection(DirectionType.UPRIGHT));
+		directions.add(new OneStepDirection(DirectionType.UPLEFT));
+		directions.add(new OneStepDirection(DirectionType.DOWNRIGHT));
+		directions.add(new OneStepDirection(DirectionType.DOWNLEFT));
 	}
 }

@@ -1,19 +1,19 @@
 package de.fhb.projects.chesstwitterbot.chesslogic.figures;
 
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
 
 public class Queen extends Figure {
 	public Queen(Position position) {
 		super(position);
-		naiveMoves.add(new RelativeMove(Direction.UPRIGHT, true));
-		naiveMoves.add(new RelativeMove(Direction.DOWNRIGHT, true));
-		naiveMoves.add(new RelativeMove(Direction.UPLEFT, true));
-		naiveMoves.add(new RelativeMove(Direction.DOWNLEFT, true));
-		naiveMoves.add(new RelativeMove(Direction.UP, true));
-		naiveMoves.add(new RelativeMove(Direction.DOWN, true));
-		naiveMoves.add(new RelativeMove(Direction.LEFT, true));
-		naiveMoves.add(new RelativeMove(Direction.RIGHT, true));
+		directions.add(new InfiniteDirection(DirectionType.UP));
+		directions.add(new InfiniteDirection(DirectionType.DOWN));
+		directions.add(new InfiniteDirection(DirectionType.LEFT));
+		directions.add(new InfiniteDirection(DirectionType.RIGHT));
+		directions.add(new InfiniteDirection(DirectionType.UPRIGHT));
+		directions.add(new InfiniteDirection(DirectionType.UPLEFT));
+		directions.add(new InfiniteDirection(DirectionType.DOWNRIGHT));
+		directions.add(new InfiniteDirection(DirectionType.DOWNLEFT));
 	}
 }

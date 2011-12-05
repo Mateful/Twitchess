@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import de.fhb.projects.chesstwitterbot.chesslogic.ChessboardPositionToArrayPosition;
-import de.fhb.projects.chesstwitterbot.chesslogic.InvalidMoveException;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
+import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
 
 public class ChessboardPositionToArrayPositionTest {
 	@Test

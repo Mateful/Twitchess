@@ -11,7 +11,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
 import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 
 public class EnPassantTest {
 	private GameState state;
@@ -30,12 +30,12 @@ public class EnPassantTest {
 		state.black.add(blackPawn);
 		state.updatePositions();
 		
-		state.lastMove = new AbsoluteMove(whitePawn.position, new Position(0,
+		state.lastMove = new Move(whitePawn.getPosition(), new Position(0,
 				3));
-		whitePawn.position = new Position(0, 3);
+		whitePawn.setPosition(new Position(0, 3));
 		state.updatePositions();
 		state.currentTurnPlayer = state.black;
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(blackPawn.position,
+		assertTrue(ChessLogic.isValidMove(state, new Move(blackPawn.getPosition(),
 				new Position(0, 2))));
 	}
 	
@@ -47,13 +47,13 @@ public class EnPassantTest {
 		state.black.add(blackPawn);
 		state.updatePositions();
 		
-		state.lastMove = new AbsoluteMove(blackPawn.position, new Position(3,
+		state.lastMove = new Move(blackPawn.getPosition(), new Position(3,
 				4));
-		blackPawn.position = new Position(3, 4);
+		blackPawn.setPosition(new Position(3, 4));
 		state.updatePositions();
 		
 		state.currentTurnPlayer = state.white;
-		assertTrue(ChessLogic.isValidMove(state, new AbsoluteMove(whitePawn.position,
+		assertTrue(ChessLogic.isValidMove(state, new Move(whitePawn.getPosition(),
 				new Position(3, 5))));
 	}
 }

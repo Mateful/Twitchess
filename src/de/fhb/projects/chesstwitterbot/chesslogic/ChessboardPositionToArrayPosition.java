@@ -1,5 +1,7 @@
 package de.fhb.projects.chesstwitterbot.chesslogic;
 
+import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
+
 public final class ChessboardPositionToArrayPosition {
 	public static String parseArrayPostion(Position pos) {
 		if(isOutOfChessboard(pos))

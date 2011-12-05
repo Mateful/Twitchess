@@ -1,84 +1,79 @@
 package de.fhb.projects.chesstwitterbot.chesslogic;
 
 import static de.fhb.projects.chesstwitterbot.chesslogic.figures.NoFigure.NO_FIGURE;
-
-import java.util.List;
-
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Figure;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.AbsoluteMove;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.RelativeMove;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
+import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
 
 public final class ChessLogic {
 	private static GameState stateInProcess;
 
-	private ChessLogic() {}
+	private ChessLogic() {
+	}
 
-	public static boolean isValidMove(final GameState state,
-			final AbsoluteMove absoluteMove) {
+	public static boolean isValidMove(final GameState state, final Move move) {
 		stateInProcess = state;
-		Figure figure = state.getMovingFigure(absoluteMove);
+		Figure figure = state.getMovingFigure(move);
 
-		checkNoFigure(absoluteMove, figure);
-		checkWrongColor(absoluteMove, figure);
-		checkDirection(absoluteMove, figure);
-		checkIsBlocked(absoluteMove);
+		hasNoFigure(move, figure);
+		hasWrongColor(move, figure);
+		hasDirection(move, figure);
+		isBlocked(move);
 		return true;
 	}
 
-	private static void checkIsBlocked(final AbsoluteMove absoluteMove) {
-		if(isMoveBlocked(absoluteMove))
+	private static void isBlocked(final Move move) {
+		if (isMoveBlocked(move))
 			throw new InvalidMoveException(
 					"The move is invalid because there is a figure blocking the way. Your move:"
-							+ absoluteMove.toString());
+							+ move.toString());
 	}
 
-	private static void checkDirection(final AbsoluteMove absoluteMove,
-			final Figure figure) {
-		if(!figure.getNaiveMoves().contains(absoluteMove))
-			if(!isPawnHit(absoluteMove, figure)
-					&& !isInitialPawn2Step(absoluteMove, figure))
+	private static void hasDirection(final Move move, final Figure figure) {
+		if (!figure.canDoMove(move))
+			if (!isPawnHit(move, figure) && !isInitialPawn2Step(move, figure))
 				throw new InvalidMoveException(
 						"The move is invalid because this figure can't make this move. Your move:"
-								+ absoluteMove.toString());
+								+ move.toString());
 	}
 
-	private static boolean isInitialPawn2Step(final AbsoluteMove absoluteMove,
+	private static boolean isInitialPawn2Step(final Move move,
 			final Figure figure) {
 		return figure instanceof Pawn
-				&& isPawnInInitialLine((Pawn)figure, absoluteMove)
-				&& absoluteMove.getTotalYDistance() == 2;
+				&& isPawnInInitialLine((Pawn) figure, move)
+				&& Position.calculateYDistance(move.getStart(),
+						move.getDestination()) == 2;
 	}
 
-	private static boolean isPawnInInitialLine(final Pawn pawn,
-			final AbsoluteMove absoluteMove) {
-		return pawn.color.equals(Color.WHITE) ? absoluteMove.getStart().getY() == 1
-				: absoluteMove.getStart().getY() == 6;
+	private static boolean isPawnInInitialLine(final Pawn pawn, final Move move) {
+		return pawn.getColor().equals(Color.WHITE)
+				? move.getStart().getY() == 1
+				: move.getStart().getY() == 6;
 	}
 
-	private static void checkWrongColor(final AbsoluteMove absoluteMove,
-			final Figure figure) {
-		if(!figure.color.equals(stateInProcess.currentTurnPlayer.getColor()))
+	private static void hasWrongColor(final Move move, final Figure figure) {
+		if (!figure.getColor().equals(
+				stateInProcess.currentTurnPlayer.getColor()))
 			throw new InvalidMoveException(
 					"The move is invalid this is not your figure. Your move:"
-							+ absoluteMove.toString());
+							+ move.toString());
 	}
 
-	private static void checkNoFigure(final AbsoluteMove absoluteMove,
-			final Figure figure) {
-		if(figure.equals(NO_FIGURE))
+	private static void hasNoFigure(final Move move, final Figure figure) {
+		if (figure.equals(NO_FIGURE))
 			throw new InvalidMoveException(
 					"The move is invalid because there is no figure on the designated position. Your move:"
-							+ absoluteMove.toString());
+							+ move.toString());
 	}
 
-	private static boolean isPawnHit(final AbsoluteMove absoluteMove,
-			final Figure figure) {
+	private static boolean isPawnHit(final Move move, final Figure figure) {
 		return figure instanceof Pawn
-				&& ((Pawn)figure).getHitMoves().contains(absoluteMove)
-				&& (isDestinationOccupied(absoluteMove).equals(
+				&& ((Pawn) figure).canDoHit(move)
+				&& (isDestinationOccupied(move).equals(
 						stateInProcess.currentTurnPlayer.opponent.getColor()) || isEnPassant());
 	}
 
@@ -89,59 +84,26 @@ public final class ChessLogic {
 						.getY()]);
 	}
 
-	private static boolean isMoveBlocked(final AbsoluteMove absoluteMove) {
-		if(isDestinationOccupied(absoluteMove).equals(
+	private static boolean isMoveBlocked(final Move move) {
+		if (isDestinationOccupied(move).equals(
 				stateInProcess.currentTurnPlayer.getColor()))
 			return true;
 
-		IsMoveBlockedHelper imbh = new IsMoveBlockedHelper();
-		switch(absoluteMove.getDirection()) {
-		case UP:
-			imbh.setUp(absoluteMove);
-			break;
-		case DOWN:
-			imbh.setDown(absoluteMove);
-			break;
-		case RIGHT:
-			imbh.setRight(absoluteMove);
-			break;
-		case LEFT:
-			imbh.setLeft(absoluteMove);
-			break;
-		case UPRIGHT:
-			imbh.setUp(absoluteMove);
-			imbh.setRight(absoluteMove);
-			break;
-		case DOWNRIGHT:
-			imbh.setDown(absoluteMove);
-			imbh.setRight(absoluteMove);
-			break;
-		case DOWNLEFT:
-			imbh.setDown(absoluteMove);
-			imbh.setLeft(absoluteMove);
-			break;
-		case UPLEFT:
-			imbh.setUp(absoluteMove);
-			imbh.setLeft(absoluteMove);
-			break;
-		case KNIGHT:
-			break;
-		default:
-			throw new RuntimeException("Direction is not included in isMoveBlocked. Did you update the enum and forgot the switch?");
+		if (move.getDirection() instanceof InfiniteDirection) {
+			IsMoveBlockedHelper imbh = new IsMoveBlockedHelper(move);
+			for (int y = imbh.getyStart(), x = imbh.getxStart(); y != imbh
+					.getyDest() || x != imbh.getxDest(); y += imbh.getyToAdd(), x += imbh
+					.getxToAdd()) {
+				if (!stateInProcess.board[x][y].equals(NO_FIGURE))
+					return true;
+			}
 		}
-
-		for(int y = imbh.yStart, x = imbh.xStart; y < imbh.yDest
-				|| x < imbh.xDest; y += imbh.yToAdd, x += imbh.xToAdd)
-			if(!stateInProcess.board[absoluteMove.getStart().getX()][y]
-					.equals(NO_FIGURE))
-				return true;
-
 		return false;
 	}
 
-	private static Color isDestinationOccupied(final AbsoluteMove absoluteMove) {
-		return stateInProcess.board[absoluteMove.getDestination().getX()][absoluteMove
-				.getDestination().getY()].color;
+	private static Color isDestinationOccupied(final Move move) {
+		return stateInProcess.board[move.getDestination().getX()][move
+				.getDestination().getY()].getColor();
 	}
 
 	public static boolean isCheck(final GameState state,
@@ -149,12 +111,12 @@ public final class ChessLogic {
 		stateInProcess = state;
 		Position kingPos = playerInCheck.getKing();
 		Player opponent = playerInCheck.opponent;
-		for(int i = 0; i < opponent.getFiguresInGame().size(); i++)
+		for (int i = 0; i < opponent.getFiguresInGame().size(); i++)
 			try {
-				if(isValidMove(state, new AbsoluteMove(opponent
-						.getFiguresInGame().get(i).position, kingPos)))
+				if (isValidMove(state, new Move(opponent.getFiguresInGame()
+						.get(i).getPosition(), kingPos)))
 					return true;
-			} catch(RuntimeException e) {
+			} catch (RuntimeException e) {
 				// This move can't be done, thank goodness.
 			}
 		return false;
@@ -173,9 +135,99 @@ public final class ChessLogic {
 		return false;
 	}
 
-	public static List<RelativeMove> generateAllValidMoves(final GameState state) {
-		stateInProcess = state;
-		// TODO Auto-generated method stub
-		return null;
+	private static class IsMoveBlockedHelper {
+		private int yStart, xStart, yDest, xDest, yToAdd, xToAdd;
+
+		public IsMoveBlockedHelper(Move move) {
+			xStart = move.getStart().getX();
+			yStart = move.getStart().getY();
+			xDest = move.getDestination().getX();
+			yDest = move.getDestination().getY();
+
+			xToAdd = 0;
+			yToAdd = 0;
+
+			setDirection(move);
+		}
+
+		private void setDirection(Move move) {
+			switch (move.getDirectionType()) {
+				case UP :
+					setUp();
+					break;
+				case DOWN :
+					setDown();
+					break;
+				case RIGHT :
+					setRight();
+					break;
+				case LEFT :
+					setLeft();
+					break;
+				case UPRIGHT :
+					setUp();
+					setRight();
+					break;
+				case DOWNRIGHT :
+					setDown();
+					setRight();
+					break;
+				case DOWNLEFT :
+					setDown();
+					setLeft();
+					break;
+				case UPLEFT :
+					setUp();
+					setLeft();
+					break;
+				default :
+					throw new RuntimeException(
+							"Direction is not included in isMoveBlocked. Did you change the enum and forgot the switch?");
+			}
+		}
+
+		private void setUp() {
+			yStart++;
+			yToAdd = 1;
+		}
+
+		private void setDown() {
+			yStart--;
+			yToAdd = -1;
+		}
+
+		private void setRight() {
+			xStart++;
+			xToAdd = 1;
+		}
+
+		private void setLeft() {
+			xStart--;
+			xToAdd = -1;
+		}
+
+		private int getyStart() {
+			return yStart;
+		}
+
+		private int getxStart() {
+			return xStart;
+		}
+
+		private int getyDest() {
+			return yDest;
+		}
+
+		private int getxDest() {
+			return xDest;
+		}
+
+		private int getyToAdd() {
+			return yToAdd;
+		}
+
+		private int getxToAdd() {
+			return xToAdd;
+		}
 	}
 }

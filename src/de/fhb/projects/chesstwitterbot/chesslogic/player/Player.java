@@ -20,7 +20,7 @@ public abstract class Player {
 	}
 
 	public void add(Figure figure) {
-		figure.color = color;
+		figure.setColor(color);
 		figuresInGame.add(figure);
 	}
 	
@@ -35,7 +35,7 @@ public abstract class Player {
 	public Position getKing() {
 		for(int i = 0; i < figuresInGame.size(); i++)
 			if(figuresInGame.get(i) instanceof King)
-				return figuresInGame.get(i).position;
+				return figuresInGame.get(i).getPosition();
 		throw new RuntimeException("No King found.");
 	}
 }
