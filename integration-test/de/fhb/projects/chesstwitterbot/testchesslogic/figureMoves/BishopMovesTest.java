@@ -45,37 +45,29 @@ public class BishopMovesTest {
 
 	@Test
 	public void validMoves() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 2))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 2))));
+		assertTrue(ChessLogic.isValidMove(state, Move.upRight(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.upLeft(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.downRight(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.downLeft(start, 1)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void up() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(3, 4)));
+		ChessLogic.isValidMove(state, Move.up(start, 1));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void down() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(3, 2)));
+		ChessLogic.isValidMove(state, Move.down(start, 1));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void left() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 3)));
+		ChessLogic.isValidMove(state, Move.left(start, 1));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void right() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 3)));
+		ChessLogic.isValidMove(state, Move.right(start, 1));
 	}
 }

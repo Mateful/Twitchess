@@ -2,16 +2,16 @@ package de.fhb.projects.chesstwitterbot.chesslogic.move;
 
 public class Direction {
 	protected DirectionType type;
-	
+
 	public Direction(DirectionType type) {
 		super();
 		this.type = type;
 	}
-	
+
 	public DirectionType getType() {
 		return type;
 	}
-	
+
 	public void setType(DirectionType type) {
 		this.type = type;
 	}

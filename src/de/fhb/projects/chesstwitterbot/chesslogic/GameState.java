@@ -17,8 +17,8 @@ public class GameState {
 	public GameState() {
 		playerName = "";
 		board = new Figure[8][8];
-		for(int x = 0; x < 8; x++)
-			for(int y = 0; y < 8; y++)
+		for (int x = 0; x < 8; x++)
+			for (int y = 0; y < 8; y++)
 				board[x][y] = NO_FIGURE;
 		white = new White();
 		black = new Black();
@@ -27,17 +27,17 @@ public class GameState {
 		currentTurnPlayer = white;
 		lastMove = Move.NO_MOVE;
 	}
-	
+
 	public GameState(GameState oldState, Move move) {
 		throw new RuntimeException("Not yet implemented");
 	}
 
 	public void updatePositions() {
-		for(int i = 0; i < white.getFiguresInGame().size(); i++)
+		for (int i = 0; i < white.getFiguresInGame().size(); i++)
 			board[white.getFiguresInGame().get(i).getPosition().getX()][white
 					.getFiguresInGame().get(i).getPosition().getY()] = white
 					.getFiguresInGame().get(i);
-		for(int i = 0; i < black.getFiguresInGame().size(); i++)
+		for (int i = 0; i < black.getFiguresInGame().size(); i++)
 			board[black.getFiguresInGame().get(i).getPosition().getX()][black
 					.getFiguresInGame().get(i).getPosition().getY()] = black
 					.getFiguresInGame().get(i);

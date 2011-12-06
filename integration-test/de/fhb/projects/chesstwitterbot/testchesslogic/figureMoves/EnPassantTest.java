@@ -29,16 +29,16 @@ public class EnPassantTest {
 		state.white.add(whitePawn);
 		state.black.add(blackPawn);
 		state.updatePositions();
-		
-		state.lastMove = new Move(whitePawn.getPosition(), new Position(0,
-				3));
-		whitePawn.setPosition(new Position(0, 3));
+
+		Move whitePawn2Step = Move.up(whitePawn.getPosition(), 2);
+		state.lastMove = whitePawn2Step;
+		whitePawn.setPosition(whitePawn2Step.getDestination());
 		state.updatePositions();
 		state.currentTurnPlayer = state.black;
-		assertTrue(ChessLogic.isValidMove(state, new Move(blackPawn.getPosition(),
-				new Position(0, 2))));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.downLeft(blackPawn.getPosition(), 1)));
 	}
-	
+
 	@Test
 	public void enPassantWhiteHitsBlack() {
 		blackPawn = new Pawn(new Position(3, 6), BLACK);
@@ -46,14 +46,13 @@ public class EnPassantTest {
 		state.white.add(whitePawn);
 		state.black.add(blackPawn);
 		state.updatePositions();
-		
-		state.lastMove = new Move(blackPawn.getPosition(), new Position(3,
-				4));
+
+		state.lastMove = new Move(blackPawn.getPosition(), new Position(3, 4));
 		blackPawn.setPosition(new Position(3, 4));
 		state.updatePositions();
-		
+
 		state.currentTurnPlayer = state.white;
-		assertTrue(ChessLogic.isValidMove(state, new Move(whitePawn.getPosition(),
-				new Position(3, 5))));
+		assertTrue(ChessLogic.isValidMove(state,
+				new Move(whitePawn.getPosition(), new Position(3, 5))));
 	}
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
+import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 
@@ -45,12 +45,15 @@ public abstract class Figure {
 		this.position = position;
 	}
 
-	public boolean canDoMove(Move move) {		
+	public boolean canDoMove(Move move) {
 		for (Direction d : directions) {
-			if (d instanceof InfiniteDirection && d.getType().equals(move.getDirectionType()))
-					return true;
-			if(d instanceof OneStepDirection && move.getDirection() instanceof OneStepDirection && d.getType().equals(move.getDirectionType()))
-					return true;
+			if (d instanceof InfiniteDirection
+					&& d.getType().equals(move.getDirectionType()))
+				return true;
+			if (d instanceof OneStepDirection
+					&& move.getDirection() instanceof OneStepDirection
+					&& d.getType().equals(move.getDirectionType()))
+				return true;
 		}
 		return false;
 	}

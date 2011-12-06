@@ -23,18 +23,18 @@ public abstract class Player {
 		figure.setColor(color);
 		figuresInGame.add(figure);
 	}
-	
+
 	public List<Figure> getFiguresInGame() {
 		return figuresInGame;
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
-	
+
 	public Position getKing() {
-		for(int i = 0; i < figuresInGame.size(); i++)
-			if(figuresInGame.get(i) instanceof King)
+		for (int i = 0; i < figuresInGame.size(); i++)
+			if (figuresInGame.get(i) instanceof King)
 				return figuresInGame.get(i).getPosition();
 		throw new RuntimeException("No King found.");
 	}

@@ -27,7 +27,7 @@ public class KingMovesTest {
 		start = new Position(3, 3);
 		state.white.add(new King(start));
 		state.updatePositions();
-	}	
+	}
 
 	@Test
 	public void getMoves() {
@@ -49,24 +49,32 @@ public class KingMovesTest {
 		assertTrue(directions.contains(upleft));
 		assertTrue(directions.contains(downleft));
 	}
-	
+
 	@Test
 	public void validMoves() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(3, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(3, 2))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(2, 3))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(4, 3))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(4, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(2, 2))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(2, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(4, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 2))));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void twoStepsForward() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(3, 5)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void twoStepsUpRight() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(5, 5)));

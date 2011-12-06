@@ -44,39 +44,35 @@ public class RookMovesTest {
 
 	@Test
 	public void validMoves() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(3, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(3, 5))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(3, 2))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 3))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 5))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 3))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void upRight() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 4)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(4, 4)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void downRight() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 2)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(4, 2)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void downLeft() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 2)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(2, 2)));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void upLeft() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 4)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(2, 4)));
 	}
 }

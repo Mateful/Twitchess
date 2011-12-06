@@ -54,7 +54,7 @@ public class UCIEngineController {
 
 		moves.clear();
 		whiteToMove = true;
-		
+
 		sendCommandString("uci");
 		waitUntilOutputContainsString("uciok");
 		sendCommandString("isready");
@@ -73,13 +73,14 @@ public class UCIEngineController {
 			moves.add(line);
 			System.out.println(line);
 			if (line.equals("(none)")) {
-				System.out.println((whiteToMove ? "Weiss" : "Schwarz") + " ist matt");
+				System.out.println((whiteToMove ? "Weiss" : "Schwarz")
+						+ " ist matt");
 				line = "";
 			}
 			sendCommandString("isready");
 			waitUntilOutputContainsString("readyok");
 			sendCommandString("d");
-			whiteToMove = !whiteToMove; 
+			whiteToMove = !whiteToMove;
 		} while (line != "");
 	}
 
@@ -97,10 +98,9 @@ public class UCIEngineController {
 	}
 
 	private String extractMove(String line) {
-		String [] strings = line.split("\\s+");
-		
-		if (strings.length > 1)
-		{
+		String[] strings = line.split("\\s+");
+
+		if (strings.length > 1) {
 			return strings[1];
 		} else
 			return "";
@@ -133,7 +133,9 @@ public class UCIEngineController {
 				} else if (line != null) {
 					lastOutputTime = System.currentTimeMillis();
 				} else if (System.currentTimeMillis() - timeout > lastOutputTime) {
-					System.out.println("Engine timeout occured: timeout set to " + timeout + " ms");
+					System.out
+							.println("Engine timeout occured: timeout set to "
+									+ timeout + " ms");
 					stop = true;
 				}
 			}

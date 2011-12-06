@@ -36,49 +36,49 @@ public class KnightHitTest {
 
 	@Test
 	public void isKnightMove1Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 5))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 5))));
 	}
 
 	@Test
 	public void isKnightMove2Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(5, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				5, 4))));
 	}
 
 	@Test
 	public void isKnightMove3Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 1))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 1))));
 	}
 
 	@Test
 	public void isKnightMove4Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(1, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				1, 2))));
 	}
 
 	@Test
 	public void isKnightMove5Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 5))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 5))));
 	}
 
 	@Test
 	public void isKnightMove6Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(5, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				5, 2))));
 	}
 
 	@Test
 	public void isKnightMove7Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 1))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 1))));
 	}
 
 	@Test
 	public void isKnightMove8Blocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(1, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				1, 4))));
 	}
 }

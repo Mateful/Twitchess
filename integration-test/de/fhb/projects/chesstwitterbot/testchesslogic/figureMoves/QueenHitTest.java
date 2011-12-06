@@ -37,55 +37,54 @@ public class QueenHitTest {
 
 	@Test
 	public void isQueenUpMove1StepBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(3, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 4))));
 	}
 
 	@Test
 	public void isQueenRightMoveBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 3))));
 	}
 
 	@Test
 	public void isQueenLeftMoveBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 3))));
 	}
 
 	@Test
 	public void isQueenDownMoveBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(3, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 2))));
 	}
 
 	@Test
 	public void isQueenUpRightMove1StepBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 4))));
 	}
 
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenUpRightMove2StepsBlocked() {
-		ChessLogic.isValidMove(state, new Move(start,
-				new Position(5, 5)));
+		ChessLogic.isValidMove(state, new Move(start, new Position(5, 5)));
 	}
 
 	@Test
 	public void isQueenDownRightMoveBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(4, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 2))));
 	}
 
 	@Test
 	public void isQueenDownLeftMoveBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 2))));
 	}
 
 	@Test
 	public void isQueenUpLeftMoveBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start,
-				new Position(2, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 4))));
 	}
 }

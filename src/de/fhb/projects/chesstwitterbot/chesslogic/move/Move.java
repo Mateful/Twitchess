@@ -33,13 +33,13 @@ public class Move {
 	}
 
 	public static Move up(Position position, int steps) {
-		return new Move(position, new Position(position.getX(),
-				position.getY() + steps));
+		return new Move(position, new Position(position.getX(), position.getY()
+				+ steps));
 	}
 
 	public static Move down(Position position, int steps) {
-		return new Move(position, new Position(position.getX(),
-				position.getY() - steps));
+		return new Move(position, new Position(position.getX(), position.getY()
+				- steps));
 	}
 
 	public static Move left(Position position, int steps) {
@@ -50,6 +50,26 @@ public class Move {
 	public static Move right(Position position, int steps) {
 		return new Move(position, new Position(position.getX() + steps,
 				position.getY()));
+	}
+
+	public static Move upRight(Position position, int steps) {
+		return new Move(position, new Position(position.getX() + 1,
+				position.getY() + steps));
+	}
+
+	public static Move upLeft(Position position, int steps) {
+		return new Move(position, new Position(position.getX() - 1,
+				position.getY() + steps));
+	}
+
+	public static Move downRight(Position position, int steps) {
+		return new Move(position, new Position(position.getX() + 1,
+				position.getY() - steps));
+	}
+
+	public static Move downLeft(Position position, int steps) {
+		return new Move(position, new Position(position.getX() - 1,
+				position.getY() - steps));
 	}
 
 	public Direction getDirection() {

@@ -26,7 +26,7 @@ public class QueenMovesTest {
 		start = new Position(3, 3);
 		state.white.add(new Queen(start));
 		state.updatePositions();
-	}	
+	}
 
 	@Test
 	public void getMoves() {
@@ -48,18 +48,28 @@ public class QueenMovesTest {
 		assertTrue(directions.contains(upleft));
 		assertTrue(directions.contains(downleft));
 	}
-	
+
 	@Test
 	public void validMoves() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(3, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(3, 5))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(3, 2))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(2, 3))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(4, 3))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(4, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(5, 5))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(2, 2))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(2, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(4, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 5))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				3, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 3))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				5, 5))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 2))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				2, 4))));
+		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
+				4, 2))));
 	}
 }

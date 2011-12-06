@@ -40,7 +40,7 @@ public class GenerateImage extends JFrame {
 			int x, y;
 			FileInputStream input = new FileInputStream(propertyFilename);
 			Properties p = new Properties();
-			
+
 			p.load(input);
 
 			setFieldDimension(Integer

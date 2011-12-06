@@ -40,20 +40,19 @@ public class Position {
 		bits ^= y * 31;
 		return (((int) bits) ^ ((int) (bits >> 32)));
 	}
-	
-	
+
 	public int calculateXDistance(Position destination) {
 		return calculateXDistance(this, destination);
 	}
-	
+
 	public int calculateYDistance(Position destination) {
 		return calculateYDistance(this, destination);
 	}
-	
+
 	public static int calculateXDistance(Position start, Position destination) {
 		return Math.abs(destination.getX() - start.getX());
 	}
-	
+
 	public static int calculateYDistance(Position start, Position destination) {
 		return Math.abs(destination.getY() - start.getY());
 	}

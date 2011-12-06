@@ -44,17 +44,17 @@ public class QueenBlockTest {
 	public void isQueenUpMove2StepsBlocked() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(3, 5)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenLeftMove2StepsBlocked() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(1, 3)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenRightMove2StepsBlocked() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(5, 3)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenDownMove2StepsBlocked() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(3, 1)));
@@ -90,17 +90,17 @@ public class QueenBlockTest {
 	public void isQueenUpLeftMove2StepsBlocked() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(5, 1)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenDownLeftMove2StepsBlocked() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(1, 1)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenDownRightMove2StepsBlocked() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(3, 1)));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void isQueenDownRightMoveBlocked() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(4, 2)));
