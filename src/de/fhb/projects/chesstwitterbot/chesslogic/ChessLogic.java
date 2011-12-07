@@ -7,38 +7,45 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
-import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
+import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
+import de.fhb.projects.chesstwitterbot.exception.MoveBlockedException;
+import de.fhb.projects.chesstwitterbot.exception.NoFigureException;
+import de.fhb.projects.chesstwitterbot.exception.WrongColorException;
 
 public final class ChessLogic {
 	private static GameState stateInProcess;
+	private static Move currentMove;
+	private static Figure figureDoingCurrentMove;
 
 	private ChessLogic() {
 	}
 
 	public static boolean isValidMove(final GameState state, final Move move) {
 		stateInProcess = state;
-		Figure figure = state.getMovingFigure(move);
+		currentMove = move;
+		figureDoingCurrentMove = state.getMovingFigure(move);
 
-		hasNoFigure(move, figure);
-		hasWrongColor(move, figure);
-		hasDirection(move, figure);
-		isBlocked(move);
+		hasNoFigure();
+		hasWrongColor();
+		hasDirection();
+		isBlocked();
 		return true;
 	}
 
-	private static void isBlocked(final Move move) {
-		if (isMoveBlocked(move))
-			throw new InvalidMoveException(
+	private static void isBlocked() {
+		if (isMoveBlocked())
+			throw new MoveBlockedException(
 					"The move is invalid because there is a figure blocking the way. Your move:"
-							+ move.toString());
+							+ currentMove.toString());
 	}
 
-	private static void hasDirection(final Move move, final Figure figure) {
-		if (!figure.canDoMove(move))
-			if (!isPawnHit(move, figure) && !isInitialPawn2Step(move, figure))
-				throw new InvalidMoveException(
+	private static void hasDirection() {
+		if (!figureDoingCurrentMove.canDoMove(currentMove))
+			if (!isPawnHit()
+					&& !isInitialPawn2Step(currentMove, figureDoingCurrentMove))
+				throw new FigureCannotMoveIntoDirectionException(
 						"The move is invalid because this figure can't make this move. Your move:"
-								+ move.toString());
+								+ currentMove.toString());
 	}
 
 	private static boolean isInitialPawn2Step(final Move move,
@@ -55,25 +62,25 @@ public final class ChessLogic {
 				: move.getStart().getY() == 6;
 	}
 
-	private static void hasWrongColor(final Move move, final Figure figure) {
-		if (!figure.getColor().equals(
+	private static void hasWrongColor() {
+		if (!figureDoingCurrentMove.getColor().equals(
 				stateInProcess.currentTurnPlayer.getColor()))
-			throw new InvalidMoveException(
+			throw new WrongColorException(
 					"The move is invalid this is not your figure. Your move:"
-							+ move.toString());
+							+ currentMove.toString());
 	}
 
-	private static void hasNoFigure(final Move move, final Figure figure) {
-		if (figure.equals(NO_FIGURE))
-			throw new InvalidMoveException(
+	private static void hasNoFigure() {
+		if (figureDoingCurrentMove.equals(NO_FIGURE))
+			throw new NoFigureException(
 					"The move is invalid because there is no figure on the designated position. Your move:"
-							+ move.toString());
+							+ currentMove.toString());
 	}
 
-	private static boolean isPawnHit(final Move move, final Figure figure) {
-		return figure instanceof Pawn
-				&& ((Pawn) figure).canDoHit(move)
-				&& (isDestinationOccupied(move).equals(
+	private static boolean isPawnHit() {
+		return figureDoingCurrentMove instanceof Pawn
+				&& ((Pawn) figureDoingCurrentMove).canDoHit(currentMove)
+				&& (isDestinationOccupied().equals(
 						stateInProcess.currentTurnPlayer.opponent.getColor()) || isEnPassant());
 	}
 
@@ -84,13 +91,13 @@ public final class ChessLogic {
 						.getY()]);
 	}
 
-	private static boolean isMoveBlocked(final Move move) {
-		if (isDestinationOccupied(move).equals(
+	private static boolean isMoveBlocked() {
+		if (isDestinationOccupied().equals(
 				stateInProcess.currentTurnPlayer.getColor()))
 			return true;
 
-		if (move.getDirection() instanceof InfiniteDirection) {
-			IsMoveBlockedHelper imbh = new IsMoveBlockedHelper(move);
+		if (currentMove.getDirection() instanceof InfiniteDirection) {
+			IsMoveBlockedHelper imbh = new IsMoveBlockedHelper(currentMove);
 			for (int y = imbh.getyStart(), x = imbh.getxStart(); y != imbh
 					.getyDest() || x != imbh.getxDest(); y += imbh.getyToAdd(), x += imbh
 					.getxToAdd()) {
@@ -101,8 +108,8 @@ public final class ChessLogic {
 		return false;
 	}
 
-	private static Color isDestinationOccupied(final Move move) {
-		return stateInProcess.board[move.getDestination().getX()][move
+	private static Color isDestinationOccupied() {
+		return stateInProcess.board[currentMove.getDestination().getX()][currentMove
 				.getDestination().getY()].getColor();
 	}
 

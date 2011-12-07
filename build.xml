@@ -91,7 +91,7 @@
 		</cobertura-instrument>
 	</target>
 
-	<target name="cob-rep" depends="cob-instr, test, checkstyle, findbugs" description="erzeugt Cobertura Reports">
+	<target name="cob-rep" depends="cob-instr, test, checkstyle" description="erzeugt Cobertura Reports">
 		<cobertura-report format="html" datafile="${cobdata}" destdir="${cob.rep.html}" srcdir="${src.dir}" />
 		<cobertura-report format="xml" datafile="${cobdata}" destdir="${cob.rep.xml}" srcdir="${src.dir}" />
 	</target>
@@ -113,7 +113,7 @@
 	<!-- =================================
 		          target: FindBugs
 		 ================================= -->
-	<target name="findbugs" depends="compile">
+	<target name="findbugs" depends="compile" description="erzeugt FindBugs Report">
 		<property name="findbugs.home" value="${lib.dir}/findbugs" />
 		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${findbugs.home}/findbugs-ant.jar"/>
 		<findbugs home="${findbugs.home}" output="html"

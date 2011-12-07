@@ -18,7 +18,8 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
-import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
+import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
+import de.fhb.projects.chesstwitterbot.exception.WrongColorException;
 
 public class PawnMovesTest {
 	private GameState state;
@@ -55,22 +56,22 @@ public class PawnMovesTest {
 		assertTrue(ChessLogic.isValidMove(state, Move.up(whiteStart, 1)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void whiteTwoStepsUp() {
 		ChessLogic.isValidMove(state, Move.up(whiteStart, 2));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void whiteDown() {
 		ChessLogic.isValidMove(state, Move.down(whiteStart, 1));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void whiteLeft() {
 		ChessLogic.isValidMove(state, Move.left(whiteStart, 1));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void whiteRight() {
 		ChessLogic.isValidMove(state, Move.right(whiteStart, 1));
 	}
@@ -81,17 +82,17 @@ public class PawnMovesTest {
 				new Position(4, 4))));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void whiteDownRight() {
 		ChessLogic.isValidMove(state, new Move(whiteStart, new Position(4, 2)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void whiteDownLeft() {
 		ChessLogic.isValidMove(state, new Move(whiteStart, new Position(2, 2)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void whiteUpLeft() {
 		ChessLogic.isValidMove(state, new Move(whiteStart, new Position(2, 4)));
 	}
@@ -103,7 +104,7 @@ public class PawnMovesTest {
 				new Position(4, 3))));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = WrongColorException.class)
 	public void blackForwardButWrongTurn() {
 		ChessLogic.isValidMove(state, new Move(blackStart, new Position(4, 3)));
 	}
@@ -114,14 +115,13 @@ public class PawnMovesTest {
 		ChessLogic.isValidMove(state, new Move(blackStart, new Position(3, 3)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = WrongColorException.class)
 	public void blackBackward() {
 		ChessLogic.isValidMove(state, new Move(blackStart, new Position(3, 2)));
 	}
 
 	@Test
 	public void initialPawn2StepsForward() {
-		System.out.println(111);
 		assertTrue(ChessLogic.isValidMove(state, new Move(initWhitePawn,
 				new Position(0, 3))));
 	}

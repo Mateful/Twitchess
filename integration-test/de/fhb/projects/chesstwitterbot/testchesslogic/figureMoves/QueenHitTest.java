@@ -12,7 +12,6 @@ import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
 
 public class QueenHitTest {
 	private GameState state;
@@ -63,11 +62,6 @@ public class QueenHitTest {
 	public void isQueenUpRightMove1StepBlocked() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				4, 4))));
-	}
-
-	@Test(expected = InvalidMoveException.class)
-	public void isQueenUpRightMove2StepsBlocked() {
-		ChessLogic.isValidMove(state, new Move(start, new Position(5, 5)));
 	}
 
 	@Test

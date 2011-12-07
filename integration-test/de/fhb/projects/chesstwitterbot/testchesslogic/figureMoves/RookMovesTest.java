@@ -15,7 +15,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
+import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
 
 public class RookMovesTest {
 	private GameState state;
@@ -56,22 +56,22 @@ public class RookMovesTest {
 				4, 3))));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void upRight() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(4, 4)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void downRight() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(4, 2)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void downLeft() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(2, 2)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void upLeft() {
 		ChessLogic.isValidMove(state, new Move(start, new Position(2, 4)));
 	}

@@ -15,7 +15,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
+import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
 
 public class BishopMovesTest {
 	private GameState state;
@@ -51,22 +51,22 @@ public class BishopMovesTest {
 		assertTrue(ChessLogic.isValidMove(state, Move.downLeft(start, 1)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void up() {
 		ChessLogic.isValidMove(state, Move.up(start, 1));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void down() {
 		ChessLogic.isValidMove(state, Move.down(start, 1));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void left() {
 		ChessLogic.isValidMove(state, Move.left(start, 1));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void right() {
 		ChessLogic.isValidMove(state, Move.right(start, 1));
 	}

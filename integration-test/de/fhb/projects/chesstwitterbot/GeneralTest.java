@@ -12,7 +12,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
+import de.fhb.projects.chesstwitterbot.exception.NoFigureException;
 
 public class GeneralTest {
 	private GameState state;
@@ -26,7 +26,7 @@ public class GeneralTest {
 		state.updatePositions();
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = NoFigureException.class)
 	public void isNoFigureToMove() {
 		ChessLogic.isValidMove(state, new Move(new Position(0, 4),
 				new Position(0, 5)));

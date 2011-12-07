@@ -15,7 +15,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
-import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
+import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
 
 public class KingMovesTest {
 	private GameState state;
@@ -52,31 +52,23 @@ public class KingMovesTest {
 
 	@Test
 	public void validMoves() {
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
-				3, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
-				3, 2))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
-				2, 3))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
-				4, 3))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
-				4, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
-				2, 2))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
-				2, 4))));
-		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
-				4, 2))));
+		assertTrue(ChessLogic.isValidMove(state, Move.up(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.down(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.left(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.right(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.upRight(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.upLeft(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.downRight(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.downLeft(start, 1)));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void twoStepsForward() {
-		ChessLogic.isValidMove(state, new Move(start, new Position(3, 5)));
+		ChessLogic.isValidMove(state, Move.up(start, 2));
 	}
 
-	@Test(expected = InvalidMoveException.class)
+	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void twoStepsUpRight() {
-		ChessLogic.isValidMove(state, new Move(start, new Position(5, 5)));
+		ChessLogic.isValidMove(state, Move.upRight(start, 2));
 	}
 }
