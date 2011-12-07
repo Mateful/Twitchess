@@ -1,27 +1,21 @@
 package de.fhb.projects.chesstwitterbot.chesslogic;
 
-public class Position {
-	private int x, y;
+import java.awt.Point;
 
-	public Position(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
+public final class Position extends Point {
+	private static final long serialVersionUID = -6000701188739283483L;
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public String toString() {
-		return "" + (char) (97 + x) + (y + 1);
+	public Position(final int x, final int y) {
+		super(x, y);
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public String toString() {
+		return "" + (char) ('a' + x) + (y + 1);
+	}
+
+	@Override
+	public boolean equals(final Object o) {
 		if (o == this) {
 			return true;
 		}
@@ -41,41 +35,21 @@ public class Position {
 		return (((int) bits) ^ ((int) (bits >> 32)));
 	}
 
-	public int calculateXDistance(Position destination) {
+	public int calculateXDistance(final Position destination) {
 		return calculateXDistance(this, destination);
 	}
 
-	public int calculateYDistance(Position destination) {
+	public int calculateYDistance(final Position destination) {
 		return calculateYDistance(this, destination);
 	}
 
-	public static int calculateXDistance(Position start, Position destination) {
-		return Math.abs(destination.getX() - start.getX());
+	public static int calculateXDistance(final Position start,
+			final Position destination) {
+		return Math.abs(destination.x - start.x);
 	}
 
-	public static int calculateYDistance(Position start, Position destination) {
-		return Math.abs(destination.getY() - start.getY());
-	}
-
-	/* STATIC ANTICS */
-	private static Position[][] positions;
-
-	public static boolean xAndYAreInInterval(int x, int y, int min, int max) {
-		return x >= min && x <= max && y >= min && y <= max;
-	}
-
-	static {
-		positions = new Position[8][8];
-
-		for (int x = 0; x < 8; x++)
-			for (int y = 0; y < 8; y++)
-				positions[x][y] = new Position(x, y);
-	}
-
-	public static Position getPosition(int x, int y) {
-		if (xAndYAreInInterval(x, y, 0, 7))
-			return positions[x][y];
-
-		return null;
+	public static int calculateYDistance(final Position start,
+			final Position destination) {
+		return Math.abs(destination.y - start.y);
 	}
 }

@@ -3,16 +3,15 @@ package de.fhb.projects.chesstwitterbot.chesslogic.move;
 public class Direction {
 	protected DirectionType type;
 
-	public Direction(DirectionType type) {
-		super();
+	public Direction(final DirectionType type) {
 		this.type = type;
 	}
 
-	public DirectionType getType() {
+	public final DirectionType getType() {
 		return type;
 	}
 
-	public void setType(DirectionType type) {
+	public final void setType(final DirectionType type) {
 		this.type = type;
 	}
 
@@ -25,16 +24,17 @@ public class Direction {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Direction other = (Direction) obj;
-		if (type != other.type)
-			return false;
-		return true;
+		return type == other.type;
 	}
 }

@@ -4,8 +4,8 @@ import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
 
-public class King extends Figure {
-	public King(Position position) {
+public final class King extends Figure {
+	public King(final Position position) {
 		super(position);
 		directions.add(new OneStepDirection(DirectionType.UP));
 		directions.add(new OneStepDirection(DirectionType.DOWN));

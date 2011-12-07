@@ -34,17 +34,16 @@ public class GameState {
 
 	public void updatePositions() {
 		for (int i = 0; i < white.getFiguresInGame().size(); i++)
-			board[white.getFiguresInGame().get(i).getPosition().getX()][white
-					.getFiguresInGame().get(i).getPosition().getY()] = white
+			board[white.getFiguresInGame().get(i).getPosition().x][white
+					.getFiguresInGame().get(i).getPosition().y] = white
 					.getFiguresInGame().get(i);
 		for (int i = 0; i < black.getFiguresInGame().size(); i++)
-			board[black.getFiguresInGame().get(i).getPosition().getX()][black
-					.getFiguresInGame().get(i).getPosition().getY()] = black
+			board[black.getFiguresInGame().get(i).getPosition().x][black
+					.getFiguresInGame().get(i).getPosition().y] = black
 					.getFiguresInGame().get(i);
 	}
 
 	public Figure getMovingFigure(Move absoluteMove) {
-		return board[absoluteMove.getStart().getX()][absoluteMove.getStart()
-				.getY()];
+		return board[absoluteMove.getStart().x][absoluteMove.getStart().y];
 	}
 }

@@ -10,10 +10,10 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 
-public class Pawn extends Figure {
+public final class Pawn extends Figure {
 	protected List<Direction> hitMoves;
 
-	public Pawn(Position position, Color color) {
+	public Pawn(final Position position, final Color color) {
 		super(position, color);
 		hitMoves = new ArrayList<Direction>();
 		switch (color) {
@@ -37,12 +37,13 @@ public class Pawn extends Figure {
 		return hitMoves;
 	}
 
-	public boolean canDoHit(Move move) {
+	public boolean canDoHit(final Move move) {
 		for (Direction d : hitMoves) {
 			if (d instanceof OneStepDirection
 					&& move.getDirection() instanceof OneStepDirection
-					&& d.getType().equals(move.getDirectionType()))
+					&& d.getType().equals(move.getDirectionType())) {
 				return true;
+			}
 		}
 		return false;
 	}

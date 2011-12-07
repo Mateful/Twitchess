@@ -15,45 +15,47 @@ public abstract class Figure {
 	protected Color color;
 	protected Position position;
 
-	public Figure(Position position) {
+	public Figure(final Position position) {
 		this(position, Color.NOCOLOR);
 	}
 
-	public Figure(Position position, Color color) {
+	public Figure(final Position position, final Color color) {
 		this.position = position;
 		directions = new ArrayList<Direction>();
 		this.color = color;
 	}
 
-	public List<Direction> getDirections() {
+	public final List<Direction> getDirections() {
 		return directions;
 	}
 
-	public Color getColor() {
+	public final Color getColor() {
 		return color;
 	}
 
-	public void setColor(Color color) {
+	public final void setColor(final Color color) {
 		this.color = color;
 	}
 
-	public Position getPosition() {
+	public final Position getPosition() {
 		return position;
 	}
 
-	public void setPosition(Position position) {
+	public final void setPosition(final Position position) {
 		this.position = position;
 	}
 
-	public boolean canDoMove(Move move) {
+	public final boolean canDoMove(final Move move) {
 		for (Direction d : directions) {
 			if (d instanceof InfiniteDirection
-					&& d.getType().equals(move.getDirectionType()))
+					&& d.getType().equals(move.getDirectionType())) {
 				return true;
+			}
 			if (d instanceof OneStepDirection
 					&& move.getDirection() instanceof OneStepDirection
-					&& d.getType().equals(move.getDirectionType()))
+					&& d.getType().equals(move.getDirectionType())) {
 				return true;
+			}
 		}
 		return false;
 	}

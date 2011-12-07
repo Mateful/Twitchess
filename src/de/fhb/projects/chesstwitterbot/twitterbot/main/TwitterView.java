@@ -27,15 +27,15 @@ public class TwitterView implements Runnable, Observer {
 
 	private void login() {
 		boolean loggedIn = false;
-		while(!loggedIn) {
+		while (!loggedIn) {
 			String name = chooseAccount();
 			try {
 				twitterbot.loadAccessToken(name);
 				loggedIn = true;
-			} catch(TokenNotFoundException e) {
+			} catch (TokenNotFoundException e) {
 				printMessage(name + " token was not found.");
 				printMessage("Create new token? (y/n): ");
-				if(getInput().equals("y")) {
+				if (getInput().equals("y")) {
 					createToken();
 					loggedIn = true;
 				}
@@ -45,9 +45,10 @@ public class TwitterView implements Runnable, Observer {
 	}
 
 	private String chooseAccount() {
-		printMessage("Enter your Twitter username you want to use the bot with. Leave blank for logging in with " + twitterbot.STANDARD_ACCOUNT + ".");
+		printMessage("Enter your Twitter username you want to use the bot with. Leave blank for logging in with "
+				+ twitterbot.STANDARD_ACCOUNT + ".");
 		String input = getInput();
-		if(input.equals(""))
+		if (input.equals(""))
 			input = twitterbot.STANDARD_ACCOUNT;
 		return input;
 	}
@@ -69,36 +70,36 @@ public class TwitterView implements Runnable, Observer {
 
 	@Override
 	public void run() {
-		while(running) {
+		while (running) {
 			printMenu();
 			processInput(getInput());
 			try {
 				Thread.sleep(100);
-			} catch(InterruptedException e) {
+			} catch (InterruptedException e) {
 				printErrorMessage(e.getMessage());
 			}
 		}
 	}
 
 	private void processInput(String input) {
-		switch(getCommandNumber(input)) {
-		case 0:
-			twitterbot.receiveCommand(new ExitCommand());
-			break;
-		case 1:
-			printMessage("Enter name: ");
-			twitterbot.receiveCommand(new FollowCommand(getInput()));
-			break;
-		case 2:
-			twitterbot.receiveCommand(new ToggleAnsweringCommand());
-			break;
-		case 3:
-			printMessage("Enter your new status: ");
-			twitterbot.receiveCommand(new UpdateStatusCommand(getInput()));
-			break;
-		default:
-			printErrorMessage("Unknown Command");
-			break;
+		switch (getCommandNumber(input)) {
+			case 0 :
+				twitterbot.receiveCommand(new ExitCommand());
+				break;
+			case 1 :
+				printMessage("Enter name: ");
+				twitterbot.receiveCommand(new FollowCommand(getInput()));
+				break;
+			case 2 :
+				twitterbot.receiveCommand(new ToggleAnsweringCommand());
+				break;
+			case 3 :
+				printMessage("Enter your new status: ");
+				twitterbot.receiveCommand(new UpdateStatusCommand(getInput()));
+				break;
+			default :
+				printErrorMessage("Unknown Command");
+				break;
 		}
 	}
 
@@ -106,7 +107,7 @@ public class TwitterView implements Runnable, Observer {
 		int commandNumber;
 		try {
 			commandNumber = Integer.parseInt(input);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			commandNumber = -1;
 		}
 		return commandNumber;
@@ -116,7 +117,7 @@ public class TwitterView implements Runnable, Observer {
 		String input = "";
 		try {
 			input = inputReader.readLine();
-		} catch(IOException e) {
+		} catch (IOException e) {
 			printErrorMessage(e.getMessage());
 		}
 		return input;
@@ -145,9 +146,9 @@ public class TwitterView implements Runnable, Observer {
 
 	@Override
 	public void update(Observable observable, Object argument) {
-		if(argument instanceof Exception)
-			printErrorMessage(((Exception)argument).getMessage());
-		else if(argument instanceof String)
-			printMessage((String)argument);
+		if (argument instanceof Exception)
+			printErrorMessage(((Exception) argument).getMessage());
+		else if (argument instanceof String)
+			printMessage((String) argument);
 	}
 }

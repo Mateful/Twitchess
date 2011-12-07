@@ -3,7 +3,7 @@ package de.fhb.projects.chesstwitterbot.chesslogic.move;
 import de.fhb.projects.chesstwitterbot.chesslogic.ChessboardPositionToArrayPosition;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 
-public class Move {
+public final class Move {
 	public static final Move NO_MOVE = new Move();
 	private Direction direction;
 	private Position start, destination;
@@ -14,62 +14,59 @@ public class Move {
 		destination = start;
 	}
 
-	public Move(Position start, Position destination) {
+	public Move(final Position start, final Position destination) {
 		this.start = start;
 		this.destination = destination;
 		setDirection(start, destination);
 	}
 
-	private void setDirection(Position start, Position destination) {
+	private void setDirection(final Position start, final Position destination) {
 		DirectionType directionType = DirectionType.getDirectionType(start,
 				destination);
 
 		if (start.calculateXDistance(destination) <= 1
 				&& start.calculateYDistance(destination) <= 1
-				|| directionType.equals(DirectionType.KNIGHT))
+				|| directionType.equals(DirectionType.KNIGHT)) {
 			this.direction = new OneStepDirection(directionType);
-		else
+		} else {
 			this.direction = new InfiniteDirection(directionType);
+		}
 	}
 
-	public static Move up(Position position, int steps) {
-		return new Move(position, new Position(position.getX(), position.getY()
+	public static Move up(final Position position, final int steps) {
+		return new Move(position, new Position(position.x, position.y + steps));
+	}
+
+	public static Move down(final Position position, final int steps) {
+		return new Move(position, new Position(position.x, position.y - steps));
+	}
+
+	public static Move left(final Position position, final int steps) {
+		return new Move(position, new Position(position.x - steps, position.y));
+	}
+
+	public static Move right(final Position position, final int steps) {
+		return new Move(position, new Position(position.x + steps, position.y));
+	}
+
+	public static Move upRight(final Position position, final int steps) {
+		return new Move(position, new Position(position.x + 1, position.y
 				+ steps));
 	}
 
-	public static Move down(Position position, int steps) {
-		return new Move(position, new Position(position.getX(), position.getY()
+	public static Move upLeft(final Position position, final int steps) {
+		return new Move(position, new Position(position.x - 1, position.y
+				+ steps));
+	}
+
+	public static Move downRight(final Position position, final int steps) {
+		return new Move(position, new Position(position.x + 1, position.y
 				- steps));
 	}
 
-	public static Move left(Position position, int steps) {
-		return new Move(position, new Position(position.getX() - steps,
-				position.getY()));
-	}
-
-	public static Move right(Position position, int steps) {
-		return new Move(position, new Position(position.getX() + steps,
-				position.getY()));
-	}
-
-	public static Move upRight(Position position, int steps) {
-		return new Move(position, new Position(position.getX() + 1,
-				position.getY() + steps));
-	}
-
-	public static Move upLeft(Position position, int steps) {
-		return new Move(position, new Position(position.getX() - 1,
-				position.getY() + steps));
-	}
-
-	public static Move downRight(Position position, int steps) {
-		return new Move(position, new Position(position.getX() + 1,
-				position.getY() - steps));
-	}
-
-	public static Move downLeft(Position position, int steps) {
-		return new Move(position, new Position(position.getX() - 1,
-				position.getY() - steps));
+	public static Move downLeft(final Position position, final int steps) {
+		return new Move(position, new Position(position.x - 1, position.y
+				- steps));
 	}
 
 	public Direction getDirection() {

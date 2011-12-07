@@ -100,9 +100,9 @@
 		          target: Checkstyle
 		 ================================= -->
 	<taskdef resource="checkstyletask.properties" classpath="${lib.dir}/checkstyle-5.5-all.jar" />
-	<target name="checkstyle" description="Generates a report of code convention violations.">
+	<target name="checkstyle" depends="init" description="Generates a report of code convention violations.">
 
-		<checkstyle config="config/checkstyle/sun_checks.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+		<checkstyle config="${csconfig}" failureProperty="checkstyle.failure" failOnViolation="false">
 			<formatter type="xml" tofile="reports/checkstyle.xml" />
 			<fileset dir="src" includes="**/*.java" />
 		</checkstyle>

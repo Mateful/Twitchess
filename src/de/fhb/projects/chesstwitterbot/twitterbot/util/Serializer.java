@@ -8,8 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Serializer {
-	public static void save(Object o, String name)
-			throws IOException {
+	public static void save(Object o, String name) throws IOException {
 		save(o, name, "");
 	}
 
@@ -30,7 +29,7 @@ public class Serializer {
 			throws FileNotFoundException, IOException, ClassNotFoundException {
 		Object o = new Object();
 		ObjectInputStream inStream;
-		if(folder != "")
+		if (folder != "")
 			folder += "/";
 		inStream = new ObjectInputStream(new FileInputStream(folder + name));
 		o = inStream.readObject();
