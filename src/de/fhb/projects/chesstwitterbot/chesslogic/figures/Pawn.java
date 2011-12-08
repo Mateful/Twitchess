@@ -47,4 +47,10 @@ public final class Pawn extends Figure {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "Pawn [hitMoves=" + hitMoves + ", directions=" + directions
+				+ ", color=" + color + ", position=" + position + "]";
+	}
 }

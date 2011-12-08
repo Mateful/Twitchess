@@ -16,4 +16,10 @@ public final class Queen extends Figure {
 		directions.add(new InfiniteDirection(DirectionType.DOWNRIGHT));
 		directions.add(new InfiniteDirection(DirectionType.DOWNLEFT));
 	}
+
+	@Override
+	public String toString() {
+		return "Queen [directions=" + directions + ", color=" + color
+				+ ", position=" + position + "]";
+	}
 }

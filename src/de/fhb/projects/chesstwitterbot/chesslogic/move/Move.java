@@ -1,6 +1,5 @@
 package de.fhb.projects.chesstwitterbot.chesslogic.move;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.ChessboardPositionToArrayPosition;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 
 public final class Move {
@@ -17,20 +16,23 @@ public final class Move {
 	public Move(final Position start, final Position destination) {
 		this.start = start;
 		this.destination = destination;
-		setDirection(start, destination);
+		setDirection();
 	}
 
-	private void setDirection(final Position start, final Position destination) {
+	private void setDirection() {
 		DirectionType directionType = DirectionType.getDirectionType(start,
 				destination);
 
-		if (start.calculateXDistance(destination) <= 1
-				&& start.calculateYDistance(destination) <= 1
-				|| directionType.equals(DirectionType.KNIGHT)) {
-			this.direction = new OneStepDirection(directionType);
+		if (isOneStepMove() || directionType.equals(DirectionType.KNIGHT)) {
+			direction = new OneStepDirection(directionType);
 		} else {
-			this.direction = new InfiniteDirection(directionType);
+			direction = new InfiniteDirection(directionType);
 		}
+	}
+
+	private boolean isOneStepMove() {
+		return start.calculateXDistance(destination) <= 1
+				&& start.calculateYDistance(destination) <= 1;
 	}
 
 	public static Move up(final Position position, final int steps) {
@@ -87,8 +89,7 @@ public final class Move {
 
 	@Override
 	public String toString() {
-		return ChessboardPositionToArrayPosition.parseArrayPostion(start)
-				+ ChessboardPositionToArrayPosition
-						.parseArrayPostion(destination);
+		return "Move [direction=" + direction + ", start=" + start
+				+ ", destination=" + destination + "]";
 	}
 }

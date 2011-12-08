@@ -16,4 +16,10 @@ public final class King extends Figure {
 		directions.add(new OneStepDirection(DirectionType.DOWNRIGHT));
 		directions.add(new OneStepDirection(DirectionType.DOWNLEFT));
 	}
+
+	@Override
+	public String toString() {
+		return "King [directions=" + directions + ", color=" + color
+				+ ", position=" + position + "]";
+	}
 }

@@ -12,4 +12,10 @@ public final class Bishop extends Figure {
 		directions.add(new InfiniteDirection(DirectionType.DOWNRIGHT));
 		directions.add(new InfiniteDirection(DirectionType.DOWNLEFT));
 	}
+
+	@Override
+	public String toString() {
+		return "Bishop [directions=" + directions + ", color=" + color
+				+ ", position=" + position + "]";
+	}
 }

@@ -38,4 +38,11 @@ public abstract class Player {
 				return figuresInGame.get(i).getPosition();
 		throw new RuntimeException("No King found.");
 	}
+	
+	@Override
+	public String toString() {
+		return "Player [color=" + color + ", opponent=" + opponent
+				+ ", inCheck=" + inCheck + ", figuresInGame=" + figuresInGame
+				+ "]";
+	}
 }

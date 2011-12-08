@@ -9,4 +9,10 @@ public final class Knight extends Figure {
 		super(position);
 		directions.add(new OneStepDirection(DirectionType.KNIGHT));
 	}
+
+	@Override
+	public String toString() {
+		return "Knight [directions=" + directions + ", color=" + color
+				+ ", position=" + position + "]";
+	}
 }

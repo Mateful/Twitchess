@@ -37,4 +37,9 @@ public class Direction {
 		Direction other = (Direction) obj;
 		return type == other.type;
 	}
+
+	@Override
+	public String toString() {
+		return "Direction [type=" + type + "]";
+	}
 }

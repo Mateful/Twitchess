@@ -12,4 +12,10 @@ public final class Rook extends Figure {
 		directions.add(new InfiniteDirection(DirectionType.LEFT));
 		directions.add(new InfiniteDirection(DirectionType.RIGHT));
 	}
+
+	@Override
+	public String toString() {
+		return "Rook [directions=" + directions + ", color=" + color
+				+ ", position=" + position + "]";
+	}
 }

@@ -1,8 +1,15 @@
 package de.fhb.projects.chesstwitterbot.chesslogic.player;
 
-public class White extends Player {
+public final class White extends Player {
 	public White() {
 		super();
 		color = Color.WHITE;
+	}
+
+	@Override
+	public String toString() {
+		return "White [color=" + color + ", opponent=" + opponent
+				+ ", inCheck=" + inCheck + ", figuresInGame=" + figuresInGame
+				+ "]";
 	}
 }

@@ -59,4 +59,10 @@ public abstract class Figure {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "Figure [directions=" + directions + ", color=" + color
+				+ ", position=" + position + "]";
+	}
 }
