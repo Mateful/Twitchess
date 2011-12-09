@@ -1,6 +1,6 @@
-package de.fhb.projects.chesstwitterbot.chesslogic.move;
+package de.fhb.projects.chesstwitterbot.games.chess.move;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
 
 public enum DirectionType {
 	UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, KNIGHT, NODIRECTION;

@@ -1,7 +1,7 @@
 package de.fhb.projects.chesstwitterbot.testchesslogic.figureMoves;
 
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.BLACK;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.WHITE;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -9,15 +9,15 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
-import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
+import de.fhb.projects.chesstwitterbot.games.chess.ChessLogic;
+import de.fhb.projects.chesstwitterbot.games.chess.GameState;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Queen;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Direction;
+import de.fhb.projects.chesstwitterbot.games.chess.move.DirectionType;
+import de.fhb.projects.chesstwitterbot.games.chess.move.InfiniteDirection;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Move;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Player;
 
 public class QueenMovesTest {
 	private GameState state;
@@ -56,15 +56,25 @@ public class QueenMovesTest {
 
 	@Test
 	public void validMoves() {
-		assertTrue(ChessLogic.isValidMove(state, Move.up(queen.getPosition(), 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.down(queen.getPosition(), 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.left(queen.getPosition(), 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.right(queen.getPosition(), 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.upRight(queen.getPosition(), 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.upLeft(queen.getPosition(), 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.downRight(queen.getPosition(), 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.downLeft(queen.getPosition(), 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.up(queen.getPosition(), 2)));
-		assertTrue(ChessLogic.isValidMove(state, Move.downRight(queen.getPosition(), 3)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.up(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.down(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.left(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.right(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.upRight(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.upLeft(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.downRight(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.downLeft(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.up(queen.getPosition(), 2)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.downRight(queen.getPosition(), 3)));
 	}
 }

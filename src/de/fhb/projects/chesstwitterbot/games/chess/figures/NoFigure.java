@@ -1,7 +1,7 @@
-package de.fhb.projects.chesstwitterbot.chesslogic.figures;
+package de.fhb.projects.chesstwitterbot.games.chess.figures;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Color;
 
 public final class NoFigure extends Figure {
 	public static final NoFigure NO_FIGURE = new NoFigure();

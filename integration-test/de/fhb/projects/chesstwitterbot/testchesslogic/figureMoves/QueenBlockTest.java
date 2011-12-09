@@ -1,20 +1,20 @@
 package de.fhb.projects.chesstwitterbot.testchesslogic.figureMoves;
 
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.BLACK;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.WHITE;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
-import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
 import de.fhb.projects.chesstwitterbot.exception.MoveBlockedException;
+import de.fhb.projects.chesstwitterbot.games.chess.ChessLogic;
+import de.fhb.projects.chesstwitterbot.games.chess.GameState;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Pawn;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Queen;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Move;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Player;
 
 public class QueenBlockTest {
 	private GameState state;
@@ -80,7 +80,8 @@ public class QueenBlockTest {
 
 	@Test(expected = MoveBlockedException.class)
 	public void isQueenUpRightMove1StepBlocked() {
-		assertTrue(ChessLogic.isValidMove(state, Move.upRight(queen.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.upRight(queen.getPosition(), 1)));
 	}
 
 	@Test(expected = MoveBlockedException.class)

@@ -1,20 +1,20 @@
 package de.fhb.projects.chesstwitterbot;
 
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.BLACK;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.WHITE;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
-import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Rook;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
+import de.fhb.projects.chesstwitterbot.games.chess.ChessLogic;
+import de.fhb.projects.chesstwitterbot.games.chess.GameState;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.King;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Queen;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Rook;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Player;
 
 public class CheckmateTest {
 	private GameState state;
@@ -34,8 +34,7 @@ public class CheckmateTest {
 		white.add(new King(new Position(0, 0)));
 		white.add(new Queen(new Position(1, 0)));
 		black.add(new King(new Position(1, 3)));
-		state.updatePositions();
-
+		state = new GameState(white, black);
 		assertFalse(ChessLogic.isCheck(state, white));
 		assertTrue(ChessLogic.isCheck(state, black));
 	}
@@ -47,8 +46,7 @@ public class CheckmateTest {
 		rook2 = new Rook(new Position(1, 7));
 		white.add(king);
 		black.add(rook1, rook2);
-		state.updatePositions();
-
+		state = new GameState(white, black);
 		assertTrue(ChessLogic.isCheckmate(state, white));
 	}
 
@@ -60,7 +58,6 @@ public class CheckmateTest {
 		white.add(king);
 		black.add(rook1, rook2);
 		state.updatePositions();
-
 		assertFalse(ChessLogic.isCheckmate(state, white));
 	}
 }

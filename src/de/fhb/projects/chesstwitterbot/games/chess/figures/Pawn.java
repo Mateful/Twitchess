@@ -1,14 +1,14 @@
-package de.fhb.projects.chesstwitterbot.chesslogic.figures;
+package de.fhb.projects.chesstwitterbot.games.chess.figures;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Direction;
+import de.fhb.projects.chesstwitterbot.games.chess.move.DirectionType;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Move;
+import de.fhb.projects.chesstwitterbot.games.chess.move.OneStepDirection;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Color;
 
 public final class Pawn extends Figure {
 	protected List<Direction> hitMoves;

@@ -1,17 +1,17 @@
 package de.fhb.projects.chesstwitterbot;
 
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.BLACK;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.WHITE;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
-import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
 import de.fhb.projects.chesstwitterbot.exception.NoFigureException;
+import de.fhb.projects.chesstwitterbot.games.chess.ChessLogic;
+import de.fhb.projects.chesstwitterbot.games.chess.GameState;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Move;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Player;
 
 public class GeneralTest {
 	private GameState state;

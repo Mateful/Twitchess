@@ -1,6 +1,6 @@
-package de.fhb.projects.chesstwitterbot.chesslogic.move;
+package de.fhb.projects.chesstwitterbot.games.chess.move;
 
-public class Direction {
+public abstract class Direction {
 	protected DirectionType type;
 
 	public Direction(final DirectionType type) {
@@ -16,7 +16,7 @@ public class Direction {
 	}
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -24,7 +24,7 @@ public class Direction {
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public final boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -36,10 +36,5 @@ public class Direction {
 		}
 		Direction other = (Direction) obj;
 		return type == other.type;
-	}
-
-	@Override
-	public String toString() {
-		return "Direction [type=" + type + "]";
 	}
 }

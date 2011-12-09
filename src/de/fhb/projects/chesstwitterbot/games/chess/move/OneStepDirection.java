@@ -1,4 +1,4 @@
-package de.fhb.projects.chesstwitterbot.chesslogic.move;
+package de.fhb.projects.chesstwitterbot.games.chess.move;
 
 public final class OneStepDirection extends Direction {
 

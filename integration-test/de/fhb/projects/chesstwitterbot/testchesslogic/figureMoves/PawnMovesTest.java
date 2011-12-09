@@ -1,7 +1,7 @@
 package de.fhb.projects.chesstwitterbot.testchesslogic.figureMoves;
 
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.BLACK;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.WHITE;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -10,17 +10,17 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
-import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
 import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
 import de.fhb.projects.chesstwitterbot.exception.WrongColorException;
+import de.fhb.projects.chesstwitterbot.games.chess.ChessLogic;
+import de.fhb.projects.chesstwitterbot.games.chess.GameState;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Pawn;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Direction;
+import de.fhb.projects.chesstwitterbot.games.chess.move.DirectionType;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Move;
+import de.fhb.projects.chesstwitterbot.games.chess.move.OneStepDirection;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Player;
 
 public class PawnMovesTest {
 	private GameState state;
@@ -102,7 +102,8 @@ public class PawnMovesTest {
 	@Test
 	public void blackForward() {
 		GameState blackTurn = new GameState(state, Move.NO_MOVE);
-		assertTrue(ChessLogic.isValidMove(blackTurn, Move.down(blackPawn.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(blackTurn,
+				Move.down(blackPawn.getPosition(), 1)));
 	}
 
 	@Test(expected = WrongColorException.class)
@@ -113,7 +114,8 @@ public class PawnMovesTest {
 	@Test
 	public void blackDownLeftHit() {
 		GameState blackTurn = new GameState(state, Move.NO_MOVE);
-		ChessLogic.isValidMove(blackTurn, Move.downLeft(blackPawn.getPosition(), 1));
+		ChessLogic.isValidMove(blackTurn,
+				Move.downLeft(blackPawn.getPosition(), 1));
 	}
 
 	@Test(expected = FigureCannotMoveIntoDirectionException.class)
@@ -128,6 +130,7 @@ public class PawnMovesTest {
 		whitePawn = new Pawn(new Position(0, 1), WHITE);
 		white.add(whitePawn);
 		state = new GameState(white, black);
-		assertTrue(ChessLogic.isValidMove(state, Move.up(whitePawn.getPosition(), 2)));
+		assertTrue(ChessLogic.isValidMove(state,
+				Move.up(whitePawn.getPosition(), 2)));
 	}
 }

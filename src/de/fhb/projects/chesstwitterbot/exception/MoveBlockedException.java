@@ -1,9 +1,9 @@
 package de.fhb.projects.chesstwitterbot.exception;
 
-public class MoveBlockedException extends RuntimeException {
+public final class MoveBlockedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public MoveBlockedException(String message) {
+	public MoveBlockedException(final String message) {
 		super(message);
 	}
 }

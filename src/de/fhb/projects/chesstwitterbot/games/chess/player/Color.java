@@ -1,4 +1,4 @@
-package de.fhb.projects.chesstwitterbot.chesslogic.player;
+package de.fhb.projects.chesstwitterbot.games.chess.player;
 
 public enum Color {
 	WHITE, BLACK, NOCOLOR;

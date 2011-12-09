@@ -1,5 +1,7 @@
-package de.fhb.projects.chesstwitterbot.chesslogic;
+package de.fhb.projects.chesstwitterbot.games.chess;
 
+import static de.fhb.projects.chesstwitterbot.games.chess.ChessLogic.CHESSBOARD_HEIGHT;
+import static de.fhb.projects.chesstwitterbot.games.chess.ChessLogic.CHESSBOARD_WIDTH;
 import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
 
 public final class ChessboardPositionToArrayPosition {
@@ -25,7 +27,8 @@ public final class ChessboardPositionToArrayPosition {
 	}
 
 	private static boolean isOutOfChessboard(final Position pos) {
-		return pos.getX() >= 8 || pos.getY() >= 8 || pos.getX() < 0
+		return pos.getX() >= CHESSBOARD_WIDTH
+				|| pos.getY() >= CHESSBOARD_HEIGHT || pos.getX() < 0
 				|| pos.getY() < 0;
 	}
 }

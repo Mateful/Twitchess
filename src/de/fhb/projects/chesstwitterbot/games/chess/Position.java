@@ -1,4 +1,4 @@
-package de.fhb.projects.chesstwitterbot.chesslogic;
+package de.fhb.projects.chesstwitterbot.games.chess;
 
 import java.awt.Point;
 

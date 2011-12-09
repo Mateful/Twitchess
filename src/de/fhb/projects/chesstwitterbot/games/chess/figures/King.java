@@ -1,8 +1,8 @@
-package de.fhb.projects.chesstwitterbot.chesslogic.figures;
+package de.fhb.projects.chesstwitterbot.games.chess.figures;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.move.DirectionType;
+import de.fhb.projects.chesstwitterbot.games.chess.move.OneStepDirection;
 
 public final class King extends Figure {
 	public King(final Position position) {

@@ -1,18 +1,18 @@
 package de.fhb.projects.chesstwitterbot.testchesslogic.figureMoves;
 
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
-import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.BLACK;
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.WHITE;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
-import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
-import de.fhb.projects.chesstwitterbot.chesslogic.Position;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
+import de.fhb.projects.chesstwitterbot.games.chess.ChessLogic;
+import de.fhb.projects.chesstwitterbot.games.chess.GameState;
+import de.fhb.projects.chesstwitterbot.games.chess.Position;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Pawn;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Move;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Player;
 
 public class EnPassantTest {
 	private GameState state;
@@ -34,7 +34,8 @@ public class EnPassantTest {
 		black.add(blackPawn);
 		state.updatePositions();
 
-		GameState nextState = new GameState(state, Move.up(whitePawn.getPosition(), 2));
+		GameState nextState = new GameState(state, Move.up(
+				whitePawn.getPosition(), 2));
 		assertTrue(ChessLogic.isValidMove(nextState,
 				Move.downLeft(blackPawn.getPosition(), 1)));
 	}
@@ -46,9 +47,12 @@ public class EnPassantTest {
 		white.add(whitePawn);
 		black.add(blackPawn);
 		state.updatePositions();
-		
-		GameState whitePawnMoves1Up = new GameState(state, Move.up(whitePawn.getPosition(), 1));
-		GameState blackPawnMoves2Down = new GameState(whitePawnMoves1Up, Move.down(blackPawn.getPosition(), 2));
-		assertTrue(ChessLogic.isValidMove(blackPawnMoves2Down, Move.upRight(whitePawn.getPosition(), 1)));
+
+		GameState whitePawnMoves1Up = new GameState(state, Move.up(
+				whitePawn.getPosition(), 1));
+		GameState blackPawnMoves2Down = new GameState(whitePawnMoves1Up,
+				Move.down(blackPawn.getPosition(), 2));
+		assertTrue(ChessLogic.isValidMove(blackPawnMoves2Down,
+				Move.upRight(whitePawn.getPosition(), 1)));
 	}
 }

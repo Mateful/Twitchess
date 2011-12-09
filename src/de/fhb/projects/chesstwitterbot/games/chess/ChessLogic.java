@@ -1,24 +1,24 @@
-package de.fhb.projects.chesstwitterbot.chesslogic;
+package de.fhb.projects.chesstwitterbot.games.chess;
 
-import static de.fhb.projects.chesstwitterbot.chesslogic.figures.NoFigure.NO_FIGURE;
+import static de.fhb.projects.chesstwitterbot.games.chess.figures.NoFigure.NO_FIGURE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Figure;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
-import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
-import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
-import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
 import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
-import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
 import de.fhb.projects.chesstwitterbot.exception.MoveBlockedException;
 import de.fhb.projects.chesstwitterbot.exception.NoFigureException;
 import de.fhb.projects.chesstwitterbot.exception.WrongColorException;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Figure;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.King;
+import de.fhb.projects.chesstwitterbot.games.chess.figures.Pawn;
+import de.fhb.projects.chesstwitterbot.games.chess.move.InfiniteDirection;
+import de.fhb.projects.chesstwitterbot.games.chess.move.Move;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Color;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Player;
 
 public final class ChessLogic {
+	public static final int CHESSBOARD_WIDTH = 8, CHESSBOARD_HEIGHT = 8;
 	private static final int WHITE_PAWN_LINE = 1;
 	private static final int BLACK_PAWN_LINE = 6;
 	/**
@@ -27,11 +27,11 @@ public final class ChessLogic {
 	 */
 	private static GameState stateInProcess;
 	/**
-	 * See stateInProcess.
+	 * @see stateInProcess.
 	 */
 	private static Move currentMove;
 	/**
-	 * See stateInProcess.
+	 * @see stateInProcess.
 	 */
 	private static Figure figureDoingCurrentMove;
 
@@ -48,14 +48,15 @@ public final class ChessLogic {
 	}
 
 	private static boolean isValidMove(final GameState state, final Move move,
-			boolean ignoreNotYourTurn) {
+			final boolean ignoreNotYourTurn) {
 		stateInProcess = state;
 		currentMove = move;
 		figureDoingCurrentMove = state.getMovingFigure(move);
 
 		hasNoFigure();
-		if (!ignoreNotYourTurn)
+		if (!ignoreNotYourTurn) {
 			hasWrongColor();
+		}
 		hasDirection();
 		isBlocked();
 		return true;
@@ -152,7 +153,7 @@ public final class ChessLogic {
 			final Player playerInCheck) {
 		stateInProcess = state;
 		Position kingPos = playerInCheck.getKing().getPosition();
-		Player opponent = playerInCheck.opponent;
+		Player opponent = state.getOpponent(playerInCheck);
 		for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
 			try {
 				if (isValidMoveIgnoreNotYourTurn(stateInProcess, new Move(
@@ -193,11 +194,12 @@ public final class ChessLogic {
 
 	// TODO Sollte vielleicht optimiert werden. Im moment wird einfach jeder Zug
 	// auf JEDES FELD geprueft.
-	public static List<Move> getAllMoves(GameState state, Figure figure) {
+	public static List<Move> getAllMoves(final GameState state,
+			final Figure figure) {
 		stateInProcess = state;
 		ArrayList<Move> validMoves = new ArrayList<Move>();
-		for (int x = 0; x < stateInProcess.getX(); x++) {
-			for (int y = 0; y < stateInProcess.getY(); y++) {
+		for (int x = 0; x < CHESSBOARD_WIDTH; x++) {
+			for (int y = 0; y < CHESSBOARD_HEIGHT; y++) {
 				try {
 					Move move = new Move(figure.getPosition(), new Position(x,
 							y));
