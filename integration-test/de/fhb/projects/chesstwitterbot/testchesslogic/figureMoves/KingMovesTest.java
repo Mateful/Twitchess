@@ -1,5 +1,7 @@
 package de.fhb.projects.chesstwitterbot.testchesslogic.figureMoves;
 
+import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
+import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -15,23 +17,26 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.OneStepDirection;
+import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
 import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
 
 public class KingMovesTest {
 	private GameState state;
-	private Position start;
+	private Player white, black;
+	private King king;
 
 	@Before
 	public void initPawnTests() {
-		state = new GameState();
-		start = new Position(3, 3);
-		state.white.add(new King(start));
-		state.updatePositions();
+		white = new Player(WHITE);
+		black = new Player(BLACK);
+		king = new King(new Position(3, 3));
+		white.add(king);
+		state = new GameState(white, black);
 	}
 
 	@Test
 	public void getMoves() {
-		List<Direction> directions = new King(start).getDirections();
+		List<Direction> directions = king.getDirections();
 		Direction up = new OneStepDirection(DirectionType.UP);
 		Direction down = new OneStepDirection(DirectionType.DOWN);
 		Direction left = new OneStepDirection(DirectionType.LEFT);
@@ -52,23 +57,23 @@ public class KingMovesTest {
 
 	@Test
 	public void validMoves() {
-		assertTrue(ChessLogic.isValidMove(state, Move.up(start, 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.down(start, 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.left(start, 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.right(start, 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.upRight(start, 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.upLeft(start, 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.downRight(start, 1)));
-		assertTrue(ChessLogic.isValidMove(state, Move.downLeft(start, 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.up(king.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.down(king.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.left(king.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.right(king.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.upRight(king.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.upLeft(king.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.downRight(king.getPosition(), 1)));
+		assertTrue(ChessLogic.isValidMove(state, Move.downLeft(king.getPosition(), 1)));
 	}
 
 	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void twoStepsForward() {
-		ChessLogic.isValidMove(state, Move.up(start, 2));
+		ChessLogic.isValidMove(state, Move.up(king.getPosition(), 2));
 	}
 
 	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void twoStepsUpRight() {
-		ChessLogic.isValidMove(state, Move.upRight(start, 2));
+		ChessLogic.isValidMove(state, Move.upRight(king.getPosition(), 2));
 	}
 }

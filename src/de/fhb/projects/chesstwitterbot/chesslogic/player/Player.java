@@ -7,15 +7,15 @@ import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Figure;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
 
-public abstract class Player {
+public class Player {
 	protected Color color;
 	public Player opponent;
 	public boolean inCheck;
 	protected List<Figure> figuresInGame;
 
-	public Player() {
+	public Player(Color color) {
 		figuresInGame = new ArrayList<Figure>();
-		color = Color.NOCOLOR;
+		this.color = color;
 		inCheck = false;
 	}
 

@@ -96,7 +96,7 @@ public final class ChessLogic {
 
 	private static void hasWrongColor() {
 		if (!figureDoingCurrentMove.getColor().equals(
-				stateInProcess.currentTurnPlayer.getColor())) {
+				stateInProcess.getCurrentColor())) {
 			throw new WrongColorException(
 					"The move is invalid this is not your figure. Your move:"
 							+ currentMove.toString());
@@ -115,19 +115,18 @@ public final class ChessLogic {
 		return figureDoingCurrentMove instanceof Pawn
 				&& ((Pawn) figureDoingCurrentMove).canDoHit(currentMove)
 				&& (isDestinationOccupied().equals(
-						stateInProcess.currentTurnPlayer.opponent.getColor()) || isEnPassant());
+						stateInProcess.getCurrentColor().getInverse()) || isEnPassant());
 	}
 
 	private static boolean isEnPassant() {
-		return isInitialPawn2Step(
-				stateInProcess.lastMove,
-				stateInProcess.board[stateInProcess.lastMove.getDestination().x][stateInProcess.lastMove
-						.getDestination().y]);
+		return isInitialPawn2Step(stateInProcess.getLastMove(),
+				stateInProcess.getFigure(stateInProcess.getLastMove()
+						.getDestination().x, stateInProcess.getLastMove()
+						.getDestination().y));
 	}
 
 	private static boolean isMoveBlocked() {
-		if (isDestinationOccupied().equals(
-				figureDoingCurrentMove.getColor())) {
+		if (isDestinationOccupied().equals(figureDoingCurrentMove.getColor())) {
 			return true;
 		}
 
@@ -136,7 +135,7 @@ public final class ChessLogic {
 			for (int y = imbh.getyStart(), x = imbh.getxStart(); y != imbh
 					.getyDest() || x != imbh.getxDest(); y += imbh.getyToAdd(), x += imbh
 					.getxToAdd()) {
-				if (!stateInProcess.board[x][y].equals(NO_FIGURE)) {
+				if (!stateInProcess.getFigure(x, y).equals(NO_FIGURE)) {
 					return true;
 				}
 			}
@@ -145,8 +144,8 @@ public final class ChessLogic {
 	}
 
 	private static Color isDestinationOccupied() {
-		return stateInProcess.board[currentMove.getDestination().x][currentMove
-				.getDestination().y].getColor();
+		return stateInProcess.getFigure(currentMove.getDestination().x,
+				currentMove.getDestination().y).getColor();
 	}
 
 	public static boolean isCheck(final GameState state,
@@ -156,8 +155,9 @@ public final class ChessLogic {
 		Player opponent = playerInCheck.opponent;
 		for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
 			try {
-				if (isValidMoveIgnoreNotYourTurn(stateInProcess, new Move(opponent
-						.getFiguresInGame().get(i).getPosition(), kingPos))) {
+				if (isValidMoveIgnoreNotYourTurn(stateInProcess, new Move(
+						opponent.getFiguresInGame().get(i).getPosition(),
+						kingPos))) {
 					return true;
 				}
 			} catch (RuntimeException e) {
@@ -196,8 +196,8 @@ public final class ChessLogic {
 	public static List<Move> getAllMoves(GameState state, Figure figure) {
 		stateInProcess = state;
 		ArrayList<Move> validMoves = new ArrayList<Move>();
-		for (int x = 0; x < stateInProcess.board.length; x++) {
-			for (int y = 0; y < stateInProcess.board[x].length; y++) {
+		for (int x = 0; x < stateInProcess.getX(); x++) {
+			for (int y = 0; y < stateInProcess.getY(); y++) {
 				try {
 					Move move = new Move(figure.getPosition(), new Position(x,
 							y));

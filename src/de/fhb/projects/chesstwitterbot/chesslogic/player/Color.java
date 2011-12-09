@@ -4,6 +4,10 @@ public enum Color {
 	WHITE, BLACK, NOCOLOR;
 
 	public Color getInverse() {
-		return this == WHITE ? BLACK : WHITE;
+		if (this == NOCOLOR) {
+			return NOCOLOR;
+		} else {
+			return this == WHITE ? BLACK : WHITE;
+		}
 	}
 }

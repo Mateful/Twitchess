@@ -1,5 +1,7 @@
 package de.fhb.projects.chesstwitterbot.testchesslogic.figureMoves;
 
+import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.BLACK;
+import static de.fhb.projects.chesstwitterbot.chesslogic.player.Color.WHITE;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -15,18 +17,21 @@ import de.fhb.projects.chesstwitterbot.chesslogic.move.Direction;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.DirectionType;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
+import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
 import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
 
 public class BishopMovesTest {
 	private GameState state;
 	private Position start;
+	private Player white, black;
 
 	@Before
 	public void initPawnTests() {
 		start = new Position(3, 3);
-
-		state = new GameState();
-		state.white.add(new Bishop(start));
+		white = new Player(WHITE);
+		black = new Player(BLACK);
+		white.add(new Bishop(start));
+		state = new GameState(white, black);
 		state.updatePositions();
 	}
 
