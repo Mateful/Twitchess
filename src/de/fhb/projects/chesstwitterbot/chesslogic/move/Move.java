@@ -52,22 +52,22 @@ public final class Move {
 	}
 
 	public static Move upRight(final Position position, final int steps) {
-		return new Move(position, new Position(position.x + 1, position.y
+		return new Move(position, new Position(position.x + steps, position.y
 				+ steps));
 	}
 
 	public static Move upLeft(final Position position, final int steps) {
-		return new Move(position, new Position(position.x - 1, position.y
+		return new Move(position, new Position(position.x - steps, position.y
 				+ steps));
 	}
 
 	public static Move downRight(final Position position, final int steps) {
-		return new Move(position, new Position(position.x + 1, position.y
+		return new Move(position, new Position(position.x + steps, position.y
 				- steps));
 	}
 
 	public static Move downLeft(final Position position, final int steps) {
-		return new Move(position, new Position(position.x - 1, position.y
+		return new Move(position, new Position(position.x - steps, position.y
 				- steps));
 	}
 

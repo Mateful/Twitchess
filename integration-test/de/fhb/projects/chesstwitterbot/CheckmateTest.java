@@ -10,6 +10,7 @@ import de.fhb.projects.chesstwitterbot.chesslogic.ChessLogic;
 import de.fhb.projects.chesstwitterbot.chesslogic.GameState;
 import de.fhb.projects.chesstwitterbot.chesslogic.Position;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
+import de.fhb.projects.chesstwitterbot.chesslogic.figures.Queen;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Rook;
 
 public class CheckmateTest {
@@ -20,6 +21,17 @@ public class CheckmateTest {
 	@Before
 	public void init() {
 		state = new GameState();
+	}
+	
+	@Test
+	public void isInCheck() {
+		state.white.add(new King(new Position(0, 0)));
+		state.white.add(new Queen(new Position(1, 0)));
+		state.black.add(new King(new Position(1, 3)));
+		state.updatePositions();
+		
+		assertFalse(ChessLogic.isCheck(state, state.white));
+		assertTrue(ChessLogic.isCheck(state, state.black));
 	}
 
 	@Test
