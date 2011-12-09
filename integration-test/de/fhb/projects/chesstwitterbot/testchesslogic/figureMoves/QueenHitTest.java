@@ -35,49 +35,49 @@ public class QueenHitTest {
 	}
 
 	@Test
-	public void isQueenUpMove1StepBlocked() {
+	public void queenUpMove1StepHit() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				3, 4))));
 	}
 
 	@Test
-	public void isQueenRightMoveBlocked() {
+	public void queenRightMoveHit() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				4, 3))));
 	}
 
 	@Test
-	public void isQueenLeftMoveBlocked() {
+	public void queenLeftMoveHit() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				2, 3))));
 	}
 
 	@Test
-	public void isQueenDownMoveBlocked() {
+	public void queenDownMoveHit() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				3, 2))));
 	}
 
 	@Test
-	public void isQueenUpRightMove1StepBlocked() {
+	public void queenUpRightMove1StepHit() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				4, 4))));
 	}
 
 	@Test
-	public void isQueenDownRightMoveBlocked() {
+	public void queenDownRightMoveHit() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				4, 2))));
 	}
 
 	@Test
-	public void isQueenDownLeftMoveBlocked() {
+	public void queenDownLeftMoveHit() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				2, 2))));
 	}
 
 	@Test
-	public void isQueenUpLeftMoveBlocked() {
+	public void queenUpLeftMoveHit() {
 		assertTrue(ChessLogic.isValidMove(state, new Move(start, new Position(
 				2, 4))));
 	}

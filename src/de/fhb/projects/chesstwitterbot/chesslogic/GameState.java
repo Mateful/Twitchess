@@ -29,7 +29,14 @@ public class GameState {
 	}
 
 	public GameState(GameState oldState, Move move) {
-		throw new RuntimeException("Not yet implemented");
+		playerName = oldState.playerName;
+		board = oldState.board;
+		currentTurnPlayer = oldState.currentTurnPlayer.opponent;
+		white = oldState.white;
+		black = oldState.black;
+		lastMove = move;
+		board[move.getStart().x][move.getStart().y].setPosition(new Position(move.getDestination().x, move.getDestination().y));
+		updatePositions();
 	}
 
 	public void updatePositions() {

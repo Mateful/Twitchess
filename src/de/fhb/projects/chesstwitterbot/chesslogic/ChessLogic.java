@@ -1,13 +1,19 @@
 package de.fhb.projects.chesstwitterbot.chesslogic;
 
 import static de.fhb.projects.chesstwitterbot.chesslogic.figures.NoFigure.NO_FIGURE;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Figure;
+import de.fhb.projects.chesstwitterbot.chesslogic.figures.King;
 import de.fhb.projects.chesstwitterbot.chesslogic.figures.Pawn;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.InfiniteDirection;
 import de.fhb.projects.chesstwitterbot.chesslogic.move.Move;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Color;
 import de.fhb.projects.chesstwitterbot.chesslogic.player.Player;
 import de.fhb.projects.chesstwitterbot.exception.FigureCannotMoveIntoDirectionException;
+import de.fhb.projects.chesstwitterbot.exception.InvalidMoveException;
 import de.fhb.projects.chesstwitterbot.exception.MoveBlockedException;
 import de.fhb.projects.chesstwitterbot.exception.NoFigureException;
 import de.fhb.projects.chesstwitterbot.exception.WrongColorException;
@@ -15,20 +21,41 @@ import de.fhb.projects.chesstwitterbot.exception.WrongColorException;
 public final class ChessLogic {
 	private static final int WHITE_PAWN_LINE = 1;
 	private static final int BLACK_PAWN_LINE = 6;
+	/**
+	 * Every public method should override this field, to ensure that every
+	 * private method called works properly.
+	 */
 	private static GameState stateInProcess;
+	/**
+	 * See stateInProcess.
+	 */
 	private static Move currentMove;
+	/**
+	 * See stateInProcess.
+	 */
 	private static Figure figureDoingCurrentMove;
 
 	private ChessLogic() {
 	}
 
 	public static boolean isValidMove(final GameState state, final Move move) {
+		return isValidMove(state, move, false);
+	}
+
+	public static boolean isValidMoveIgnoreNotYourTurn(final GameState state,
+			final Move move) {
+		return isValidMove(state, move, true);
+	}
+
+	private static boolean isValidMove(final GameState state, final Move move,
+			boolean ignoreNotYourTurn) {
 		stateInProcess = state;
 		currentMove = move;
 		figureDoingCurrentMove = state.getMovingFigure(move);
 
 		hasNoFigure();
-		hasWrongColor();
+		if (!ignoreNotYourTurn)
+			hasWrongColor();
 		hasDirection();
 		isBlocked();
 		return true;
@@ -100,7 +127,7 @@ public final class ChessLogic {
 
 	private static boolean isMoveBlocked() {
 		if (isDestinationOccupied().equals(
-				stateInProcess.currentTurnPlayer.getColor())) {
+				figureDoingCurrentMove.getColor())) {
 			return true;
 		}
 
@@ -125,12 +152,12 @@ public final class ChessLogic {
 	public static boolean isCheck(final GameState state,
 			final Player playerInCheck) {
 		stateInProcess = state;
-		Position kingPos = playerInCheck.getKing();
+		Position kingPos = playerInCheck.getKing().getPosition();
 		Player opponent = playerInCheck.opponent;
 		for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
 			try {
-				if (isValidMove(state, new Move(opponent.getFiguresInGame()
-						.get(i).getPosition(), kingPos))) {
+				if (isValidMoveIgnoreNotYourTurn(stateInProcess, new Move(opponent
+						.getFiguresInGame().get(i).getPosition(), kingPos))) {
 					return true;
 				}
 			} catch (RuntimeException e) {
@@ -140,10 +167,21 @@ public final class ChessLogic {
 		return false;
 	}
 
-	public static boolean isCheckMate(final GameState state,
+	public static boolean isCheckmate(final GameState state,
 			final Player playerInCheck) {
 		stateInProcess = state;
-		// TODO Auto-generated method stub
+		if (isCheck(stateInProcess, playerInCheck)) {
+			King king = playerInCheck.getKing();
+			List<Move> moves = getAllMoves(stateInProcess, king);
+			for (int i = 0; i < moves.size(); i++) {
+				GameState nextState = new GameState(stateInProcess,
+						moves.get(i));
+				if (!isCheck(nextState, playerInCheck)) {
+					return false;
+				}
+			}
+			return true;
+		}
 		return false;
 	}
 
@@ -151,6 +189,28 @@ public final class ChessLogic {
 		stateInProcess = state;
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	// TODO Sollte vielleicht optimiert werden. Im moment wird einfach jeder Zug
+	// auf JEDES FELD geprueft.
+	public static List<Move> getAllMoves(GameState state, Figure figure) {
+		stateInProcess = state;
+		ArrayList<Move> validMoves = new ArrayList<Move>();
+		for (int x = 0; x < stateInProcess.board.length; x++) {
+			for (int y = 0; y < stateInProcess.board[x].length; y++) {
+				try {
+					Move move = new Move(figure.getPosition(), new Position(x,
+							y));
+					if (isValidMoveIgnoreNotYourTurn(stateInProcess, move)) {
+						validMoves.add(move);
+					}
+				} catch (RuntimeException e) {
+					// The move is invalid for whatever reason, don't add to
+					// list.
+				}
+			}
+		}
+		return validMoves;
 	}
 
 	private static class IsMoveBlockedHelper {

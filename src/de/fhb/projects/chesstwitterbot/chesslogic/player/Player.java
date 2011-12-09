@@ -19,9 +19,11 @@ public abstract class Player {
 		inCheck = false;
 	}
 
-	public void add(Figure figure) {
-		figure.setColor(color);
-		figuresInGame.add(figure);
+	public void add(Figure... figures) {
+		for (int i = 0; i < figures.length; i++) {
+			figures[i].setColor(color);
+			figuresInGame.add(figures[i]);
+		}
 	}
 
 	public List<Figure> getFiguresInGame() {
@@ -32,13 +34,13 @@ public abstract class Player {
 		return color;
 	}
 
-	public Position getKing() {
+	public King getKing() {
 		for (int i = 0; i < figuresInGame.size(); i++)
 			if (figuresInGame.get(i) instanceof King)
-				return figuresInGame.get(i).getPosition();
+				return (King) figuresInGame.get(i);
 		throw new RuntimeException("No King found.");
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Player [color=" + color + ", opponent=" + opponent

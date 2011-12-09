@@ -88,6 +88,30 @@ public final class Move {
 	}
 
 	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (destination.hashCode());
+		result = prime * result + (direction.hashCode());
+		result = prime * result + (start.hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		} else if (obj == null) {
+			return false;
+		} else if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Move other = (Move) obj;
+		return start.equals(other.start)
+				&& destination.equals(other.destination)
+				&& direction.equals(other.direction);
+	}
+	@Override
 	public String toString() {
 		return "Move [direction=" + direction + ", start=" + start
 				+ ", destination=" + destination + "]";
