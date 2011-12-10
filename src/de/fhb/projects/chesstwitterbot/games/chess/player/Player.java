@@ -9,12 +9,20 @@ import de.fhb.projects.chesstwitterbot.games.chess.figures.King;
 public final class Player {
 	private Color color;
 	private List<Figure> figuresInGame;
+	private List<Figure> figuresOutOfGame;
 
 	public Player(Color color) {
 		figuresInGame = new ArrayList<Figure>();
+		figuresOutOfGame = new ArrayList<Figure>();
 		this.color = color;
 	}
 
+	public static Player getFullyInitializedPlayer(Color color) {
+		Player player = new Player(color);
+		// TODO initialise all figures
+		throw new RuntimeException("Method not yet implemented!");
+	}
+	
 	public void add(Figure... figures) {
 		for (int i = 0; i < figures.length; i++) {
 			figures[i].setColor(color);
@@ -24,6 +32,10 @@ public final class Player {
 
 	public List<Figure> getFiguresInGame() {
 		return figuresInGame;
+	}
+	
+	public List<Figure> getFiguresOutOfGame() {
+		return figuresOutOfGame;
 	}
 
 	public Color getColor() {

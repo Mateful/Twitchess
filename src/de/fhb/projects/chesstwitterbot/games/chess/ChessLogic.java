@@ -19,8 +19,8 @@ import de.fhb.projects.chesstwitterbot.games.chess.player.Player;
 
 public final class ChessLogic {
 	public static final int CHESSBOARD_WIDTH = 8, CHESSBOARD_HEIGHT = 8;
-	private static final int WHITE_PAWN_LINE = 1;
-	private static final int BLACK_PAWN_LINE = 6;
+	public static final int WHITE_PAWN_LINE = 1;
+	public static final int BLACK_PAWN_LINE = 6;
 	/**
 	 * Every public method should override this field, to ensure that every
 	 * private method called works properly.
@@ -149,12 +149,16 @@ public final class ChessLogic {
 		stateInProcess = state;
 		if (isCheck(stateInProcess, playerInCheck)) {
 			King king = playerInCheck.getKing();
+			try {
 			List<Move> moves = getAllMoves(stateInProcess, king);
 			for (int i = 0; i < moves.size(); i++) {
 				GameState nextState = new GameState(stateInProcess, moves.get(i));
 				if (!isCheck(nextState, playerInCheck)) {
 					return false;
 				}
+			}
+			} catch(RuntimeException e) {
+				
 			}
 			return true;
 		}
