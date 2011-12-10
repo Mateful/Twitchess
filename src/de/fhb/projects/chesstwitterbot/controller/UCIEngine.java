@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 import de.fhb.projects.chesstwitterbot.controller.ucicommands.GoUCICommand;
 import de.fhb.projects.chesstwitterbot.controller.ucicommands.IsreadyUCICommand;
@@ -17,7 +16,7 @@ import de.fhb.projects.chesstwitterbot.controller.ucicommands.UciUCICommand;
 import de.fhb.projects.chesstwitterbot.controller.ucicommands.UcinewgameUCICommand;
 import de.fhb.projects.chesstwitterbot.exception.UCIException;
 
-public class UCIEngine extends Observable {
+public class UCIEngine {
 	public static boolean debug = true;
 
 	private String filename;
@@ -35,17 +34,24 @@ public class UCIEngine extends Observable {
 	private enum SendCommandOptions {
 		WAIT_UNTIL_FINISHED, DO_NOT_WAIT_UNTIL_FINISHED;
 	}
-	
+
 	public static void main(String[] args) {
 		try {
-			UCIEngine eng = new UCIEngine("chessengines/stockfish-211-32-ja-windows.exe");
-			
-			System.out.println(eng.calculateMove("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
-			
+			UCIEngine eng = new UCIEngine(
+					"chessengines/stockfish-211-32-ja-windows.exe");
+
+			System.out.println(eng.calculateMove(
+					"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+					1000));
+
+			eng.destroy();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (UCIException e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -70,7 +76,7 @@ public class UCIEngine extends Observable {
 		outputThread = new Thread() {
 			public void run() {
 				try {
-					while (true) {
+					while (!isInterrupted()) {
 						synchronized (output) {
 							addEngineOutput(brStdout.readLine());
 						}
@@ -81,23 +87,31 @@ public class UCIEngine extends Observable {
 			}
 		};
 		outputThread.start();
+
 		sendCommand(new UciUCICommand(), SendCommandOptions.WAIT_UNTIL_FINISHED);
 		sendCommand(new UcinewgameUCICommand(),
 				SendCommandOptions.DO_NOT_WAIT_UNTIL_FINISHED);
 		sendCommand(new IsreadyUCICommand(),
 				SendCommandOptions.WAIT_UNTIL_FINISHED);
 	}
-	
-	protected void finalize() throws Throwable { 
+
+	protected void finalize() throws Throwable {
 		outputThread.interrupt();
+		process.destroy();
 	}
-	
-	public String calculateMove(String fen) throws UCIException {
+
+	public void destroy() throws Throwable {
+		finalize();
+	}
+
+	public String calculateMove(String fen, Integer movetime)
+			throws UCIException {
 		GoUCICommand go;
 		sendCommand(new PositionUCICommand(fen),
 				SendCommandOptions.DO_NOT_WAIT_UNTIL_FINISHED);
-		
+
 		go = new GoUCICommand();
+		go.setMovetime(movetime);
 		sendCommand(go, SendCommandOptions.WAIT_UNTIL_FINISHED);
 		return go.getBestMove();
 	}
@@ -145,6 +159,9 @@ public class UCIEngine extends Observable {
 		}
 	}
 	protected void sendCommandString(String s) {
+		if (s == null)
+			return;
+
 		try {
 			if (debug)
 				System.out.println("[stdin] " + s);
@@ -157,7 +174,10 @@ public class UCIEngine extends Observable {
 	}
 
 	public void addEngineOutput(String s) {
-		if (debug) 
+		if (s == null)
+			return;
+
+		if (debug)
 			System.out.println("[stdout] " + s);
 		output.add(s);
 		processEngineOutput(s);

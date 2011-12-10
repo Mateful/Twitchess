@@ -4,7 +4,6 @@ public class UciUCICommand extends UCICommand {
 
 	public UciUCICommand() {
 		super("uci");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

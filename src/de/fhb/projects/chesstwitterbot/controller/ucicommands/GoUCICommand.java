@@ -27,6 +27,9 @@ public class GoUCICommand extends UCICommand {
 
 	@Override
 	public void processResponse(String s) {
+		if (s == null)
+			return;
+
 		if (s.startsWith("bestmove")) {
 			String[] temp = s.split("\\s+");
 			String bestMove = "";

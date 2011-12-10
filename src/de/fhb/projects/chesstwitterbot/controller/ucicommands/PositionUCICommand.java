@@ -2,23 +2,20 @@ package de.fhb.projects.chesstwitterbot.controller.ucicommands;
 
 public class PositionUCICommand extends UCICommand {
 	private String fen;
-	
+
 	public PositionUCICommand(String fen) {
 		super("position");
 		setFen(fen);
 		setFinished(true);
 	}
 
-
 	@Override
 	public void processResponse(String s) {
-		// nothing to do here
+		// position command has no response
 	}
-
 
 	@Override
 	public String toString() {
-		
 		return getUciCommand() + " fen " + fen;
 	}
 
