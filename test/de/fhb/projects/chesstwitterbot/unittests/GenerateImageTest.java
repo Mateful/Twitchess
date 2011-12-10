@@ -19,7 +19,7 @@ public class GenerateImageTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		gi = new GenerateImage();
+		gi = new GenerateImage("test-files/board.properties");
 	}	
 	
 	@Test
