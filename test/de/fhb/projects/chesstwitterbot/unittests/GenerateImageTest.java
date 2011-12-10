@@ -19,12 +19,9 @@ public class GenerateImageTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		gi = new GenerateImage("test-files/board.properties");
+		gi = new GenerateImage();
 	}	
 	
-	@Test
-	public void testGenerateGetFigureFilename() {
-	}
 	
 	@Test
 	public void testGenerateColumnToCoordinate(){
@@ -77,20 +74,19 @@ public class GenerateImageTest {
 	
 	@Test
 	public void testinitialiseFromPropertyFile(){
-		gi = new GenerateImage("test-files/board.properties");
-		
+		gi = new GenerateImage("test-files/board.properties");		
 		assertTrue(gi.getFieldDimension()== 55);
-		
+		assertEquals(new Point(52,0),gi.getOrigin());
+		assertEquals("test-files/field.png",gi.getBoardFilename());
+		assertEquals("test-files/%f-%c.png",gi.getFigureFilenamePatter());
 	}
 	
 	
 	
 	private String getMD5Hash(BufferedImage buffImg)throws Exception{
-
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageIO.write(buffImg, "png", outputStream);
         byte[] data = outputStream.toByteArray();
-
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(data);
         byte[] hash = md.digest();
