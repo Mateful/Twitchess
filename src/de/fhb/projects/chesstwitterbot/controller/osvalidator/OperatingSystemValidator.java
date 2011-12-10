@@ -14,7 +14,7 @@ public class OperatingSystemValidator {
 		} else if (isSolaris(os)) {
 			operatingSystem = OperatingSystem.SUN;
 		} else {
-			System.out.println("Your OS is not supported which this chessengine");
+			System.out.println("Your OS is not supported with this chessengine");
 		}
 		return operatingSystem;
 	}
