@@ -35,6 +35,9 @@ public final class ChessLogic {
 	 */
 	private static Figure figureDoingCurrentMove;
 
+	/**
+	 * 
+	 */
 	private ChessLogic() {
 	}
 
