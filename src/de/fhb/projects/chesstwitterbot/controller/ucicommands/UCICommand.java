@@ -24,9 +24,7 @@ public abstract class UCICommand {
 	public void setFinished(boolean finished) {
 		this.finished = finished;
 	}
-	
+
 	public abstract void processResponse(String s);
 	public abstract String toString();
-	
-
 }
