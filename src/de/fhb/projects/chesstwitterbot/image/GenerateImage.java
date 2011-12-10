@@ -29,6 +29,10 @@ public class GenerateImage extends JFrame {
 				.generateImageFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		gen.showImage(img);
 	}
+	//Nur zum testen angelegt
+	public GenerateImage(){
+		
+	}
 
 	public GenerateImage(String propertyFilename) throws HeadlessException {
 		super();
@@ -116,14 +120,12 @@ public class GenerateImage extends JFrame {
 		add(label);
 		pack();
 		setVisible(true);
-
 	}
 
 	public BufferedImage resetImage() throws IOException {
 
 		BufferedImage backgroundImage;
 		backgroundImage = ImageIO.read(new File(boardFilename));
-
 		return backgroundImage;
 	}
 
