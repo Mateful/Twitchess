@@ -17,19 +17,18 @@ public final class Pawn extends Figure {
 		super(position, color);
 		hitMoves = new ArrayList<Direction>();
 		switch (color) {
-			case WHITE :
-				directions.add(new OneStepDirection(DirectionType.UP));
-				hitMoves.add(new OneStepDirection(DirectionType.UPLEFT));
-				hitMoves.add(new OneStepDirection(DirectionType.UPRIGHT));
-				break;
-			case BLACK :
-				directions.add(new OneStepDirection(DirectionType.DOWN));
-				hitMoves.add(new OneStepDirection(DirectionType.DOWNLEFT));
-				hitMoves.add(new OneStepDirection(DirectionType.DOWNRIGHT));
-				break;
-			default :
-				throw new RuntimeException(
-						"Pawn can only be initialized with Color.BLACK or Color.WHITE.");
+		case WHITE:
+			directions.add(new OneStepDirection(DirectionType.UP));
+			hitMoves.add(new OneStepDirection(DirectionType.UPLEFT));
+			hitMoves.add(new OneStepDirection(DirectionType.UPRIGHT));
+			break;
+		case BLACK:
+			directions.add(new OneStepDirection(DirectionType.DOWN));
+			hitMoves.add(new OneStepDirection(DirectionType.DOWNLEFT));
+			hitMoves.add(new OneStepDirection(DirectionType.DOWNRIGHT));
+			break;
+		default:
+			throw new RuntimeException("Pawn can only be initialized with Color.BLACK or Color.WHITE.");
 		}
 	}
 
@@ -39,8 +38,7 @@ public final class Pawn extends Figure {
 
 	public boolean canDoHit(final Move move) {
 		for (Direction d : hitMoves) {
-			if (d instanceof OneStepDirection
-					&& move.getDirection() instanceof OneStepDirection
+			if (d instanceof OneStepDirection && move.getDirection() instanceof OneStepDirection
 					&& d.getType().equals(move.getDirectionType())) {
 				return true;
 			}
@@ -50,7 +48,6 @@ public final class Pawn extends Figure {
 
 	@Override
 	public String toString() {
-		return "Pawn [hitMoves=" + hitMoves + ", directions=" + directions
-				+ ", color=" + color + ", position=" + position + "]";
+		return "Pawn [hitMoves=" + hitMoves + ", directions=" + directions + ", color=" + color + ", position=" + position + "]";
 	}
 }
