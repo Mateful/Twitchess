@@ -20,30 +20,7 @@ public class GenerateImageTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		gi = new GenerateImage();
-	}
-
-	private byte[] getMD5Hash(BufferedImage buffImg)throws Exception{
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ImageIO.write(buffImg, "png", outputStream);
-        byte[] data = outputStream.toByteArray();
-
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(data);
-        byte[] hash = md.digest();
-        System.out.println(returnHex(hash));
-        return hash;
-    }
-	
-	static String returnHex(byte[] inBytes) throws Exception {
-        String hexString = null;
-        for (int i=0; i < inBytes.length; i++) { //for loop ID:1
-            hexString +=
-            Integer.toString( ( inBytes[i] & 0xff ) + 0x100, 16).substring( 1 );
-        }                                   // Belongs to for loop ID:1
-    return hexString;
-  }
-	
+	}	
 	
 	@Test
 	public void testGenerateGetFigureFilename() {
@@ -93,9 +70,39 @@ public class GenerateImageTest {
 	}
 	
 	@Test
-	public void testresetimage()throws Exception{
+	public void testResetImage()throws Exception{
 		gi = new GenerateImage("test-files/board.properties");
-//		Versteh nicht warum er mir nen Fehler ausspuckt, da der String der selbe ist.
-//		assertEquals("",getMD5Hash(ImageIO.read(new File("test-files/field.png"))),getMD5Hash(gi.resetImage()));
+		assertEquals("",getMD5Hash(ImageIO.read(new File("test-files/field.png"))),getMD5Hash(gi.resetImage()));
+	}
+	
+	@Test
+	public void testinitialiseFromPropertyFile(){
+		gi = new GenerateImage("test-files/board.properties");
+		
+		assertTrue(gi.getFieldDimension()== 55);
+		
+	}
+	
+	
+	
+	private String getMD5Hash(BufferedImage buffImg)throws Exception{
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(buffImg, "png", outputStream);
+        byte[] data = outputStream.toByteArray();
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(data);
+        byte[] hash = md.digest();
+        return returnHex(hash);
+    }
+	
+	private String returnHex(byte[] inBytes) throws Exception {
+        String hexString = null;
+        for (int i=0; i < inBytes.length; i++) { 
+            hexString +=
+            Integer.toString( ( inBytes[i] & 0xff ) + 0x100, 16).substring( 1 );
+        }                               
+    return hexString;
 	}
 }
