@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class GenerateImage extends JFrame {
+public class GenerateImage {
 
 	private static final long serialVersionUID = 1L;
 	private int fieldDimension;
@@ -27,11 +27,6 @@ public class GenerateImage extends JFrame {
 		GenerateImage gen = new GenerateImage("img/board.properties");
 		Image img = gen
 				.generateImageFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		gen.showImage(img);
-	}
-	//Nur zum testen angelegnt
-	public GenerateImage(){
-		
 	}
 
 	public GenerateImage(String propertyFilename) throws HeadlessException {
@@ -93,8 +88,6 @@ public class GenerateImage extends JFrame {
 
 			if (Character.isLetter(c)) {
 
-				generateImage(getFigureFilename(c), row, column,
-						backgroundImage);
 				column++;
 			} else if (Character.isDigit(c)) {
 				column += c - '0';
@@ -115,32 +108,11 @@ public class GenerateImage extends JFrame {
 		return result;
 	}
 
-	public void showImage(Image img) {
-		JLabel label = new JLabel(new ImageIcon(img));
-		add(label);
-		pack();
-		setVisible(true);
-	}
-
 	public BufferedImage resetImage() throws IOException {
 
 		BufferedImage backgroundImage;
 		backgroundImage = ImageIO.read(new File(boardFilename));
-
 		return backgroundImage;
-	}
-
-	public void generateImage(String filename, int row, int column,
-			BufferedImage backgroundImage) {
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		try {
-			BufferedImage foregroundImage = ImageIO.read(new File(filename));
-			backgroundImage.getGraphics().drawImage(foregroundImage,
-					columnToCoordinate(column), rowToCoordinate(row), this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public int columnToCoordinate(int column) {
