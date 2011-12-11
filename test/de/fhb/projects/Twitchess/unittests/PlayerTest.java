@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.games.chess.Position;
@@ -22,6 +23,14 @@ import de.fhb.projects.Twitchess.games.chess.figures.Rook;
 import de.fhb.projects.Twitchess.games.chess.player.Player;
 
 public class PlayerTest {
+	private Player white, black;
+	
+	@Before
+	public void init() {
+		white = new Player(WHITE);
+		black = new Player(BLACK);
+	}
+	
 	@Test(expected = RuntimeException.class)
 	public void constructorCallWithNoColor() {
 		new Player(NOCOLOR);
@@ -29,8 +38,14 @@ public class PlayerTest {
 
 	@Test
 	public void equals() {
-		assertEquals(new Player(WHITE), new Player(WHITE));
-		assertEquals(new Player(BLACK), new Player(BLACK));
+		assertEquals(white, white);
+		assertEquals(white, new Player(WHITE));
+		assertFalse(white.equals(null));
+		assertFalse(white.equals(new Object()));
+		assertEquals(white, white);
+		assertEquals(black, new Player(BLACK));
+		assertFalse(black.equals(null));
+		assertFalse(black.equals(new Object()));
 		assertFalse(new Player(WHITE).equals(new Player(BLACK)));
 	}
 
@@ -107,5 +122,17 @@ public class PlayerTest {
 	@Test(expected = RuntimeException.class)
 	public void getfullyInitializedPlayerNoColor() {
 		Player.getFullyInitializedPlayer(NOCOLOR);
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void getKingButNoKingFound() {
+		white.getKing();
+	}
+	
+	@Test
+	public void getKing() {
+		King king = new King(new Position(0, 0));
+		white.add(king);
+		assertEquals(king, white.getKing());
 	}
 }

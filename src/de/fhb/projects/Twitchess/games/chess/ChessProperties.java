@@ -35,6 +35,9 @@ public final class ChessProperties {
 	public static final Position[] BLACK_KNIGHT_POSITIONS = new Position[]{
 			new Position(1, 7), new Position(6, 7)};
 
+	private ChessProperties() {
+	}
+
 	public static King getKing(final Color color) {
 		return new King(color == WHITE
 				? WHITE_KING_POSITION
