@@ -1,7 +1,7 @@
 package de.fhb.projects.chesstwitterbot.games.chess;
 
-import static de.fhb.projects.chesstwitterbot.games.chess.ChessLogic.CHESSBOARD_HEIGHT;
-import static de.fhb.projects.chesstwitterbot.games.chess.ChessLogic.CHESSBOARD_WIDTH;
+import static de.fhb.projects.chesstwitterbot.games.chess.ChessProperties.CHESSBOARD_HEIGHT;
+import static de.fhb.projects.chesstwitterbot.games.chess.ChessProperties.CHESSBOARD_WIDTH;
 import static de.fhb.projects.chesstwitterbot.games.chess.figures.NoFigure.NO_FIGURE;
 import de.fhb.projects.chesstwitterbot.games.chess.figures.Figure;
 import de.fhb.projects.chesstwitterbot.games.chess.move.Move;
@@ -37,7 +37,7 @@ public final class GameState {
 		board = oldState.board.clone();
 		white = oldState.white;
 		black = oldState.black;
-		if(oldState.currentTurnPlayer.equals(oldState.white)) {
+		if (oldState.currentTurnPlayer.equals(oldState.white)) {
 			currentTurnPlayer = black;
 		} else {
 			currentTurnPlayer = white;
@@ -72,9 +72,9 @@ public final class GameState {
 	public Player getCurrentPlayer() {
 		return currentTurnPlayer;
 	}
-	
+
 	public Player getOpponent(final Player player) {
-		if(player.equals(white)) {
+		if (player.equals(white)) {
 			return black;
 		} else {
 			return white;

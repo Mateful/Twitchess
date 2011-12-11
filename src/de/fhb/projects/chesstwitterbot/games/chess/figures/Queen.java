@@ -1,12 +1,23 @@
 package de.fhb.projects.chesstwitterbot.games.chess.figures;
 
+import static de.fhb.projects.chesstwitterbot.games.chess.player.Color.NOCOLOR;
 import de.fhb.projects.chesstwitterbot.games.chess.Position;
 import de.fhb.projects.chesstwitterbot.games.chess.move.DirectionType;
 import de.fhb.projects.chesstwitterbot.games.chess.move.InfiniteDirection;
+import de.fhb.projects.chesstwitterbot.games.chess.player.Color;
 
 public final class Queen extends Figure {
 	public Queen(final Position position) {
-		super(position);
+		this(position, NOCOLOR);
+	}
+
+	public Queen(final Position position, final Color color) {
+		super(position, color);
+		setDirections();
+	}
+
+	@Override
+	protected void setDirections() {
 		directions.add(new InfiniteDirection(DirectionType.UP));
 		directions.add(new InfiniteDirection(DirectionType.DOWN));
 		directions.add(new InfiniteDirection(DirectionType.LEFT));

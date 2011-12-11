@@ -11,24 +11,36 @@ import de.fhb.projects.chesstwitterbot.games.chess.move.OneStepDirection;
 import de.fhb.projects.chesstwitterbot.games.chess.player.Color;
 
 public final class Pawn extends Figure {
-	protected List<Direction> hitMoves;
+	// TODO hitMoves hoch nach Figure, bei allen andern moves = hitmoves, dann
+	// bekommen wir die ausnahme fuer die bauern aus chesslogic raus
+	private List<Direction> hitMoves;
+
+	public Pawn(final Position position) {
+		super(position);
+		hitMoves = new ArrayList<Direction>();
+	}
 
 	public Pawn(final Position position, final Color color) {
 		super(position, color);
 		hitMoves = new ArrayList<Direction>();
+		setColor(color);
+	}
+
+	@Override
+	protected void setDirections() {
 		switch (color) {
-		case WHITE:
-			directions.add(new OneStepDirection(DirectionType.UP));
-			hitMoves.add(new OneStepDirection(DirectionType.UPLEFT));
-			hitMoves.add(new OneStepDirection(DirectionType.UPRIGHT));
-			break;
-		case BLACK:
-			directions.add(new OneStepDirection(DirectionType.DOWN));
-			hitMoves.add(new OneStepDirection(DirectionType.DOWNLEFT));
-			hitMoves.add(new OneStepDirection(DirectionType.DOWNRIGHT));
-			break;
-		default:
-			throw new RuntimeException("Pawn can only be initialized with Color.BLACK or Color.WHITE.");
+			case WHITE :
+				directions.add(new OneStepDirection(DirectionType.UP));
+				hitMoves.add(new OneStepDirection(DirectionType.UPLEFT));
+				hitMoves.add(new OneStepDirection(DirectionType.UPRIGHT));
+				break;
+			case BLACK :
+				directions.add(new OneStepDirection(DirectionType.DOWN));
+				hitMoves.add(new OneStepDirection(DirectionType.DOWNLEFT));
+				hitMoves.add(new OneStepDirection(DirectionType.DOWNRIGHT));
+				break;
+			default :
+				break;
 		}
 	}
 
@@ -38,7 +50,8 @@ public final class Pawn extends Figure {
 
 	public boolean canDoHit(final Move move) {
 		for (Direction d : hitMoves) {
-			if (d instanceof OneStepDirection && move.getDirection() instanceof OneStepDirection
+			if (d instanceof OneStepDirection
+					&& move.getDirection() instanceof OneStepDirection
 					&& d.getType().equals(move.getDirectionType())) {
 				return true;
 			}
@@ -47,7 +60,14 @@ public final class Pawn extends Figure {
 	}
 
 	@Override
+	public void setColor(final Color color) {
+		super.setColor(color);
+		setDirections();
+	}
+
+	@Override
 	public String toString() {
-		return "Pawn [hitMoves=" + hitMoves + ", directions=" + directions + ", color=" + color + ", position=" + position + "]";
+		return "Pawn [hitMoves=" + hitMoves + ", directions=" + directions
+				+ ", color=" + color + ", position=" + position + "]";
 	}
 }
