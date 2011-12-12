@@ -120,7 +120,6 @@
 	        outputFile="reports/findbugs-ant-results.html" >
 			<class location="${classes.dir}" />
 			<sourcePath path="${src.dir}" />
-			<!-- Classes needed by our code but that we don't want tested -->
 			<auxClasspath path="${lib.dir}/junit-4.10.jar" />
 		</findbugs>
 	</target>

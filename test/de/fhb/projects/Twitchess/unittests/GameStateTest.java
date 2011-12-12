@@ -23,21 +23,6 @@ public class GameStateTest {
 		black = Player.getFullyInitializedPlayer(BLACK);
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void construcorCallWithNullPlayer() {
-		new GameState(null, black);
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void construcorCallWithNullOldState() {
-		new GameState(null, new Move(new Position(0, 0), new Position(0, 1)));
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void construcorCallWithNullMove() {
-		new GameState(new GameState(new Player(WHITE), new Player(BLACK)), null);
-	}
-
 	@Test
 	public void game() {
 		GameState firstState = new GameState(white, black);
@@ -48,7 +33,7 @@ public class GameStateTest {
 
 		Move whitePawnMove = new Move(new Position(0, 1), new Position(0, 3));
 		assertEquals(new Pawn(new Position(0, 1), WHITE),
-				firstState.getMovingFigure(whitePawnMove));
+				firstState.getFigureAtStart(whitePawnMove));
 
 		GameState secondState = new GameState(firstState, whitePawnMove);
 		assertEquals(secondState.getCurrentPlayer(), black);
@@ -58,7 +43,7 @@ public class GameStateTest {
 
 		Move blackPawnMove = new Move(new Position(0, 6), new Position(0, 4));
 		assertEquals(new Pawn(new Position(0, 6), BLACK),
-				firstState.getMovingFigure(blackPawnMove));
+				firstState.getFigureAtStart(blackPawnMove));
 
 		GameState thirdState = new GameState(secondState, blackPawnMove);
 		assertEquals(thirdState.getCurrentPlayer(), white);

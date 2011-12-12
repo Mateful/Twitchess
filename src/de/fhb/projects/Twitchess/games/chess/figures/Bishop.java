@@ -13,20 +13,21 @@ public final class Bishop extends Figure {
 
 	public Bishop(final Position position, final Color color) {
 		super(position, color);
-		setDirections();
+		setMoveDirections();
+		setHitDirections();
 	}
 
 	@Override
-	protected void setDirections() {
-		directions.add(new InfiniteDirection(DirectionType.UPRIGHT));
-		directions.add(new InfiniteDirection(DirectionType.UPLEFT));
-		directions.add(new InfiniteDirection(DirectionType.DOWNRIGHT));
-		directions.add(new InfiniteDirection(DirectionType.DOWNLEFT));
+	protected void setMoveDirections() {
+		moveDirections.add(new InfiniteDirection(DirectionType.UPRIGHT));
+		moveDirections.add(new InfiniteDirection(DirectionType.UPLEFT));
+		moveDirections.add(new InfiniteDirection(DirectionType.DOWNRIGHT));
+		moveDirections.add(new InfiniteDirection(DirectionType.DOWNLEFT));
 	}
 
 	@Override
 	public String toString() {
-		return "Bishop [directions=" + directions + ", color=" + color
+		return "Bishop [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
 }

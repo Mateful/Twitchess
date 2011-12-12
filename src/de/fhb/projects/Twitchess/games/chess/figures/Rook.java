@@ -13,20 +13,21 @@ public final class Rook extends Figure {
 
 	public Rook(final Position position, final Color color) {
 		super(position, color);
-		setDirections();
+		setMoveDirections();
+		setHitDirections();
 	}
 
 	@Override
-	protected void setDirections() {
-		directions.add(new InfiniteDirection(DirectionType.UP));
-		directions.add(new InfiniteDirection(DirectionType.DOWN));
-		directions.add(new InfiniteDirection(DirectionType.LEFT));
-		directions.add(new InfiniteDirection(DirectionType.RIGHT));
+	protected void setMoveDirections() {
+		moveDirections.add(new InfiniteDirection(DirectionType.UP));
+		moveDirections.add(new InfiniteDirection(DirectionType.DOWN));
+		moveDirections.add(new InfiniteDirection(DirectionType.LEFT));
+		moveDirections.add(new InfiniteDirection(DirectionType.RIGHT));
 	}
 
 	@Override
 	public String toString() {
-		return "Rook [directions=" + directions + ", color=" + color
+		return "Rook [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
 }

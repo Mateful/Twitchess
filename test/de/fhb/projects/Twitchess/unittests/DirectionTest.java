@@ -1,6 +1,7 @@
 package de.fhb.projects.Twitchess.unittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
@@ -18,14 +19,14 @@ public class DirectionTest {
 		assertFalse(oneUp.equals(null));
 		assertFalse(oneUp.equals(new Object()));
 		assertFalse(oneUp.equals(new OneStepDirection(DirectionType.DOWN)));
-		
+
 		Direction infiniteUp = new InfiniteDirection(DirectionType.UP);
 		assertEquals(infiniteUp, infiniteUp);
 		assertEquals(new InfiniteDirection(DirectionType.UP), infiniteUp);
 		assertFalse(infiniteUp.equals(null));
 		assertFalse(infiniteUp.equals(new Object()));
 		assertFalse(oneUp.equals(new InfiniteDirection(DirectionType.DOWN)));
-		
+
 		assertFalse(oneUp.equals(infiniteUp));
 	}
 }

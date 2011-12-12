@@ -13,17 +13,18 @@ public final class Knight extends Figure {
 
 	public Knight(final Position position, final Color color) {
 		super(position, color);
-		setDirections();
+		setMoveDirections();
+		setHitDirections();
 	}
 
 	@Override
-	protected void setDirections() {
-		directions.add(new OneStepDirection(DirectionType.KNIGHT));
+	protected void setMoveDirections() {
+		moveDirections.add(new OneStepDirection(DirectionType.KNIGHT));
 	}
 
 	@Override
 	public String toString() {
-		return "Knight [directions=" + directions + ", color=" + color
+		return "Knight [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
 }

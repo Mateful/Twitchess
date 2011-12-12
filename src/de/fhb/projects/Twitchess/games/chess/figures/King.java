@@ -13,24 +13,25 @@ public final class King extends Figure {
 
 	public King(final Position position, final Color color) {
 		super(position, color);
-		setDirections();
+		setMoveDirections();
+		setHitDirections();
 	}
 
 	@Override
-	protected void setDirections() {
-		directions.add(new OneStepDirection(DirectionType.UP));
-		directions.add(new OneStepDirection(DirectionType.DOWN));
-		directions.add(new OneStepDirection(DirectionType.LEFT));
-		directions.add(new OneStepDirection(DirectionType.RIGHT));
-		directions.add(new OneStepDirection(DirectionType.UPRIGHT));
-		directions.add(new OneStepDirection(DirectionType.UPLEFT));
-		directions.add(new OneStepDirection(DirectionType.DOWNRIGHT));
-		directions.add(new OneStepDirection(DirectionType.DOWNLEFT));
+	protected void setMoveDirections() {
+		moveDirections.add(new OneStepDirection(DirectionType.UP));
+		moveDirections.add(new OneStepDirection(DirectionType.DOWN));
+		moveDirections.add(new OneStepDirection(DirectionType.LEFT));
+		moveDirections.add(new OneStepDirection(DirectionType.RIGHT));
+		moveDirections.add(new OneStepDirection(DirectionType.UPRIGHT));
+		moveDirections.add(new OneStepDirection(DirectionType.UPLEFT));
+		moveDirections.add(new OneStepDirection(DirectionType.DOWNRIGHT));
+		moveDirections.add(new OneStepDirection(DirectionType.DOWNLEFT));
 	}
 
 	@Override
 	public String toString() {
-		return "King [directions=" + directions + ", color=" + color
+		return "King [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
 }

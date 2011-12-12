@@ -18,6 +18,7 @@ public class Serializer {
 		outStream = new ObjectOutputStream(new FileOutputStream(folder + name));
 		outStream.writeObject(o);
 		outStream.flush();
+		outStream.close();
 	}
 
 	public static Object load(String name) throws FileNotFoundException,
@@ -29,7 +30,7 @@ public class Serializer {
 			throws FileNotFoundException, IOException, ClassNotFoundException {
 		Object o = new Object();
 		ObjectInputStream inStream;
-		if (folder != "")
+		if (!folder.equals(""))
 			folder += "/";
 		inStream = new ObjectInputStream(new FileInputStream(folder + name));
 		o = inStream.readObject();

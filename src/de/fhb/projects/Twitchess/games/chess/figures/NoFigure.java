@@ -8,12 +8,16 @@ public final class NoFigure extends Figure {
 	}
 
 	@Override
-	protected void setDirections() {
+	protected void setMoveDirections() {
+	}
+
+	@Override
+	protected void setHitDirections() {
 	}
 
 	@Override
 	public String toString() {
-		return "NoFigure [directions=" + directions + ", color=" + color
+		return "NoFigure [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
 }

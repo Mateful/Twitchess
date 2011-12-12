@@ -14,7 +14,8 @@ import de.fhb.projects.Twitchess.games.chess.move.OneStepDirection;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 
 public abstract class Figure {
-	protected List<Direction> directions;
+	protected List<Direction> moveDirections;
+	protected List<Direction> hitDirections;
 	protected Color color;
 	protected Position position;
 
@@ -24,12 +25,13 @@ public abstract class Figure {
 
 	public Figure(final Position position, final Color color) {
 		this.position = position;
-		directions = new ArrayList<Direction>();
+		moveDirections = new ArrayList<Direction>();
+		hitDirections = new ArrayList<Direction>();
 		this.color = color;
 	}
 
 	public final List<Direction> getDirections() {
-		return directions;
+		return moveDirections;
 	}
 
 	public final Color getColor() {
@@ -53,10 +55,22 @@ public abstract class Figure {
 		this.position = position;
 	}
 
-	protected abstract void setDirections();
+	protected abstract void setMoveDirections();
+
+	protected void setHitDirections() {
+		hitDirections = moveDirections;
+	}
 
 	public final boolean canDoMove(final Move move) {
-		for (Direction d : directions) {
+		return contains(moveDirections, move);
+	}
+
+	public boolean canDoHit(final Move move) {
+		return contains(hitDirections, move);
+	}
+
+	private boolean contains(List<Direction> list, Move move) {
+		for (Direction d : list) {
 			if (d instanceof InfiniteDirection
 					&& d.getType().equals(move.getDirectionType())) {
 				return true;
@@ -71,17 +85,17 @@ public abstract class Figure {
 	}
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (color.hashCode());
-		result = prime * result + (directions.hashCode());
+		result = prime * result + (moveDirections.hashCode());
 		result = prime * result + (position.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public final boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		} else if (obj == null) {
@@ -90,7 +104,8 @@ public abstract class Figure {
 			return false;
 		}
 		Figure other = (Figure) obj;
-		return color == other.color && directions.equals(other.directions)
+		return color == other.color
+				&& moveDirections.equals(other.moveDirections)
 				&& position.equals(other.position);
 	}
 }

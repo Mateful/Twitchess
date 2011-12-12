@@ -24,13 +24,13 @@ import de.fhb.projects.Twitchess.games.chess.player.Player;
 
 public class PlayerTest {
 	private Player white, black;
-	
+
 	@Before
 	public void init() {
 		white = new Player(WHITE);
 		black = new Player(BLACK);
 	}
-	
+
 	@Test(expected = RuntimeException.class)
 	public void constructorCallWithNoColor() {
 		new Player(NOCOLOR);
@@ -61,12 +61,6 @@ public class PlayerTest {
 		player.add(new King(new Position(0, 0), BLACK));
 		assertTrue(player.getFiguresInGame().contains(
 				new King(new Position(0, 0), WHITE)));
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void dontAddNull() {
-		Player player = new Player(WHITE);
-		player.add(null);
 	}
 
 	@Test
@@ -123,12 +117,12 @@ public class PlayerTest {
 	public void getfullyInitializedPlayerNoColor() {
 		Player.getFullyInitializedPlayer(NOCOLOR);
 	}
-	
+
 	@Test(expected = RuntimeException.class)
 	public void getKingButNoKingFound() {
 		white.getKing();
 	}
-	
+
 	@Test
 	public void getKing() {
 		King king = new King(new Position(0, 0));

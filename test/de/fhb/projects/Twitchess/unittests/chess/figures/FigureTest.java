@@ -1,6 +1,7 @@
 package de.fhb.projects.Twitchess.unittests.chess.figures;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class FigureTest {
 		Figure f = new Bishop(new Position(0, 0));
 		f.setColor(Color.NOCOLOR);
 	}
-	
+
 	@Test
 	public void equals() {
 		Figure pawn = new Pawn(new Position(0, 0));

@@ -61,8 +61,12 @@ public final class GameState {
 		}
 	}
 
-	public Figure getMovingFigure(final Move absoluteMove) {
-		return board[absoluteMove.getStart().x][absoluteMove.getStart().y];
+	public Figure getFigureAtStart(final Move move) {
+		return board[move.getStart().x][move.getStart().y];
+	}
+
+	public Figure getFigureAtDestination(final Move move) {
+		return board[move.getDestination().x][move.getDestination().y];
 	}
 
 	public Color getCurrentColor() {
