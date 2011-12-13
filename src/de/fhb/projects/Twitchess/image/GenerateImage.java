@@ -4,6 +4,7 @@ import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,7 +13,7 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
-public class GenerateImage {
+public class GenerateImage implements ImageObserver{
 
 	private static final long serialVersionUID = 1L;
 	private int fieldDimension;
@@ -73,6 +74,7 @@ public class GenerateImage {
 			backgroundImage = null;
 		}
 
+		saveImage(backgroundImage);
 		return backgroundImage;
 	}
 
@@ -84,7 +86,8 @@ public class GenerateImage {
 			c = fen.charAt(i);
 
 			if (Character.isLetter(c)) {
-
+				generateImage(getFigureFilename(c), row, column,
+						backgroundImage);
 				column++;
 			} else if (Character.isDigit(c)) {
 				column += c - '0';
@@ -93,6 +96,27 @@ public class GenerateImage {
 				column = 0;
 			}
 
+		}
+	}
+	
+	public void generateImage(String filename, int row, int column,
+			BufferedImage backgroundImage) {
+			try {
+			BufferedImage foregroundImage = ImageIO.read(new File(filename));
+			backgroundImage.getGraphics().drawImage(foregroundImage,
+			columnToCoordinate(column), rowToCoordinate(row), this);
+			} catch (IOException e) {
+			e.printStackTrace();
+			}
+
+			}
+	
+	private void saveImage(BufferedImage bimg){
+		File file = new File("img/generatedImage.png");
+		try {
+			ImageIO.write(bimg, "png" , file);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -155,6 +179,13 @@ public class GenerateImage {
 			this.figureFilenamePatter = "%f-%c.png";
 		else
 			this.figureFilenamePatter = figureFilenamePatter;
+	}
+
+	@Override
+	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,
+			int arg4, int arg5) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
