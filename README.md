@@ -14,6 +14,12 @@ Autoren
 
 Kurzbeschreibung
 ===============
+...
+
+* Schachmotor
+	https://github.com/mcostalba/Stockfish
+* SQLite
+	http://www.zentus.com/sqlitejdbc
 
 
 Anforderungen
@@ -43,14 +49,13 @@ Zusatzanforderungen:
   -Andere Spiele wie TicTacToe, Vier Gewinnt
   
 
-Start
-=====
-Benoetigte Dateien in einem Ordner:
------------------------------------
+Erzeugung einer ausführbaren Jar
+================================
+* "ant jar"
 
-Starten mit Konsole:
---------------------
-* "java -jar ..."
+Ausführen in der Konsole:
+=========================
+* "java -jar jar/twitchess.jar"
 
 Verbinde Twitchess mit deinem Twitteraccount
 ---------------------------------------------------

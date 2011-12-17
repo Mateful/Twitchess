@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="TwitterBot" default="cob-rep" basedir=".">
-	<description>Twitchesst</description>
+<project name="Twitchess" default="cob-rep" basedir=".">
+	<description>play chess via twitter</description>
 	<property file="build.properties" />
 
 	<path id="junit.classpath">
@@ -17,7 +17,7 @@
 		<mkdir dir="${inst.dir}" />
 		<mkdir dir="${cob.rep.html}" />
 		<mkdir dir="${cob.rep.xml}" />
-		<mkdir dir="${cob.rep.xml}" />
+		<mkdir dir="${jar.dir}" />
 	</target>
 
 	<target name="clean" description="Remove all files created by the build/test process.">
@@ -27,6 +27,7 @@
 		<delete file="${cobdata}" />
 		<delete dir="${inst.dir}" />
 		<delete dir="${cob.rep}" />
+		<delete dir="${jar.dir}" />
 	</target>
 
 	<target name="compile" depends="init">
@@ -123,4 +124,23 @@
 			<auxClasspath path="${lib.dir}/junit-4.10.jar" />
 		</findbugs>
 	</target>
+	
+	<!-- =================================
+		          target: Jar
+		 ================================= -->
+	<target name="jar" depends="compile" description="erzeugt ausfuehrbare Jar-Datei">
+		<jar destfile="${jar.dir}/twitchess.jar" filesetmanifest="skip">
+    		<fileset dir="${classes.dir}" excludes="**/*Test.class"/>
+    		<zipgroupfileset dir="${lib.dir}" includes="${jar.lib.includes}" excludes=""/>
+    		<fileset dir=".">
+    			<include name="${img.dir}/**"/>
+    			<include name="${chessengines.dir}/**"/>
+  			</fileset>
+
+    		<manifest>
+	        	<attribute name="Main-Class" value="${main.class}"/>
+    		</manifest>
+		</jar>
+	</target>
+	
 </project>
