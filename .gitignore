@@ -5,3 +5,4 @@
 cob*
 bin/*
 *.class
+/jar/*
