@@ -2,9 +2,7 @@ package de.fhb.projects.Twitchess.twitterbot.main;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Random;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -15,24 +13,20 @@ import twitter4j.TwitterStreamFactory;
 import twitter4j.UserStreamAdapter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
+import de.fhb.projects.Twitchess.controller.ManagerFactory;
+import de.fhb.projects.Twitchess.controller.ManagerInterface;
 import de.fhb.projects.Twitchess.twitterbot.commands.Command;
 import de.fhb.projects.Twitchess.twitterbot.exceptions.TokenNotFoundException;
 import de.fhb.projects.Twitchess.twitterbot.util.Serializer;
-import de.fhb.projects.Twitchess.twitterbot.util.TextFileReader;
 
 public class TwitterBot extends Observable {
 	public final String STANDARD_ACCOUNT = "MatefulBot";
-	private final String ANSWER_FILE = "answers.txt";
-	private final String SMILEY_FILE = "smileys.txt";
-	private final String STANDARD_ANSWER = "42";
-	private final String STANDARD_SMILEY = "(^^;)";
 
 	private Twitter twitter;
 	private TwitterStream twitterStream;
 	private RequestToken requestToken;
 	private AccessToken accessToken;
 	private boolean answering;
-	private ArrayList<String> answers, smileys;
 
 	public TwitterBot() {
 		this(new TwitterFactory().getInstance(), new TwitterStreamFactory()
@@ -44,31 +38,7 @@ public class TwitterBot extends Observable {
 		twitterStream = s;
 
 		answering = true;
-		readAnswersFile();
-		readSmileyFile();
 		addListener();
-	}
-
-	private void readSmileyFile() {
-		try {
-			smileys = TextFileReader.readTextFileLineByLine(SMILEY_FILE);
-		} catch (IOException e) {
-			System.err.println(e.getMessage() + "\nSmiley set to: "
-					+ STANDARD_SMILEY);
-			smileys = new ArrayList<String>();
-			smileys.add(STANDARD_SMILEY);
-		}
-	}
-
-	private void readAnswersFile() {
-		try {
-			answers = TextFileReader.readTextFileLineByLine(ANSWER_FILE);
-		} catch (IOException e) {
-			System.err.println(e.getMessage() + "\nAnswer set to: "
-					+ STANDARD_ANSWER);
-			answers = new ArrayList<String>();
-			answers.add(STANDARD_ANSWER);
-		}
 	}
 
 	private void addListener() {
@@ -77,9 +47,6 @@ public class TwitterBot extends Observable {
 			public void onStatus(Status s) {
 				try {
 					onIncomingStatus(s);
-
-					if (s.getText().contains("@" + twitter.getScreenName()))
-						onMention(s);
 				} catch (Exception e) {
 					notifyObservers(e);
 				}
@@ -119,6 +86,19 @@ public class TwitterBot extends Observable {
 	private void onIncomingStatus(Status s) {
 		notifyObservers(s.getUser().getScreenName() + "'s status update: "
 				+ s.getText());
+
+		try {
+			if (isMention(s))
+				onMention(s);
+		} catch (IllegalStateException e) {
+			notifyObservers(e);
+		} catch (TwitterException e) {
+			notifyObservers(e);
+		}
+	}
+
+	private boolean isMention(Status s) throws TwitterException {
+		return s.getText().startsWith("@" + twitter.getScreenName());
 	}
 
 	private void onMention(Status s) {
@@ -132,18 +112,27 @@ public class TwitterBot extends Observable {
 
 	private void answerMention(Status s) {
 		String newStatusMessage = generateStatusResponse(s.getUser()
-				.getScreenName());
-		notifyObservers("generated answer: " + newStatusMessage);
-		updateStatus(newStatusMessage);
+				.getScreenName(), s.getText());
+
+		if (newStatusMessage != null) {
+			notifyObservers("generated answer: " + newStatusMessage);
+			updateStatus(newStatusMessage);
+		}
 	}
 
-	public String generateStatusResponse(String name) {
-		if (name.equals(""))
-			throw new RuntimeException("Missing Name.");
-		Random random = new Random();
+	public String generateStatusResponse(String from, String text) {
+		String result = null;
+		if (from != null && text != null && !from.equals("")
+				&& !text.equals("")) {
 
-		return "@" + name + " " + answers.get(random.nextInt(answers.size()))
-				+ " " + smileys.get(random.nextInt(smileys.size()));
+			ManagerInterface manager = ManagerFactory.getRelevantManager(text);
+
+			if (manager != null) {
+				result = "@" + from + " " + manager.processInput(from, text);
+			}
+		}
+
+		return result;
 	}
 
 	public void receiveCommand(Command command) {

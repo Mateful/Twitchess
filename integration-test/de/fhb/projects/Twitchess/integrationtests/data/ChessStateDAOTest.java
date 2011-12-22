@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -129,5 +130,13 @@ public class ChessStateDAOTest {
 		assertEquals("moves= ", moves, element.getMoves());
 		assertEquals("date = ", date, element.getDate());
 		assertEquals("result = ", i, element.getResult());
+	}
+	
+	@AfterClass
+	public static void cleanUp() {
+		File f = new File(DB_NAME);
+
+		if (f.exists())
+			f.delete();
 	}
 }

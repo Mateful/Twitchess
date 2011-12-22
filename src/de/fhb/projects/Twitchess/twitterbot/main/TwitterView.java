@@ -35,9 +35,15 @@ public class TwitterView implements Runnable, Observer {
 			} catch (TokenNotFoundException e) {
 				printMessage(name + " token was not found.");
 				printMessage("Create new token? (y/n): ");
-				if (getInput().equals("y")) {
-					createToken();
-					loggedIn = true;
+				try {
+					if (getInput().equals("y")) {
+						createToken();
+						loggedIn = true;
+					}
+				} catch (IllegalStateException ex) {
+					printMessage(ex.getMessage());
+					printMessage("Application must be shut down.");
+					System.exit(0);
 				}
 			}
 		}
@@ -124,13 +130,17 @@ public class TwitterView implements Runnable, Observer {
 	}
 
 	private void printMenu() {
-		final String menu = "TwitterBotJunior by Marco and Benjamin\n"
-				+ "---------------------------------------" + "\n"
-				+ "Logged in as: " + twitterbot.getUserName() + "\n"
-				+ "Press\n" + " <1> to follow another twitter user\n"
+		final String menu = "Twitchess by Sebastian, Curtis, Marco & Benjamin\n"
+				+ "---------------------------------------"
+				+ "\n"
+				+ "Logged in as: "
+				+ twitterbot.getUserName()
+				+ "\n"
+				+ "Press\n"
+				+ " <1> to follow another twitter user\n"
 				+ " <2> to toggle automatic answering of mentions\n"
 				+ " <3> to update your status manually\n"
-				+ " <0> to close TwitterBotJunior";
+				+ " <0> to close Twitchess";
 		printMessage(menu);
 		printMessage("Automatic answering of mentions is "
 				+ (twitterbot.isAnswering() ? "enabled" : "disabled"));
