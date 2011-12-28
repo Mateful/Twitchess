@@ -174,7 +174,7 @@ public class ChessStateDAO implements ChessStateDAOInterface {
 			s.append(" | ");
 			s.append(rs.getString("result"));
 
-			//System.out.println(s.toString());
+			System.out.println(s.toString());
 		}
 		rs.close();
 	}

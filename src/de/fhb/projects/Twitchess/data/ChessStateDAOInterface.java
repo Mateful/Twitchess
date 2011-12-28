@@ -21,4 +21,6 @@ public interface ChessStateDAOInterface {
 
 	public abstract void updateTable(final ChessStateVO vo) throws SQLException;
 
+	public abstract void showAll() throws SQLException;
+
 }
