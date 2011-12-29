@@ -7,7 +7,7 @@ import de.fhb.projects.Twitchess.games.chess.ChessProperties;
 import de.fhb.projects.Twitchess.games.chess.figures.Figure;
 import de.fhb.projects.Twitchess.games.chess.figures.King;
 
-public final class Player {
+public final class Player implements Cloneable {
 	private Color color;
 	private List<Figure> figuresInGame;
 	private List<Figure> figuresOutOfGame;
@@ -88,5 +88,17 @@ public final class Player {
 	public String toString() {
 		return "Player [color=" + color + ", figuresInGame=" + figuresInGame
 				+ "]";
+	}
+	
+	@Override
+	public Object clone() {
+		Player o = new Player(color);
+		for (Figure f : figuresInGame)
+			o.figuresInGame.add((Figure) f.clone());
+		
+		for (Figure f : figuresOutOfGame)
+			o.figuresOutOfGame.add((Figure) f.clone());
+		return o;
+	
 	}
 }

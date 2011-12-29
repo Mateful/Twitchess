@@ -34,4 +34,11 @@ public final class King extends Figure {
 		return "King [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
+
+	@Override
+	public Object clone() {
+		King o = new King((Position) position.clone(), color);
+
+		return (Object) o;
+	}
 }

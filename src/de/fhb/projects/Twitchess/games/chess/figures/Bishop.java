@@ -30,4 +30,11 @@ public final class Bishop extends Figure {
 		return "Bishop [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
+
+	@Override
+	public Object clone() {
+		Bishop o = new Bishop((Position) position.clone(), color);
+
+		return (Object) o;
+	}
 }

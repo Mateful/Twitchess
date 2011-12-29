@@ -69,4 +69,11 @@ public final class Pawn extends Figure {
 				+ moveDirections + ", color=" + color + ", position="
 				+ position + "]";
 	}
+
+	@Override
+	public Object clone() {
+		Pawn o = new Pawn((Position) position.clone(), color);
+		
+		return (Object) o;
+	}
 }

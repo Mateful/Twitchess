@@ -52,7 +52,8 @@ public class EnPassantTest {
 				whitePawn.getPosition(), 1));
 		GameState blackPawnMoves2Down = new GameState(whitePawnMoves1Up,
 				Move.down(blackPawn.getPosition(), 2));
+
 		assertTrue(ChessLogic.isValidMove(blackPawnMoves2Down,
-				Move.upRight(whitePawn.getPosition(), 1)));
+				Move.upRight(new Position(2, 4), 1)));
 	}
 }

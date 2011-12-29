@@ -30,4 +30,11 @@ public final class Rook extends Figure {
 		return "Rook [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
+
+	@Override
+	public Object clone() {
+		Rook o = new Rook((Position) position.clone(), color);
+		
+		return (Object) o;
+	}
 }

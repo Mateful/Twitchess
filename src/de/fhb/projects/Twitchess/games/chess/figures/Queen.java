@@ -34,4 +34,11 @@ public final class Queen extends Figure {
 		return "Queen [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
+
+	@Override
+	public Object clone() {
+		Queen o = new Queen((Position) position.clone(), color);
+
+		return (Object) o;
+	}
 }

@@ -20,4 +20,9 @@ public final class NoFigure extends Figure {
 		return "NoFigure [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
+
+	@Override
+	public Object clone() {
+		return NO_FIGURE;
+	}
 }

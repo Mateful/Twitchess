@@ -4,6 +4,7 @@ import static de.fhb.projects.Twitchess.games.chess.ChessProperties.CHESSBOARD_H
 import static de.fhb.projects.Twitchess.games.chess.ChessProperties.CHESSBOARD_WIDTH;
 import static de.fhb.projects.Twitchess.games.chess.figures.NoFigure.NO_FIGURE;
 import de.fhb.projects.Twitchess.games.chess.figures.Figure;
+import de.fhb.projects.Twitchess.games.chess.figures.NoFigure;
 import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 import de.fhb.projects.Twitchess.games.chess.player.Player;
@@ -19,7 +20,6 @@ public final class GameState {
 	public GameState(final Player white, final Player black) {
 		playerName = "";
 		board = new Figure[CHESSBOARD_WIDTH][CHESSBOARD_HEIGHT];
-		clearBoard();
 		this.white = white;
 		this.black = black;
 		currentTurnPlayer = white;
@@ -30,23 +30,38 @@ public final class GameState {
 	public GameState(final GameState oldState, final Move move) {
 		lastState = oldState;
 		playerName = oldState.playerName;
-		board = oldState.board.clone();
-		white = oldState.white;
-		black = oldState.black;
-		if (oldState.currentTurnPlayer.equals(oldState.white)) {
+		board = new Figure[CHESSBOARD_WIDTH][CHESSBOARD_HEIGHT];
+
+		white = (Player) oldState.white.clone();
+		black = (Player) oldState.black.clone();
+		updatePositions();
+
+		if (oldState.getCurrentColor() == Color.WHITE) {
 			currentTurnPlayer = black;
 		} else {
 			currentTurnPlayer = white;
 		}
+
+		doMove(move);
+	}
+
+	protected void doMove(final Move move) {
 		lastMove = move;
-		board[move.getStart().x][move.getStart().y].setPosition(new Position(
-				move.getDestination().x, move.getDestination().y));
-		updatePositions();
+		// TODO: ENPASSANT/CASTLING
+		if (move.getStart() != move.getDestination()) {
+			Figure f = board[move.getStart().x][move.getStart().y];
+
+			f.setPosition(new Position(move.getDestination().x, move
+					.getDestination().y));
+
+			board[move.getStart().x][move.getStart().y] = NoFigure.NO_FIGURE;
+			board[move.getDestination().x][move.getDestination().y] = f;
+		}
 	}
 
 	public void updatePositions() {
 		clearBoard();
-		
+
 		for (int i = 0; i < white.getFiguresInGame().size(); i++) {
 			board[white.getFiguresInGame().get(i).getPosition().x][white
 					.getFiguresInGame().get(i).getPosition().y] = white
@@ -82,15 +97,16 @@ public final class GameState {
 	public Player getCurrentPlayer() {
 		return currentTurnPlayer;
 	}
-	
-	public void setCurrentPlayer(Player currentTurnPlayer) {
+
+	public void setCurrentPlayer(final Player currentTurnPlayer) {
 		if (currentTurnPlayer == null)
-			throw new RuntimeException("in GameState.setCurrentTurnPlayer: CurrentTurnPlayer cannot be null!");
+			throw new RuntimeException(
+					"in GameState.setCurrentTurnPlayer: CurrentTurnPlayer cannot be null!");
 		this.currentTurnPlayer = currentTurnPlayer;
 	}
 
 	public Player getOpponent(final Player player) {
-		if (player.equals(white)) {
+		if (player.getColor().equals(Color.WHITE)) {
 			return black;
 		} else {
 			return white;

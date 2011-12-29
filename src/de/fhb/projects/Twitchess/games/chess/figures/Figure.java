@@ -13,7 +13,7 @@ import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.move.OneStepDirection;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 
-public abstract class Figure {
+public abstract class Figure implements Cloneable {
 	protected List<Direction> moveDirections;
 	protected List<Direction> hitDirections;
 	protected Color color;
@@ -108,4 +108,7 @@ public abstract class Figure {
 				&& moveDirections.equals(other.moveDirections)
 				&& position.equals(other.position);
 	}
+	
+	@Override
+	public abstract Object clone();
 }

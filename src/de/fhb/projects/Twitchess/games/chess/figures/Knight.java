@@ -27,4 +27,11 @@ public final class Knight extends Figure {
 		return "Knight [directions=" + moveDirections + ", color=" + color
 				+ ", position=" + position + "]";
 	}
+
+	@Override
+	public Object clone() {
+		Knight o = new Knight((Position) position.clone(), color);
+
+		return (Object) o;
+	}
 }

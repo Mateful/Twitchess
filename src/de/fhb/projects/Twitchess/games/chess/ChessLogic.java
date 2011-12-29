@@ -26,7 +26,7 @@ public final class ChessLogic {
 	 * Every public method should override this field, to ensure that every
 	 * private method called works properly.
 	 */
-	private static GameState stateInProcess;
+	//private static GameState stateInProcess;
 	/**
 	 * If needed @see stateInProcess.
 	 */
@@ -51,7 +51,6 @@ public final class ChessLogic {
 
 	private static boolean isValidMove(final GameState state, final Move move,
 			final boolean ignoreNotYourTurn) {
-		stateInProcess = state;
 		currentMove = move;
 		figureAtStart = state.getFigureAtStart(move);
 		figureAtDestionation = state.getFigureAtDestination(move);
@@ -59,16 +58,16 @@ public final class ChessLogic {
 		moveStartHasNoFigure();
 		moveDestinationIsBlockedByFigureOfSameColor();
 		if (!ignoreNotYourTurn) {
-			hasWrongColor();
+			hasWrongColor(state);
 		}
-		figureCanDoMove();
-		isBlocked();
+		figureCanDoMove(state);
+		isBlocked(state);
 		return true;
 	}
 
-	private static void figureCanDoMove() {
+	private static void figureCanDoMove(final GameState state) {
 		if (figureAtDestionation.getColor() == Color.NOCOLOR) {
-			figureCanMoveIntoDirection();
+			figureCanMoveIntoDirection(state);
 		} else {
 			figureCanDoHit();
 		}
@@ -82,17 +81,17 @@ public final class ChessLogic {
 		}
 	}
 
-	private static void isBlocked() {
-		if (isWayBlocked()) {
+	private static void isBlocked(final GameState state) {
+		if (isWayBlocked(state)) {
 			throw new MoveBlockedException(
 					"The move is invalid because there is a figure blocking the way. Your move:"
 							+ currentMove.toString());
 		}
 	}
 
-	private static void figureCanMoveIntoDirection() {
+	private static void figureCanMoveIntoDirection(final GameState state) {
 		if (!figureAtStart.canDoMove(currentMove)) {
-			if (!isEnPassant()
+			if (!isEnPassant(state)
 					&& !isInitialPawn2Step(currentMove, figureAtStart) && !isCastling()) {
 				throw new FigureCannotMoveIntoDirectionException(
 						"The move is invalid because this figure can't make this move. Your move:"
@@ -128,8 +127,8 @@ public final class ChessLogic {
 				: move.getStart().getY() == BLACK_PAWN_LINE;
 	}
 
-	private static void hasWrongColor() {
-		if (!figureAtStart.getColor().equals(stateInProcess.getCurrentColor())) {
+	private static void hasWrongColor(GameState state) {
+		if (!figureAtStart.getColor().equals(state.getCurrentColor())) {
 			throw new WrongColorException(
 					"The move is invalid this is not your figure. Your move:"
 							+ currentMove.toString());
@@ -144,20 +143,20 @@ public final class ChessLogic {
 		}
 	}
 
-	private static boolean isEnPassant() {
+	private static boolean isEnPassant(final GameState state) {
 		return figureAtStart instanceof Pawn
-				&& isInitialPawn2Step(stateInProcess.getLastMove(),
-						stateInProcess.getFigureAtDestination(stateInProcess
+				&& isInitialPawn2Step(state.getLastMove(),
+						state.getFigureAtDestination(state
 								.getLastMove()));
 	}
 
-	private static boolean isWayBlocked() {
+	private static boolean isWayBlocked(final GameState state) {
 		if (currentMove.getDirection() instanceof InfiniteDirection) {
 			IsMoveBlockedHelper imbh = new IsMoveBlockedHelper(currentMove);
 			for (int y = imbh.getyStart(), x = imbh.getxStart(); y != imbh
 					.getyDest() || x != imbh.getxDest(); y += imbh.getyToAdd(), x += imbh
 					.getxToAdd()) {
-				if (!stateInProcess.getFigure(x, y).equals(NO_FIGURE)) {
+				if (!state.getFigure(x, y).equals(NO_FIGURE)) {
 					return true;
 				}
 			}
@@ -167,17 +166,18 @@ public final class ChessLogic {
 
 	public static boolean isCheck(final GameState state,
 			final Player playerInCheck) {
-		stateInProcess = state;
 		Position kingPos = playerInCheck.getKing().getPosition();
 		Player opponent = state.getOpponent(playerInCheck);
+		System.out.println("ISCHECK: " + kingPos + " " + opponent);
 		for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
 			try {
-				if (isValidMoveIgnoreNotYourTurn(stateInProcess, new Move(
+				if (isValidMoveIgnoreNotYourTurn(state, new Move(
 						opponent.getFiguresInGame().get(i).getPosition(),
 						kingPos))) {
 					return true;
 				}
 			} catch (RuntimeException e) {
+				System.out.println("ISCHECK_ERROR: " + e.getMessage());
 				// This move can't be done, thank goodness.
 			}
 		}
@@ -186,20 +186,19 @@ public final class ChessLogic {
 
 	public static boolean isCheckmate(final GameState state,
 			final Player playerInCheck) {
-		stateInProcess = state;
-		if (isCheck(stateInProcess, playerInCheck)) {
+		if (isCheck(state, playerInCheck)) {
 			King king = playerInCheck.getKing();
 			try {
-				List<Move> moves = getAllMoves(stateInProcess, king);
+				List<Move> moves = getAllMoves(state, king);
 				for (int i = 0; i < moves.size(); i++) {
-					GameState nextState = new GameState(stateInProcess,
+					GameState nextState = new GameState(state,
 							moves.get(i));
-					if (!isCheck(nextState, playerInCheck)) {
+					if (!isCheck(nextState, nextState.getOpponent(nextState.getCurrentPlayer()))) {
 						return false;
 					}
 				}
 			} catch (RuntimeException e) {
-
+				// move is invalid: this does not concern us
 			}
 			return true;
 		}
@@ -207,7 +206,6 @@ public final class ChessLogic {
 	}
 
 	public static boolean isDraw(final GameState state) {
-		stateInProcess = state;
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -216,14 +214,14 @@ public final class ChessLogic {
 	// auf JEDES FELD geprueft.
 	public static List<Move> getAllMoves(final GameState state,
 			final Figure figure) {
-		stateInProcess = state;
+
 		ArrayList<Move> validMoves = new ArrayList<Move>();
 		for (int x = 0; x < CHESSBOARD_WIDTH; x++) {
 			for (int y = 0; y < CHESSBOARD_HEIGHT; y++) {
 				try {
 					Move move = new Move(figure.getPosition(), new Position(x,
 							y));
-					if (isValidMoveIgnoreNotYourTurn(stateInProcess, move)) {
+					if (isValidMoveIgnoreNotYourTurn(state, move)) {
 						validMoves.add(move);
 					}
 				} catch (RuntimeException e) {
