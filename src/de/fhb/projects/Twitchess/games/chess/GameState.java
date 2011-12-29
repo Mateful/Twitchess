@@ -19,11 +19,7 @@ public final class GameState {
 	public GameState(final Player white, final Player black) {
 		playerName = "";
 		board = new Figure[CHESSBOARD_WIDTH][CHESSBOARD_HEIGHT];
-		for (int x = 0; x < CHESSBOARD_WIDTH; x++) {
-			for (int y = 0; y < CHESSBOARD_HEIGHT; y++) {
-				board[x][y] = NO_FIGURE;
-			}
-		}
+		clearBoard();
 		this.white = white;
 		this.black = black;
 		currentTurnPlayer = white;
@@ -49,6 +45,8 @@ public final class GameState {
 	}
 
 	public void updatePositions() {
+		clearBoard();
+		
 		for (int i = 0; i < white.getFiguresInGame().size(); i++) {
 			board[white.getFiguresInGame().get(i).getPosition().x][white
 					.getFiguresInGame().get(i).getPosition().y] = white
@@ -58,6 +56,14 @@ public final class GameState {
 			board[black.getFiguresInGame().get(i).getPosition().x][black
 					.getFiguresInGame().get(i).getPosition().y] = black
 					.getFiguresInGame().get(i);
+		}
+	}
+
+	protected void clearBoard() {
+		for (int x = 0; x < CHESSBOARD_WIDTH; x++) {
+			for (int y = 0; y < CHESSBOARD_HEIGHT; y++) {
+				board[x][y] = NO_FIGURE;
+			}
 		}
 	}
 
@@ -75,6 +81,12 @@ public final class GameState {
 
 	public Player getCurrentPlayer() {
 		return currentTurnPlayer;
+	}
+	
+	public void setCurrentPlayer(Player currentTurnPlayer) {
+		if (currentTurnPlayer == null)
+			throw new RuntimeException("in GameState.setCurrentTurnPlayer: CurrentTurnPlayer cannot be null!");
+		this.currentTurnPlayer = currentTurnPlayer;
 	}
 
 	public Player getOpponent(final Player player) {

@@ -5,6 +5,11 @@ public class OperatingSystemValidator {
 
 	public static OperatingSystem getOperatingSystem() {
 		String os = System.getProperty("os.name").toLowerCase();
+		getOperatingSystem(os);
+		return operatingSystem;
+	}
+
+	protected static void getOperatingSystem(String os) {
 		if (isWindows(os)) {
 			operatingSystem = OperatingSystem.WINDOWS;
 		} else if (isMac(os)) {
@@ -14,10 +19,8 @@ public class OperatingSystemValidator {
 		} else if (isSolaris(os)) {
 			operatingSystem = OperatingSystem.SUN;
 		} else {
-			System.out
-					.println("Your OS is not supported with this chessengine");
+			throw new RuntimeException("Your operating system is not supported.");
 		}
-		return operatingSystem;
 	}
 
 	public static boolean isWindows(String os) {

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import de.fhb.projects.Twitchess.controller.chesscommands.CancelGameChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.ChessCommand;
+import de.fhb.projects.Twitchess.controller.chesscommands.MoveChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.NewGameChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.PrintGameChessCommand;
 import de.fhb.projects.Twitchess.data.ChessStateDAO;
@@ -25,16 +26,20 @@ public class ChessManager implements ManagerInterface {
 		commands.put(NewGameChessCommand.commandText, new NewGameChessCommand(dao));
 		commands.put(CancelGameChessCommand.commandText, new CancelGameChessCommand(dao));
 		commands.put(PrintGameChessCommand.commandText, new PrintGameChessCommand(dao));
+		commands.put(MoveChessCommand.commandText, new MoveChessCommand(dao));
 	}
 
 	public static void main(String[] args) {
 		ChessManager m;
 		try {
 			ChessStateDAOInterface dao = new ChessStateDAO("chess.db");
+			dao.truncateTable();
 			m = new ChessManager(dao);
 			m.processInput("hey", "@MatefulBot chess new");
 			m.processInput("hey", "@MatefulBot chess cancel");
 			m.processInput("hey", "@MatefulBot chess new");
+			m.processInput("hey", "@MatefulBot chess print");
+			m.processInput("hey", "@MatefulBot chess move e2e4");
 			m.processInput("hey", "@MatefulBot chess print");
 
 			dao.showAll();

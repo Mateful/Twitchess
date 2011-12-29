@@ -116,4 +116,9 @@ public final class Move {
 		return "Move [direction=" + direction + ", start=" + start
 				+ ", destination=" + destination + "]";
 	}
+	
+	
+	public String getLongNotation() {
+		return start.toString() + destination.toString();
+	}
 }

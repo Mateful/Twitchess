@@ -8,6 +8,7 @@ import java.util.List;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
+import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 
 public class NewGameChessCommand implements ChessCommand {
@@ -37,7 +38,7 @@ public class NewGameChessCommand implements ChessCommand {
 				ChessStateVO game = new ChessStateVO();
 				game.setPlayerName(player);
 				game.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
-				game.setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+				game.setFen(Fen.START_POSITION);
 				dao.insertIntoTable(game);
 
 				result = "new game successfully started, you are now playing as "
