@@ -76,7 +76,7 @@ public class MoveChessCommand implements ChessCommand {
 
 				UCIEngine uciEngine = new UCIEngine("chessengines/" + fileName);
 
-				String calculatedMove = uciEngine.calculateMove(fen.getFen(), 1000);
+				String calculatedMove = uciEngine.calculateMove(fen.getFen(), 20000);
 				uciEngine.destroy();
 				
 				move = getMove(calculatedMove);

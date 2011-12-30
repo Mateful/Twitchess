@@ -168,7 +168,7 @@ public final class ChessLogic {
 			final Player playerInCheck) {
 		Position kingPos = playerInCheck.getKing().getPosition();
 		Player opponent = state.getOpponent(playerInCheck);
-		System.out.println("ISCHECK: " + kingPos + " " + opponent);
+
 		for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
 			try {
 				if (isValidMoveIgnoreNotYourTurn(state, new Move(
@@ -177,7 +177,6 @@ public final class ChessLogic {
 					return true;
 				}
 			} catch (RuntimeException e) {
-				System.out.println("ISCHECK_ERROR: " + e.getMessage());
 				// This move can't be done, thank goodness.
 			}
 		}

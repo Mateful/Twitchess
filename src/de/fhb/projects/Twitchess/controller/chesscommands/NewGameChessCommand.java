@@ -31,6 +31,7 @@ public class NewGameChessCommand implements ChessCommand {
 		}
 
 		try {
+			
 			List<ChessStateVO> state = dao.findNotFinishedGameByPlayer(player);
 			if (state != null && state.size() > 0) {
 				return "You already have a running game. You have to cancel it first before you can play another game.";

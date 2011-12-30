@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="lib/easymock-3.1-samples.jar"/>
 	<classpathentry kind="lib" path="lib/easymock-3.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/easymock-3.1-tests.jar"/>
+	<classpathentry kind="lib" path="lib/twitter4j-media-support-2.2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

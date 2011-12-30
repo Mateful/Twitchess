@@ -13,19 +13,11 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
-public class GenerateImage implements ImageObserver{
-
-	private static final long serialVersionUID = 1L;
+public class GenerateImage implements ImageObserver {
 	private int fieldDimension;
 	private Point origin;
 	private String boardFilename;
 	private String figureFilenamePatter;
-
-	public static void main(String[] args) {
-		GenerateImage gen = new GenerateImage("img/board.properties");
-		Image img = gen
-				.generateImageFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-	}
 
 	public GenerateImage(String propertyFilename) throws HeadlessException {
 		super();
@@ -74,7 +66,6 @@ public class GenerateImage implements ImageObserver{
 			backgroundImage = null;
 		}
 
-		saveImage(backgroundImage);
 		return backgroundImage;
 	}
 
@@ -98,23 +89,22 @@ public class GenerateImage implements ImageObserver{
 
 		}
 	}
-	
+
 	public void generateImage(String filename, int row, int column,
 			BufferedImage backgroundImage) {
-			try {
+		try {
 			BufferedImage foregroundImage = ImageIO.read(new File(filename));
 			backgroundImage.getGraphics().drawImage(foregroundImage,
-			columnToCoordinate(column), rowToCoordinate(row), this);
-			} catch (IOException e) {
+					columnToCoordinate(column), rowToCoordinate(row), this);
+		} catch (IOException e) {
 			e.printStackTrace();
-			}
+		}
 
-			}
-	
-	private void saveImage(BufferedImage bimg){
-		File file = new File("img/generatedImage.png");
+	}
+
+	public void saveImage(File file, BufferedImage bimg) {
 		try {
-			ImageIO.write(bimg, "png" , file);
+			ImageIO.write(bimg, "png", file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

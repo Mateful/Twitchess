@@ -29,9 +29,9 @@ public class GenerateImageTest {
 	@Test
 	public void testGenerateImage() throws Exception {
 		gi = new GenerateImage("test-files/board.properties");
-		GenerateImage gi2 = new GenerateImage("test-files/board.properties");
-		BufferedImage bi = ImageIO
-				.read(new File("test-files/board.properties"));
+//		GenerateImage gi2 = new GenerateImage("test-files/board.properties");
+//		BufferedImage bi = ImageIO
+//				.read(new File("test-files/board.properties"));
 		// Kann erst getestet werden wenn das Bild gespeichert wird
 	}
 

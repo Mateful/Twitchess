@@ -132,9 +132,10 @@
 		<jar destfile="${jar.dir}/twitchess.jar" filesetmanifest="skip">
     		<fileset dir="${classes.dir}" excludes="**/*Test.class"/>
     		<zipgroupfileset dir="${lib.dir}" includes="${jar.lib.includes}" excludes=""/>
+			
     		<fileset dir=".">
-    			<include name="${img.dir}/**"/>
-    			<include name="${chessengines.dir}/**"/>
+    			<!-- <include name="${img.dir}/**"/> -->
+    			<include name="twitter4j.properties"/>
   			</fileset>
 
     		<manifest>
