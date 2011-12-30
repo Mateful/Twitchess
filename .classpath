@@ -8,5 +8,10 @@
 	<classpathentry kind="lib" path="lib/twitter4j-core-2.2.5.jar"/>
 	<classpathentry kind="lib" path="lib/twitter4j-stream-2.2.5.jar"/>
 	<classpathentry kind="lib" path="lib/sqlitejdbc-v056.jar"/>
+	<classpathentry kind="lib" path="lib/easymock-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/easymock-3.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/easymock-3.1-samples.jar"/>
+	<classpathentry kind="lib" path="lib/easymock-3.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/easymock-3.1-tests.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
