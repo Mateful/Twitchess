@@ -27,5 +27,4 @@ public abstract class UCICommand {
 
 	public abstract void processResponse(String s);
 	public abstract String toString();
-
 }

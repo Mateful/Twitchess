@@ -1,11 +1,9 @@
 package de.fhb.projects.Twitchess.controller.chesscommands;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
-import de.fhb.projects.Twitchess.controller.UCIEngine;
-import de.fhb.projects.Twitchess.controller.osvalidator.OperatingSystemValidator;
+import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
@@ -19,16 +17,19 @@ import de.fhb.projects.Twitchess.games.chess.move.Move;
 public class MoveChessCommand implements ChessCommand {
 	public static String commandText = "move";
 	protected ChessStateDAOInterface dao;
+	protected UCIEngineInterface uciEngine;
 
-	public MoveChessCommand(ChessStateDAOInterface dao) {
+	public MoveChessCommand(ChessStateDAOInterface dao,
+			UCIEngineInterface uciEngine) {
 		setDao(dao);
+		setUciEngine(uciEngine);
 	}
 
 	@Override
 	public String processInput(String player, List<String> parameters)
 			throws ChessManagerException {
 		String result;
-		
+
 		if (parameters.size() != 1) {
 			throw new ChessManagerException("Error! \"" + commandText
 					+ "\" command format: " + commandText + " <move>");
@@ -38,72 +39,58 @@ public class MoveChessCommand implements ChessCommand {
 			List<ChessStateVO> listVO = dao.findNotFinishedGameByPlayer(player);
 			if (listVO == null || listVO.size() > 1) {
 				return "You must have a single ongoing game in order to do a move.";
-			} else {
-				ChessStateVO vo = listVO.get(0);
-				Fen fen = new Fen(vo.getFen());
-
-				if (!fen.isValid())
-					throw new ChessManagerException("Fen is invalid!");
-
-				GameState state = fen.getGameState();
-				Move move = getMove(parameters.get(0));
-				System.out.println("SPIELER: " + state.getCurrentPlayer());
-
-				try {
-					if (!ChessLogic.isValidMove(state, move))
-						throw new ChessManagerException("Your move is invalid!");
-				} catch (RuntimeException e) {
-					throw new ChessManagerException("Your move is invalid! ("
-							+ e.getMessage() + ")");
-				}
-
-				state = new GameState(state, move);
-				fen = new Fen(state);
-
-				String fileName = "stockfish-211-32-ja-windows.exe";
-
-				switch (OperatingSystemValidator.getOperatingSystem()) {
-					case WINDOWS :
-						fileName = "stockfish-211-32-ja-windows.exe";
-						break;
-					case UNIX :
-						fileName = "stockfish-211-32-ja-linux";
-						break;
-					case MAC :
-						fileName = "stockfish-211-32-mac";
-						break;
-				}
-
-				UCIEngine uciEngine = new UCIEngine("chessengines/" + fileName);
-
-				String calculatedMove = uciEngine.calculateMove(fen.getFen(), 20000);
-				uciEngine.destroy();
-				
-				move = getMove(calculatedMove);
-				state = new GameState(state, move);
-				fen = new Fen(state);
-
-				result = "engine move: " + move.getLongNotation() + " (position: " + fen.getFen() + ")";
-				vo.setFen(fen.getFen());
-//				vo.setFen(Fen.START_POSITION);
-				dao.updateTable(vo);
-
 			}
-		} catch (SQLException e) {
-			return "Error! Could not process your move: " + e.getMessage();
-		} catch (IOException e) {
-			return "Error (engine related)! Could not process your move: "
-					+ e.getMessage();
-		} catch (UCIException e) {
-			return "Error (engine related)! Could not process your move: "
-					+ e.getMessage();
+
+			ChessStateVO vo = listVO.get(0);
+			Fen fen = new Fen(vo.getFen());
+
+			if (!fen.isValid())
+				throw new ChessManagerException("Fen is invalid!");
+
+			GameState state = fen.getGameState();
+			Move playersMove = getMove(parameters.get(0));
+			Move calculatedMove;
+
+			try {
+				if (!ChessLogic.isValidMove(state, playersMove))
+					throw new ChessManagerException("Your move is invalid!");
+			} catch (RuntimeException e) {
+				throw new ChessManagerException("Your move is invalid! ("
+						+ e.getMessage() + ")");
+			}
+
+			state = new GameState(state, playersMove);
+			fen = new Fen(state);
+
+			calculatedMove = calculateMove(fen);
+
+			state = new GameState(state, calculatedMove);
+			fen = new Fen(state);
+
+			result = "engine move: " + calculatedMove.getLongNotation();
+
+			System.out.println("POS AFTER COMPUTER MOVE: " + fen.getFen());
+
+			vo.setFen(fen.getFen());
+			dao.updateTable(vo);
+
 		} catch (Throwable e) {
-			return "Error (engine related)! Could not process your move: "
-					+ e.getMessage();
+			return "Error! " + e.getMessage();
 		}
 
 		return result;
 	}
+	protected Move calculateMove(Fen fen) throws IOException, UCIException,
+			Throwable, ChessManagerException {
+		Move move;
+		uciEngine.init();
+		String calculatedMove = uciEngine.calculateMove(fen.getFen(), 20000);
+		uciEngine.destroy();
+
+		move = getMove(calculatedMove);
+		return move;
+	}
+
 	protected Move getMove(String s) throws ChessManagerException {
 		Position start = null, destination = null;
 		if (!s.matches("([a-hA-H][1-8]){2}"))
@@ -128,6 +115,14 @@ public class MoveChessCommand implements ChessCommand {
 
 	public void setDao(ChessStateDAOInterface dao) {
 		this.dao = dao;
+	}
+
+	public UCIEngineInterface getUciEngine() {
+		return uciEngine;
+	}
+
+	public void setUciEngine(UCIEngineInterface uciEngine) {
+		this.uciEngine = uciEngine;
 	}
 
 }

@@ -16,7 +16,7 @@ import de.fhb.projects.Twitchess.controller.ucicommands.UciUCICommand;
 import de.fhb.projects.Twitchess.controller.ucicommands.UcinewgameUCICommand;
 import de.fhb.projects.Twitchess.exception.UCIException;
 
-public class UCIEngine {
+public class UCIEngine implements UCIEngineInterface {
 	public static boolean debug = true;
 
 	private String filename;
@@ -35,27 +35,6 @@ public class UCIEngine {
 		WAIT_UNTIL_FINISHED, DO_NOT_WAIT_UNTIL_FINISHED;
 	}
 
-	public static void main(String[] args) {
-		try {
-			UCIEngine eng = new UCIEngine(
-					"chessengines/stockfish-211-32-ja-windows.exe");
-
-			System.out.println(eng.calculateMove(
-					"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-					1000));
-
-			eng.destroy();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (UCIException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public UCIEngine(String filename) throws IOException {
 		this.filename = filename;
 		this.process = null;
@@ -64,10 +43,9 @@ public class UCIEngine {
 		this.brStdout = null;
 
 		output = new ArrayList<String>();
-		initEngine();
 	}
 
-	public void initEngine() throws IOException {
+	public void init() throws IOException {
 		process = Runtime.getRuntime().exec(filename);
 		stdin = process.getOutputStream();
 		stdout = process.getInputStream();
@@ -101,9 +79,11 @@ public class UCIEngine {
 	}
 
 	public void destroy() throws Throwable {
+		close();
 		finalize();
 	}
 
+	@Override
 	public String calculateMove(String fen, Integer movetime)
 			throws UCIException {
 		GoUCICommand go;
@@ -158,6 +138,7 @@ public class UCIEngine {
 			e.printStackTrace();
 		}
 	}
+	
 	protected void sendCommandString(String s) {
 		if (s == null)
 			return;

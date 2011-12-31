@@ -11,7 +11,6 @@ import de.fhb.projects.Twitchess.controller.chesscommands.ChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.MoveChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.NewGameChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.PrintGameChessCommand;
-import de.fhb.projects.Twitchess.data.ChessStateDAO;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
 
@@ -20,21 +19,29 @@ public class ChessManager implements ManagerInterface {
 
 	protected Map<String, ChessCommand> commands;
 
-	public ChessManager(ChessStateDAOInterface dao) {
+	public ChessManager(ChessStateDAOInterface dao, UCIEngineInterface uciEngine) {
 		commands = new HashMap<String, ChessCommand>();
 
-		commands.put(NewGameChessCommand.commandText, new NewGameChessCommand(dao));
-		commands.put(CancelGameChessCommand.commandText, new CancelGameChessCommand(dao));
-		commands.put(PrintGameChessCommand.commandText, new PrintGameChessCommand(dao));
-		commands.put(MoveChessCommand.commandText, new MoveChessCommand(dao));
+		commands.put(NewGameChessCommand.commandText, new NewGameChessCommand(
+				dao));
+		commands.put(CancelGameChessCommand.commandText,
+				new CancelGameChessCommand(dao));
+		commands.put(PrintGameChessCommand.commandText,
+				new PrintGameChessCommand(dao));
+		commands.put(MoveChessCommand.commandText, new MoveChessCommand(dao,
+				uciEngine));
 	}
 
 	public static void main(String[] args) {
 		ChessManager m;
 		try {
-			ChessStateDAOInterface dao = new ChessStateDAO("chess.db");
+
+			m = (ChessManager) ManagerFactory
+					.getRelevantManager("@MatefulBot chess");
+			ChessStateDAOInterface dao = ((NewGameChessCommand) m.commands
+					.get("new")).getDao();
+
 			dao.truncateTable();
-			m = new ChessManager(dao);
 			m.processInput("hey", "@MatefulBot chess new");
 			m.processInput("hey", "@MatefulBot chess cancel");
 			m.processInput("hey", "@MatefulBot chess new");
@@ -47,12 +54,8 @@ public class ChessManager implements ManagerInterface {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
-
 	@Override
 	public String processInput(String player, String message) {
 		String result = null;
