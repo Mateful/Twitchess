@@ -54,14 +54,14 @@ public class Fen {
 //	}
 
 	public boolean isValid() {
-		if (fen == null)
+		if (fen == null || fen.length() == 0)
 			return false;
 
 		String rest;
 		char c;
 		int i, row = 0, column = 0;
 
-		for (i = 0; ' ' != fen.charAt(i); i++) {
+		for (i = 0; i < fen.length() && ' ' != fen.charAt(i); i++) {
 			c = fen.charAt(i);
 
 			if (isValidLetter(c)) {
@@ -75,15 +75,17 @@ public class Fen {
 				column = 0;
 			} else
 				return false;
-
-			if (column > 8 || row > 8)
-				return false;
 		}
+		row++;
 
+		if (column != 8 || row != 8 || i == fen.length())
+			return false;
+		
+		
 		rest = fen.substring(i + 1);
 
 		return rest
-				.matches("[WwBb] ((KQ?k?q?)|(Qk?q?)|(kq?)|(q)|(\\-)) (([a-hA-H][36])|(\\-)) \\d+ \\d+");
+				.matches("[WwBb] ((KQ?k?q?)|(Qk?q?)|(kq?)|(q)|(\\-)) (([a-hA-H][36])|(\\-)) (0|([1-9]\\d*)) [1-9]\\d*");
 	}
 
 	protected boolean isValidLetter(char p) {
@@ -122,16 +124,39 @@ public class Fen {
 			}
 
 		}
-		
-		gameState = new GameState(white, black);
-		
-		rest = fen.substring(i + 1);
-		c = rest.charAt(0);
 
-		if (Character.toLowerCase(c) == 'b')
+		gameState = new GameState(white, black);
+
+		rest = fen.substring(i + 1);
+
+		return setAttributes(rest, white, black, gameState);
+	}
+
+	protected GameState setAttributes(String rest, Player white, Player black,
+			GameState gameState) {
+		String[] s = rest.split("\\s+");
+
+		if (s[0].equalsIgnoreCase("b"))
 			gameState.setCurrentPlayer(black);
 		else
 			gameState.setCurrentPlayer(white);
+
+		if (s[1].contains("K"))
+			System.out.println("gameState.setWhiteKingCastling()");
+		if (s[1].contains("Q"))
+			System.out.println("gameState.setWhiteQueenCastling()");
+		if (s[1].contains("k"))
+			System.out.println("gameState.setBlackKingCastling()");
+		if (s[1].contains("q"))
+			System.out.println("gameState.setBlackQueenCastling()");
+
+		if (!s[2].contains("-"))
+			System.out.println("gameState.setEnPassantPosition(" + s[2] + ")");
+
+		System.out.println("gameState.setHalfMoves(" + Integer.valueOf(s[3])
+				+ ")");
+		System.out.println("gameState.setMoveCount(" + Integer.valueOf(s[4])
+				+ ")");
 
 		return gameState;
 	}
@@ -196,8 +221,8 @@ public class Fen {
 		throw new RuntimeException(
 				"Error while parsing fen (Figure->Character)");
 	}
+	
 	protected void addToPlayer(Player p, char c, Position pos) {
-
 		Figure f;
 
 		switch (Character.toLowerCase(c)) {
