@@ -46,7 +46,12 @@ public class ChessManager implements ManagerInterface {
 			m.processInput("hey", "@MatefulBot chess cancel");
 			m.processInput("hey", "@MatefulBot chess new");
 			m.processInput("hey", "@MatefulBot chess print");
-			m.processInput("hey", "@MatefulBot chess move e2e4");
+			m.processInput("hey", "@MatefulBot chess move e2e3");
+			m.processInput("hey", "@MatefulBot chess move ai");
+			m.processInput("hey", "@MatefulBot chess move ai");
+			m.processInput("hey", "@MatefulBot chess move ai");
+			m.processInput("hey", "@MatefulBot chess move ai");
+			m.processInput("hey", "@MatefulBot chess move ai");
 			m.processInput("hey", "@MatefulBot chess print");
 
 			dao.showAll();

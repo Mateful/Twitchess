@@ -79,8 +79,8 @@ public class UCIEngine implements UCIEngineInterface {
 	}
 
 	public void destroy() throws Throwable {
-		close();
 		finalize();
+		close();
 	}
 
 	@Override
