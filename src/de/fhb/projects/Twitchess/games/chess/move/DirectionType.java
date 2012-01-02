@@ -18,7 +18,7 @@ public enum DirectionType {
 			direction = DirectionType.UPLEFT;
 		} else if (DirectionType.isDownLeft(start, destination)) {
 			direction = DirectionType.DOWNLEFT;
-		} else if (isRight(start, destination)) {
+		} else if (DirectionType.isRight(start, destination)) {
 			direction = DirectionType.RIGHT;
 		} else if (DirectionType.isLeft(start, destination)) {
 			direction = DirectionType.LEFT;
@@ -32,46 +32,80 @@ public enum DirectionType {
 		return direction;
 	}
 
+	public static boolean isHorizontal(final Position start,
+			final Position destination) {
+		return !isUpSide(start, destination) && !isDownSide(start, destination);
+	}
+
+	public static boolean isVertical(final Position start,
+			final Position destination) {
+		return !isLeftSide(start, destination)
+				&& !isRightSide(start, destination);
+	}
+
 	public static boolean isUp(final Position start, final Position destination) {
-		return destination.getY() > start.getY();
+		return isUpSide(start, destination) && isVertical(start, destination);
 	}
 
 	public static boolean isDown(final Position start,
 			final Position destination) {
-		return destination.getY() < start.getY();
+		return isDownSide(start, destination) && isVertical(start, destination);
 	}
 
 	public static boolean isLeft(final Position start,
 			final Position destination) {
-		return destination.getX() < start.getX();
+		return isLeftSide(start, destination)
+				&& isHorizontal(start, destination);
 	}
 
 	public static boolean isRight(final Position start,
+			final Position destination) {
+		return isRightSide(start, destination)
+				&& isHorizontal(start, destination);
+	}
+
+	public static boolean isUpSide(final Position start,
+			final Position destination) {
+		return destination.getY() > start.getY();
+	}
+
+	public static boolean isDownSide(final Position start,
+			final Position destination) {
+		return destination.getY() < start.getY();
+	}
+
+	public static boolean isLeftSide(final Position start,
+			final Position destination) {
+		return destination.getX() < start.getX();
+	}
+
+	public static boolean isRightSide(final Position start,
 			final Position destination) {
 		return destination.getX() > start.getX();
 	}
 
 	public static boolean isUpLeft(final Position start,
 			final Position destination) {
-		return isUp(start, destination) && isLeft(start, destination)
+		return isUpSide(start, destination) && isLeftSide(start, destination)
 				&& isDiagonal(start, destination);
 	}
 
 	public static boolean isUpRight(final Position start,
 			final Position destination) {
-		return isUp(start, destination) && isRight(start, destination)
+		return isUpSide(start, destination) && isRightSide(start, destination)
 				&& isDiagonal(start, destination);
 	}
 
 	public static boolean isDownLeft(final Position start,
 			final Position destination) {
-		return isDown(start, destination) && isLeft(start, destination)
+		return isDownSide(start, destination) && isLeftSide(start, destination)
 				&& isDiagonal(start, destination);
 	}
 
 	public static boolean isDownRight(final Position start,
 			final Position destination) {
-		return isDown(start, destination) && isRight(start, destination)
+		return isDownSide(start, destination)
+				&& isRightSide(start, destination)
 				&& isDiagonal(start, destination);
 	}
 

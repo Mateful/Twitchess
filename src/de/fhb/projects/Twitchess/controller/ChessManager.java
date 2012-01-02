@@ -13,6 +13,11 @@ import de.fhb.projects.Twitchess.controller.chesscommands.NewGameChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.PrintGameChessCommand;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
+import de.fhb.projects.Twitchess.games.chess.ChessLogic;
+import de.fhb.projects.Twitchess.games.chess.Fen;
+import de.fhb.projects.Twitchess.games.chess.GameState;
+import de.fhb.projects.Twitchess.games.chess.figures.Figure;
+import de.fhb.projects.Twitchess.games.chess.move.Move;
 
 public class ChessManager implements ManagerInterface {
 	public static final String indicator = "chess";
@@ -35,6 +40,16 @@ public class ChessManager implements ManagerInterface {
 	public static void main(String[] args) {
 		ChessManager m;
 		try {
+			Fen f = new Fen(Fen.START_POSITION);
+			GameState s = f.getGameState();
+			List<Move> l = new ArrayList<Move>();
+
+			for (Figure fig : s.getCurrentPlayer().getFiguresInGame())
+				l.addAll(ChessLogic.getAllMoves(s, fig));
+
+			System.out.println(l.size());
+			for (Move mov : l)
+				System.out.println(mov);
 
 			m = (ChessManager) ManagerFactory
 					.getRelevantManager("@MatefulBot chess");
@@ -46,12 +61,12 @@ public class ChessManager implements ManagerInterface {
 			m.processInput("hey", "@MatefulBot chess cancel");
 			m.processInput("hey", "@MatefulBot chess new");
 			m.processInput("hey", "@MatefulBot chess print");
-			m.processInput("hey", "@MatefulBot chess move e2e3");
-			m.processInput("hey", "@MatefulBot chess move ai");
-			m.processInput("hey", "@MatefulBot chess move ai");
-			m.processInput("hey", "@MatefulBot chess move ai");
-			m.processInput("hey", "@MatefulBot chess move ai");
-			m.processInput("hey", "@MatefulBot chess move ai");
+			m.processInput("hey", "@MatefulBot chess move player e2e3");
+//			m.processInput("hey", "@MatefulBot chess move ai");
+//			m.processInput("hey", "@MatefulBot chess move ai");
+//			m.processInput("hey", "@MatefulBot chess move ai");
+//			m.processInput("hey", "@MatefulBot chess move ai");
+//			m.processInput("hey", "@MatefulBot chess move ai");
 			m.processInput("hey", "@MatefulBot chess print");
 
 			dao.showAll();

@@ -26,7 +26,7 @@ public final class ChessLogic {
 	 * Every public method should override this field, to ensure that every
 	 * private method called works properly.
 	 */
-	//private static GameState stateInProcess;
+	// private static GameState stateInProcess;
 	/**
 	 * If needed @see stateInProcess.
 	 */
@@ -92,7 +92,8 @@ public final class ChessLogic {
 	private static void figureCanMoveIntoDirection(final GameState state) {
 		if (!figureAtStart.canDoMove(currentMove)) {
 			if (!isEnPassant(state)
-					&& !isInitialPawn2Step(currentMove, figureAtStart) && !isCastling()) {
+					&& !isInitialPawn2Step(currentMove, figureAtStart)
+					&& !isCastling()) {
 				throw new FigureCannotMoveIntoDirectionException(
 						"The move is invalid because this figure can't make this move. Your move:"
 								+ currentMove.toString());
@@ -117,8 +118,11 @@ public final class ChessLogic {
 			final Figure figure) {
 		return figure instanceof Pawn
 				&& isPawnInInitialLine((Pawn) figure, move)
+				&& Position.calculateXDistance(move.getStart(),
+						move.getDestination()) == 0
 				&& Position.calculateYDistance(move.getStart(),
 						move.getDestination()) == 2;
+				
 	}
 
 	private static boolean isPawnInInitialLine(final Pawn pawn, final Move move) {
@@ -146,8 +150,7 @@ public final class ChessLogic {
 	private static boolean isEnPassant(final GameState state) {
 		return figureAtStart instanceof Pawn
 				&& isInitialPawn2Step(state.getLastMove(),
-						state.getFigureAtDestination(state
-								.getLastMove()));
+						state.getFigureAtDestination(state.getLastMove()));
 	}
 
 	private static boolean isWayBlocked(final GameState state) {
@@ -171,9 +174,8 @@ public final class ChessLogic {
 
 		for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
 			try {
-				if (isValidMoveIgnoreNotYourTurn(state, new Move(
-						opponent.getFiguresInGame().get(i).getPosition(),
-						kingPos))) {
+				if (isValidMoveIgnoreNotYourTurn(state, new Move(opponent
+						.getFiguresInGame().get(i).getPosition(), kingPos))) {
 					return true;
 				}
 			} catch (RuntimeException e) {
@@ -190,9 +192,9 @@ public final class ChessLogic {
 			try {
 				List<Move> moves = getAllMoves(state, king);
 				for (int i = 0; i < moves.size(); i++) {
-					GameState nextState = new GameState(state,
-							moves.get(i));
-					if (!isCheck(nextState, nextState.getOpponent(nextState.getCurrentPlayer()))) {
+					GameState nextState = new GameState(state, moves.get(i));
+					if (!isCheck(nextState,
+							nextState.getOpponent(nextState.getCurrentPlayer()))) {
 						return false;
 					}
 				}
