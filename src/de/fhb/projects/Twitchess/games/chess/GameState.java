@@ -124,4 +124,16 @@ public final class GameState {
 	public GameState getLastState() {
 		return lastState;
 	}
+
+	public Player getPlayer(Color playerInCheck) {
+		switch (playerInCheck) {
+			case WHITE :
+				return white;
+			case BLACK :
+				return black;
+			default :
+				throw new RuntimeException(
+						"Can only get player of color black and white.");
+		}
+	}
 }

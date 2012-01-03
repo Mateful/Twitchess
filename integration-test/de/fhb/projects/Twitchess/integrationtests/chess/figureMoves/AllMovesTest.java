@@ -55,6 +55,7 @@ public class AllMovesTest {
 		assertEquals(8, moves.size());
 	}
 
+
 	@Test
 	public void getAllMovesOfKingInBottomLeftCorner() {
 		King king = new King(new Position(0, 0));

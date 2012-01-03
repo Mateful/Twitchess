@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.data.ChessStateDAO;
@@ -42,7 +43,7 @@ public class ChessStateDAOTest {
 		assertEquals("Test of countWinsOfPlayer", 1,
 				dao.countWinsOfPlayer("Namea"));
 	}
-
+	
 	@After
 	public void clean() throws SQLException {
 		dao.truncateTable();

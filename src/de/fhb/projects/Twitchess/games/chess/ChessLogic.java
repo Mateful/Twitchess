@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.fhb.projects.Twitchess.exception.FigureCannotMoveIntoDirectionException;
+import de.fhb.projects.Twitchess.exception.InvalidMoveException;
 import de.fhb.projects.Twitchess.exception.MoveBlockedException;
 import de.fhb.projects.Twitchess.exception.NoFigureException;
 import de.fhb.projects.Twitchess.exception.WrongColorException;
 import de.fhb.projects.Twitchess.games.chess.figures.Figure;
-import de.fhb.projects.Twitchess.games.chess.figures.King;
 import de.fhb.projects.Twitchess.games.chess.figures.Pawn;
 import de.fhb.projects.Twitchess.games.chess.move.InfiniteDirection;
 import de.fhb.projects.Twitchess.games.chess.move.Move;
@@ -36,8 +36,23 @@ public final class ChessLogic {
 	 */
 	private static Figure figureAtStart;
 	private static Figure figureAtDestionation;
+	// private static boolean rekusionPrevention;
 
 	private ChessLogic() {
+	}
+
+	public static boolean isValidMoveWithCheck(final GameState state,
+			final Move move) {
+		isValidMove(state, move, false);
+		isCheckAfterMove(state, move);
+		return true;
+	}
+
+	public static boolean isValidMoveIgnoreNotYourTurnWithCheck(
+			final GameState state, final Move move) {
+		isValidMove(state, move, true);
+		isCheckAfterMove(state, move);
+		return true;
 	}
 
 	public static boolean isValidMove(final GameState state, final Move move) {
@@ -63,6 +78,14 @@ public final class ChessLogic {
 		figureCanDoMove(state);
 		isBlocked(state);
 		return true;
+	}
+
+	private static void isCheckAfterMove(final GameState state, final Move move) {
+		GameState nextState = new GameState(state, move);
+		if (isCheck(nextState, state.getCurrentColor())) {
+			throw new InvalidMoveException(
+					"Move cant be done because youre King would end up dead o_O");
+		}
 	}
 
 	private static void figureCanDoMove(final GameState state) {
@@ -122,7 +145,7 @@ public final class ChessLogic {
 						move.getDestination()) == 0
 				&& Position.calculateYDistance(move.getStart(),
 						move.getDestination()) == 2;
-				
+
 	}
 
 	private static boolean isPawnInInitialLine(final Pawn pawn, final Move move) {
@@ -168,38 +191,45 @@ public final class ChessLogic {
 	}
 
 	public static boolean isCheck(final GameState state,
-			final Player playerInCheck) {
-		Position kingPos = playerInCheck.getKing().getPosition();
-		Player opponent = state.getOpponent(playerInCheck);
-
-		for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
-			try {
-				if (isValidMoveIgnoreNotYourTurn(state, new Move(opponent
-						.getFiguresInGame().get(i).getPosition(), kingPos))) {
-					return true;
+			final Color playerInCheck) {
+		Player currentTurnPlayer = state.getPlayer(playerInCheck);
+		try {
+			Position kingPos = currentTurnPlayer.getKing().getPosition();
+			Player opponent = state.getOpponent(currentTurnPlayer);
+			for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
+				try {
+					if (isValidMoveIgnoreNotYourTurn(state, new Move(opponent
+							.getFiguresInGame().get(i).getPosition(), kingPos))) {
+						return true;
+					}
+				} catch (RuntimeException e) {
+					// This move can't be done, thank goodness.
 				}
-			} catch (RuntimeException e) {
-				// This move can't be done, thank goodness.
 			}
+			return false;
+		} catch (RuntimeException e) {
+			return false;
 		}
-		return false;
 	}
 
 	public static boolean isCheckmate(final GameState state,
-			final Player playerInCheck) {
+			final Color playerInCheck) {
+		Player currentTurnPlayer = state.getPlayer(playerInCheck);
 		if (isCheck(state, playerInCheck)) {
-			King king = playerInCheck.getKing();
-			try {
-				List<Move> moves = getAllMoves(state, king);
-				for (int i = 0; i < moves.size(); i++) {
-					GameState nextState = new GameState(state, moves.get(i));
-					if (!isCheck(nextState,
-							nextState.getOpponent(nextState.getCurrentPlayer()))) {
-						return false;
+			for (int i = 0; i < currentTurnPlayer.getFiguresInGame().size(); i++) {
+				Figure figure = currentTurnPlayer.getFiguresInGame().get(i);
+				try {
+					List<Move> moves = getAllMoves(state, figure);
+					for (int j = 0; j < moves.size(); j++) {
+						GameState nextState = new GameState(state, moves.get(j));
+						if (!isCheck(nextState, nextState.getCurrentColor()
+								.getInverse())) {
+							return false;
+						}
 					}
+				} catch (RuntimeException e) {
+					// move is invalid: this does not concern us
 				}
-			} catch (RuntimeException e) {
-				// move is invalid: this does not concern us
 			}
 			return true;
 		}
@@ -207,7 +237,13 @@ public final class ChessLogic {
 	}
 
 	public static boolean isDraw(final GameState state) {
-		// TODO Auto-generated method stub
+		List<Move> allMoves = new ArrayList<Move>();
+		for (int i = 0; i < state.getCurrentPlayer().getFiguresInGame().size(); i++) {
+			allMoves.addAll(getAllMoves(state, state.getCurrentPlayer()
+					.getFiguresInGame().get(i)));
+		}
+		if(allMoves.size() == 0)
+			return true;
 		return false;
 	}
 
@@ -222,7 +258,7 @@ public final class ChessLogic {
 				try {
 					Move move = new Move(figure.getPosition(), new Position(x,
 							y));
-					if (isValidMoveIgnoreNotYourTurn(state, move)) {
+					if (isValidMoveIgnoreNotYourTurnWithCheck(state, move)) {
 						validMoves.add(move);
 					}
 				} catch (RuntimeException e) {

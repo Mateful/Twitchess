@@ -32,26 +32,26 @@ public class Fen {
 		this.fen = fen;
 	}
 
-//	public static void main(String[] args) {
-//		String f = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq f6 10 20";
-//
-//		Fen fen = new Fen(f);
-//
-//		GameState s = fen.getGameState();
-//
-//		System.out.println(fen.isValid());
-//
-//		for (int y = 7; y >= 0; y--) {
-//			for (int x = 0; x < 8; x++) {
-//				System.out.println(s.getFigure(x, y));
-//			}
-//		}
-//
-//		Fen fen2 = new Fen(s);
-//
-//		System.out.println(fen2.getFen());
-//
-//	}
+	public static void main(String[] args) {
+		String f = "rr6/7R/8/8/8/8/8/K7 w KQkq - 0 1";
+
+		Fen fen = new Fen(f);
+
+		GameState s = fen.getGameState();
+
+		System.out.println(fen.isValid());
+
+		for (int y = 7; y >= 0; y--) {
+			for (int x = 0; x < 8; x++) {
+				System.out.println(s.getFigure(x, y));
+			}
+		}
+
+		Fen fen2 = new Fen(s);
+
+		System.out.println(fen2.getFen());
+
+	}
 
 	public boolean isValid() {
 		if (fen == null || fen.length() == 0)
@@ -247,8 +247,7 @@ public class Fen {
 			default :
 				throw new RuntimeException("Error while parsing fen");
 		}
-
-		f.setColor(p.getColor());
+		
 		p.add(f);
 	}
 }

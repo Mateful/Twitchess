@@ -9,11 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.games.chess.ChessLogic;
+import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.games.chess.GameState;
 import de.fhb.projects.Twitchess.games.chess.Position;
 import de.fhb.projects.Twitchess.games.chess.figures.King;
 import de.fhb.projects.Twitchess.games.chess.figures.Queen;
 import de.fhb.projects.Twitchess.games.chess.figures.Rook;
+import de.fhb.projects.Twitchess.games.chess.player.Color;
 import de.fhb.projects.Twitchess.games.chess.player.Player;
 
 public class CheckmateTest {
@@ -35,29 +37,35 @@ public class CheckmateTest {
 		white.add(new Queen(new Position(1, 0)));
 		black.add(new King(new Position(1, 3)));
 		state = new GameState(white, black);
-		assertFalse(ChessLogic.isCheck(state, white));
-		assertTrue(ChessLogic.isCheck(state, black));
+		assertFalse(ChessLogic.isCheck(state, Color.WHITE));
+		assertTrue(ChessLogic.isCheck(state, Color.BLACK));
 	}
 
 	@Test
-	public void checkmate() {
+	public void checkmate1() {
 		king = new King(new Position(0, 0));
 		rook1 = new Rook(new Position(0, 7));
 		rook2 = new Rook(new Position(1, 7));
 		white.add(king);
 		black.add(rook1, rook2);
 		state = new GameState(white, black);
-		assertTrue(ChessLogic.isCheckmate(state, white));
+		assertTrue(ChessLogic.isCheckmate(state, Color.WHITE));
+	}
+	
+	@Test
+	public void noCheckmate2() {
+		Fen f = new Fen("rr6/7R/8/8/8/8/8/K7 w KQkq - 0 1");
+		assertFalse(ChessLogic.isCheckmate(f.getGameState(), f.getGameState().getCurrentColor()));
 	}
 
 	@Test
-	public void noCheckmate() {
+	public void noCheckmate1() {
 		king = new King(new Position(0, 0));
 		rook1 = new Rook(new Position(0, 7));
 		rook2 = new Rook(new Position(2, 7));
 		white.add(king);
 		black.add(rook1, rook2);
 		state.updatePositions();
-		assertFalse(ChessLogic.isCheckmate(state, white));
+		assertFalse(ChessLogic.isCheckmate(state, Color.WHITE));
 	}
 }
