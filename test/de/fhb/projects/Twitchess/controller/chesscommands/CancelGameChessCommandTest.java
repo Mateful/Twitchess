@@ -2,6 +2,7 @@ package de.fhb.projects.Twitchess.controller.chesscommands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.easymock.EasyMock;
 import org.easymock.IAnswer;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
@@ -39,7 +41,7 @@ public class CancelGameChessCommandTest {
 		state.add(chessState);
 	}
 
-	@Test(expected = ChessManagerException.class)
+	@Test (expected = ChessManagerException.class)
 	public void processInputNoGameTest() throws SQLException,
 			ChessManagerException {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
@@ -74,7 +76,33 @@ public class CancelGameChessCommandTest {
 		assertNotNull(chessCommand.processInput("player1",
 				new ArrayList<String>()));
 
+		
 		EasyMock.verify(dao);
+	}
+	
+	@Test 
+	public void processInputTestManyGamesAreOpen() throws SQLException{
+		state.add(state.get(0));
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
+		EasyMock.replay(dao);
+		chessCommand.setDao(dao);
+		try{
+			chessCommand.processInput("player1", new ArrayList<String>());
+		}catch(ChessManagerException e){
+			assertEquals("You have several running games, something is fishy.",e.getMessage());
+		}		
+		EasyMock.verify();
+	}
+	
+	@Test (expected = ChessManagerException.class)
+	public void processInputTest() throws SQLException, ChessManagerException{
+		List <String> parameter = new ArrayList<String>();
+		parameter.add("");
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
+		EasyMock.replay(dao);
+		chessCommand.setDao(dao);
+		chessCommand.processInput("player1",parameter);
+		EasyMock.verify();
 	}
 
 }
