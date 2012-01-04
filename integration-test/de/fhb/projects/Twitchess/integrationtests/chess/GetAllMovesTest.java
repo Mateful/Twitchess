@@ -25,8 +25,7 @@ public class GetAllMovesTest {
 					.getFiguresInGame().get(i)));
 		}
 
-		assertEquals(31, l.size());
-
+		assertEquals(32, l.size());
 	}
 
 	@Test

@@ -2,7 +2,6 @@ package de.fhb.projects.Twitchess.controller.chesscommands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.List;
 import org.easymock.EasyMock;
 import org.easymock.IAnswer;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;

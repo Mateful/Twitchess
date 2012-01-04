@@ -1,22 +1,29 @@
 package de.fhb.projects.Twitchess.games.chess.move;
 
 import de.fhb.projects.Twitchess.games.chess.Position;
+import de.fhb.projects.Twitchess.games.chess.figures.Figure;
+import de.fhb.projects.Twitchess.games.chess.figures.NoFigure;
 
 public final class Move {
 	public static final Move NO_MOVE = new Move();
 	private Direction direction;
 	private Position start, destination;
+	private Figure hitTarget, promoteTo;
 
 	private Move() {
 		direction = new OneStepDirection(DirectionType.NODIRECTION);
 		start = new Position(0, 0);
 		destination = start;
+		hitTarget = NoFigure.NO_FIGURE;
+		promoteTo = NoFigure.NO_FIGURE;
 	}
 
 	public Move(final Position start, final Position destination) {
 		this.start = start;
 		this.destination = destination;
 		setDirection();
+		hitTarget = NoFigure.NO_FIGURE;
+		promoteTo = NoFigure.NO_FIGURE;
 	}
 
 	private void setDirection() {
@@ -111,14 +118,30 @@ public final class Move {
 				&& destination.equals(other.destination)
 				&& direction.equals(other.direction);
 	}
+	
 	@Override
 	public String toString() {
 		return "Move [direction=" + direction + ", start=" + start
 				+ ", destination=" + destination + "]";
-	}
-	
+	}	
 	
 	public String getLongNotation() {
 		return start.toString() + destination.toString();
+	}
+	
+	public Figure getHitTarget() {
+		return hitTarget;
+	}
+
+	public void setHitTarget(Figure hitTarget) {
+		this.hitTarget = hitTarget;
+	}
+	
+	public Figure getPromoteTo() {
+		return promoteTo;
+	}
+
+	public void setPromoteTo(Figure promoteTo) {
+		this.promoteTo = promoteTo;
 	}
 }

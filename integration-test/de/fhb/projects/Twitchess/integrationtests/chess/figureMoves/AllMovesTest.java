@@ -1,39 +1,27 @@
 package de.fhb.projects.Twitchess.integrationtests.chess.figureMoves;
 
-import static de.fhb.projects.Twitchess.games.chess.player.Color.BLACK;
-import static de.fhb.projects.Twitchess.games.chess.player.Color.WHITE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.games.chess.ChessLogic;
+import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.games.chess.GameState;
 import de.fhb.projects.Twitchess.games.chess.Position;
 import de.fhb.projects.Twitchess.games.chess.figures.King;
 import de.fhb.projects.Twitchess.games.chess.figures.Queen;
 import de.fhb.projects.Twitchess.games.chess.move.Move;
-import de.fhb.projects.Twitchess.games.chess.player.Player;
 
 public class AllMovesTest {
 	private GameState state;
-	private Player white, black;
-
-	@Before
-	public void init() {
-		white = new Player(WHITE);
-		black = new Player(BLACK);
-		state = new GameState(white, black);
-	}
 
 	@Test
 	public void getAllMovesOfFreeKing() {
+		state = new Fen("8/8/8/8/3k4/8/8/8 w - - 0 1").getGameState();
 		King king = new King(new Position(3, 3));
-		white.add(king);
-		state.updatePositions();
 
 		List<Move> moves = ChessLogic.getAllMoves(state, king);
 		Move up = Move.up(king.getPosition(), 1);
@@ -55,12 +43,10 @@ public class AllMovesTest {
 		assertEquals(8, moves.size());
 	}
 
-
 	@Test
 	public void getAllMovesOfKingInBottomLeftCorner() {
+		state = new Fen("8/8/8/8/8/8/8/K7 w - - 0 1").getGameState();
 		King king = new King(new Position(0, 0));
-		white.add(king);
-		state.updatePositions();
 
 		List<Move> moves = ChessLogic.getAllMoves(state, king);
 		Move up = Move.up(king.getPosition(), 1);
@@ -74,9 +60,8 @@ public class AllMovesTest {
 
 	@Test
 	public void getAllMovesOfQueenInBottomRightCorner() {
+		state = new Fen("8/8/8/8/8/8/8/7Q w - - 0 1").getGameState();
 		Queen queen = new Queen(new Position(7, 0));
-		white.add(queen);
-		state.updatePositions();
 
 		List<Move> moves = ChessLogic.getAllMoves(state, queen);
 		Move up1 = Move.up(queen.getPosition(), 1);

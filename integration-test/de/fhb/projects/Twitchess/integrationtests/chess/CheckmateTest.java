@@ -43,12 +43,7 @@ public class CheckmateTest {
 
 	@Test
 	public void checkmate1() {
-		king = new King(new Position(0, 0));
-		rook1 = new Rook(new Position(0, 7));
-		rook2 = new Rook(new Position(1, 7));
-		white.add(king);
-		black.add(rook1, rook2);
-		state = new GameState(white, black);
+		state = new Fen("rr6/8/8/8/8/8/8/K7 w - - 0 1").getGameState();
 		assertTrue(ChessLogic.isCheckmate(state, Color.WHITE));
 	}
 	

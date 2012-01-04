@@ -10,7 +10,6 @@ import de.fhb.projects.Twitchess.games.chess.figures.King;
 public final class Player implements Cloneable {
 	private Color color;
 	private List<Figure> figuresInGame;
-	private List<Figure> figuresOutOfGame;
 
 	public Player(Color color) {
 		if (color != Color.WHITE && color != Color.BLACK) {
@@ -18,7 +17,6 @@ public final class Player implements Cloneable {
 					"Player color can only be Color.Black or Color.White");
 		}
 		figuresInGame = new ArrayList<Figure>();
-		figuresOutOfGame = new ArrayList<Figure>();
 		this.color = color;
 	}
 
@@ -42,10 +40,6 @@ public final class Player implements Cloneable {
 
 	public List<Figure> getFiguresInGame() {
 		return figuresInGame;
-	}
-
-	public List<Figure> getFiguresOutOfGame() {
-		return figuresOutOfGame;
 	}
 
 	public Color getColor() {
@@ -80,8 +74,7 @@ public final class Player implements Cloneable {
 		}
 		Player other = (Player) obj;
 		return color == other.color
-				&& figuresInGame.equals(other.figuresInGame)
-				&& figuresOutOfGame.equals(other.figuresOutOfGame);
+				&& figuresInGame.equals(other.figuresInGame);
 	}
 
 	@Override
@@ -95,10 +88,10 @@ public final class Player implements Cloneable {
 		Player o = new Player(color);
 		for (Figure f : figuresInGame)
 			o.figuresInGame.add((Figure) f.clone());
-		
-		for (Figure f : figuresOutOfGame)
-			o.figuresOutOfGame.add((Figure) f.clone());
-		return o;
-	
+		return o;	
+	}
+
+	public void removeFigureFromGame(Figure hitTarget) {
+		figuresInGame.remove(hitTarget);
 	}
 }

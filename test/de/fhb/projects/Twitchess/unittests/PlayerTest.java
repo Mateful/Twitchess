@@ -69,7 +69,6 @@ public class PlayerTest {
 		List<Figure> figures = player.getFiguresInGame();
 		assertEquals(player.getColor(), WHITE);
 		assertEquals(16, figures.size());
-		assertEquals(0, player.getFiguresOutOfGame().size());
 		assertTrue(figures.contains(new King(new Position(4, 0), WHITE)));
 		assertTrue(figures.contains(new Queen(new Position(3, 0), WHITE)));
 		assertTrue(figures.contains(new Bishop(new Position(2, 0), WHITE)));
@@ -94,7 +93,6 @@ public class PlayerTest {
 		List<Figure> figures = player.getFiguresInGame();
 		assertEquals(player.getColor(), BLACK);
 		assertEquals(16, figures.size());
-		assertEquals(0, player.getFiguresOutOfGame().size());
 		assertTrue(figures.contains(new King(new Position(4, 7), BLACK)));
 		assertTrue(figures.contains(new Queen(new Position(3, 7), BLACK)));
 		assertTrue(figures.contains(new Bishop(new Position(2, 7), BLACK)));

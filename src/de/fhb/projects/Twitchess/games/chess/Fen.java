@@ -8,6 +8,7 @@ import de.fhb.projects.Twitchess.games.chess.figures.NoFigure;
 import de.fhb.projects.Twitchess.games.chess.figures.Pawn;
 import de.fhb.projects.Twitchess.games.chess.figures.Queen;
 import de.fhb.projects.Twitchess.games.chess.figures.Rook;
+import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 import de.fhb.projects.Twitchess.games.chess.player.Player;
 
@@ -142,16 +143,44 @@ public class Fen {
 			gameState.setCurrentPlayer(white);
 
 		if (s[1].contains("K"))
-			System.out.println("gameState.setWhiteKingCastling()");
+			gameState.setWhiteCastleKingSide(true);
+		else
+			gameState.setWhiteCastleKingSide(false);
+		
 		if (s[1].contains("Q"))
-			System.out.println("gameState.setWhiteQueenCastling()");
+			gameState.setWhiteCastleQueenSide(true);
+		else
+			gameState.setWhiteCastleQueenSide(false);
+		
 		if (s[1].contains("k"))
-			System.out.println("gameState.setBlackKingCastling()");
+			gameState.setBlackCastleKingSide(true);
+		else
+			gameState.setBlackCastleKingSide(false);
+		
 		if (s[1].contains("q"))
-			System.out.println("gameState.setBlackQueenCastling()");
+			gameState.setBlackCastleQueenSide(true);
+		else
+			gameState.setBlackCastleQueenSide(false);
 
-		if (!s[2].contains("-"))
-			System.out.println("gameState.setEnPassantPosition(" + s[2] + ")");
+
+		if (!s[2].contains("-")) {
+			Position p = ChessboardPositionToArrayPosition.parseChessboardPosition(s[2]);
+			Position start, dest;
+			Move m;
+			
+			if (p.y == 5) {
+				start = new Position (p.x, p.y + 1);
+				dest = new Position (p.x, p.y - 1);
+			} else if (p.y == 2) {
+				start = new Position (p.x, p.y - 1);
+				dest = new Position (p.x, p.y + 1);
+			} else
+				throw new RuntimeException("Error while parsing EnPassant-Position in Fen");
+			
+			m = new Move(start, dest);
+			gameState.setLastMove(m);
+			System.out.println("gameState.setLastMove(" + m + ")");
+		}
 
 		System.out.println("gameState.setHalfMoves(" + Integer.valueOf(s[3])
 				+ ")");
@@ -194,12 +223,34 @@ public class Fen {
 		}
 
 		if (state.getCurrentColor() == Color.BLACK)
-			sb.append(" b");
+			sb.append(" b ");
 		else
-			sb.append(" w");
+			sb.append(" w ");
 
 		// TODO implement it
-		sb.append(" KQkq - 0 1");
+		
+		boolean castlingRights = false; 
+		
+		if (state.isWhiteCastleKingSide()) {
+			sb.append("K");
+			castlingRights = true;
+		}
+		if (state.isWhiteCastleQueenSide()) {
+			sb.append("Q");
+			castlingRights = true;
+		}
+		if (state.isBlackCastleKingSide()) {
+			sb.append("k");
+			castlingRights = true;
+		}
+		if (state.isBlackCastleQueenSide()) {
+			sb.append("q");
+			castlingRights = true;
+		}
+		if (!castlingRights)
+			sb.append("-");
+		
+		sb.append(" - 0 1");
 
 		setFen(sb.toString());
 	}

@@ -13,9 +13,13 @@ import de.fhb.projects.Twitchess.exception.FigureCannotMoveIntoDirectionExceptio
 import de.fhb.projects.Twitchess.exception.InvalidMoveException;
 import de.fhb.projects.Twitchess.exception.MoveBlockedException;
 import de.fhb.projects.Twitchess.exception.NoFigureException;
+import de.fhb.projects.Twitchess.exception.PromoteException;
 import de.fhb.projects.Twitchess.exception.WrongColorException;
 import de.fhb.projects.Twitchess.games.chess.figures.Figure;
+import de.fhb.projects.Twitchess.games.chess.figures.King;
 import de.fhb.projects.Twitchess.games.chess.figures.Pawn;
+import de.fhb.projects.Twitchess.games.chess.figures.Queen;
+import de.fhb.projects.Twitchess.games.chess.move.DirectionType;
 import de.fhb.projects.Twitchess.games.chess.move.InfiniteDirection;
 import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
@@ -36,7 +40,6 @@ public final class ChessLogic {
 	 */
 	private static Figure figureAtStart;
 	private static Figure figureAtDestionation;
-	// private static boolean rekusionPrevention;
 
 	private ChessLogic() {
 	}
@@ -70,14 +73,53 @@ public final class ChessLogic {
 		figureAtStart = state.getFigureAtStart(move);
 		figureAtDestionation = state.getFigureAtDestination(move);
 
+		isPromotion(state, move);
+		move.setHitTarget(state.getFigureAtDestination(move));
 		moveStartHasNoFigure();
 		moveDestinationIsBlockedByFigureOfSameColor();
 		if (!ignoreNotYourTurn) {
 			hasWrongColor(state);
 		}
-		figureCanDoMove(state);
-		isBlocked(state);
+		figureCanDoMove(state, move);
+		isBlocked(state, move);
 		return true;
+	}
+
+	private static void isPromotion(final GameState state, final Move move) {
+		if (figureAtStart instanceof Pawn
+				&& (move.getDestination().y == 0 || move.getDestination().y == 7)
+				&& move.getPromoteTo() == NO_FIGURE) {
+			move.setPromoteTo(new Queen(move.getDestination()));
+		}
+		hasInvalidPromoteTo(state, move);
+		move.getPromoteTo().setPosition(move.getDestination());
+	}
+
+	private static void hasInvalidPromoteTo(final GameState state,
+			final Move move) {
+		if (move.getPromoteTo() != NO_FIGURE) {
+			if (move.getPromoteTo() instanceof King) {
+				throw new PromoteException("Tried to promote to King.");
+			}
+			if (move.getPromoteTo() instanceof Pawn) {
+				throw new PromoteException("Tried to promote to Pawn.");
+			}
+			if (!(figureAtStart instanceof Pawn)) {
+				throw new PromoteException(
+						"Tried to promote a figure different from Pawn.");
+			}
+			if (state.getCurrentColor() == Color.WHITE) {
+				if (move.getStart().y != ChessProperties.BLACK_PAWN_LINE) {
+					throw new PromoteException(
+							"Tried to promote Pawn with wrong position.");
+				}
+			} else if (state.getCurrentColor() == Color.BLACK) {
+				if (move.getStart().y != ChessProperties.WHITE_PAWN_LINE) {
+					throw new PromoteException(
+							"Tried to promote Pawn with wrong position.");
+				}
+			}
+		}
 	}
 
 	private static void isCheckAfterMove(final GameState state, final Move move) {
@@ -88,9 +130,9 @@ public final class ChessLogic {
 		}
 	}
 
-	private static void figureCanDoMove(final GameState state) {
+	private static void figureCanDoMove(final GameState state, final Move move) {
 		if (figureAtDestionation.getColor() == Color.NOCOLOR) {
-			figureCanMoveIntoDirection(state);
+			figureCanMoveIntoDirection(state, move);
 		} else {
 			figureCanDoHit();
 		}
@@ -104,19 +146,20 @@ public final class ChessLogic {
 		}
 	}
 
-	private static void isBlocked(final GameState state) {
-		if (isWayBlocked(state)) {
+	private static void isBlocked(final GameState state, final Move move) {
+		if (isWayBlocked(state, move)) {
 			throw new MoveBlockedException(
 					"The move is invalid because there is a figure blocking the way. Your move:"
 							+ currentMove.toString());
 		}
 	}
 
-	private static void figureCanMoveIntoDirection(final GameState state) {
+	private static void figureCanMoveIntoDirection(final GameState state,
+			final Move move) {
 		if (!figureAtStart.canDoMove(currentMove)) {
-			if (!isEnPassant(state)
+			if (!isEnPassant(state, move)
 					&& !isInitialPawn2Step(currentMove, figureAtStart)
-					&& !isCastling()) {
+					&& !isCastling(state, move)) {
 				throw new FigureCannotMoveIntoDirectionException(
 						"The move is invalid because this figure can't make this move. Your move:"
 								+ currentMove.toString());
@@ -124,11 +167,38 @@ public final class ChessLogic {
 		}
 	}
 
-	private static boolean isCastling() {
-		// TODO Auto-generated method stub
+	private static boolean isCastling(final GameState state, final Move move) {
+		if (figureAtStart instanceof King
+				&& Position.calculateXDistance(move) == 2) {
+			if (figureAtStart.getColor() == Color.WHITE) {
+				if (move.getDirectionType() == DirectionType.LEFT
+						&& state.isWhiteCastleQueenSide()
+						&& state.getFigure(1, 0) == NO_FIGURE) {
+					isCheckAfterMove(state, Move.left(move.getStart(), 1));
+					return true;
+				}
+				if (move.getDirectionType() == DirectionType.RIGHT
+						&& state.isWhiteCastleKingSide()) {
+					isCheckAfterMove(state, Move.right(move.getStart(), 1));
+					return true;
+				}
+			}
+			if (figureAtStart.getColor() == Color.BLACK) {
+				if (move.getDirectionType() == DirectionType.LEFT
+						&& state.isBlackCastleQueenSide()
+						&& state.getFigure(1, 7) == NO_FIGURE) {
+					isCheckAfterMove(state, Move.left(move.getStart(), 1));
+					return true;
+				}
+				if (move.getDirectionType() == DirectionType.RIGHT
+						&& state.isBlackCastleKingSide()) {
+					isCheckAfterMove(state, Move.right(move.getStart(), 1));
+					return true;
+				}
+			}
+		}
 		return false;
 	}
-
 	private static void figureCanDoHit() {
 		if (!figureAtStart.canDoHit(currentMove)) {
 			throw new FigureCannotMoveIntoDirectionException(
@@ -170,15 +240,19 @@ public final class ChessLogic {
 		}
 	}
 
-	private static boolean isEnPassant(final GameState state) {
-		return figureAtStart instanceof Pawn
+	private static boolean isEnPassant(final GameState state, final Move move) {
+		if (figureAtStart instanceof Pawn
 				&& isInitialPawn2Step(state.getLastMove(),
-						state.getFigureAtDestination(state.getLastMove()));
+						state.getFigureAtDestination(state.getLastMove()))) {
+			move.setHitTarget(state.getFigureAtDestination(state.getLastMove()));
+			return true;
+		}
+		return false;
 	}
 
-	private static boolean isWayBlocked(final GameState state) {
-		if (currentMove.getDirection() instanceof InfiniteDirection) {
-			IsMoveBlockedHelper imbh = new IsMoveBlockedHelper(currentMove);
+	private static boolean isWayBlocked(final GameState state, final Move move) {
+		if (move.getDirection() instanceof InfiniteDirection) {
+			IsMoveBlockedHelper imbh = new IsMoveBlockedHelper(move);
 			for (int y = imbh.getyStart(), x = imbh.getxStart(); y != imbh
 					.getyDest() || x != imbh.getxDest(); y += imbh.getyToAdd(), x += imbh
 					.getxToAdd()) {
@@ -242,7 +316,7 @@ public final class ChessLogic {
 			allMoves.addAll(getAllMoves(state, state.getCurrentPlayer()
 					.getFiguresInGame().get(i)));
 		}
-		if(allMoves.size() == 0)
+		if (allMoves.size() == 0)
 			return true;
 		return false;
 	}
