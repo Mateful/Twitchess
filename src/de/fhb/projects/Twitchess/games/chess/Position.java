@@ -55,4 +55,8 @@ public final class Position extends Point {
 			final Position destination) {
 		return Math.abs(destination.y - start.y);
 	}
+
+	public static int calculateYDistance(final Move move) {
+		return calculateYDistance(move.getStart(), move.getDestination());
+	}
 }

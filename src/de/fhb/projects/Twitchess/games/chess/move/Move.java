@@ -8,7 +8,7 @@ public final class Move {
 	public static final Move NO_MOVE = new Move();
 	private Direction direction;
 	private Position start, destination;
-	private Figure hitTarget, promoteTo;
+	private Figure movingFigure, hitTarget, promoteTo;
 
 	private Move() {
 		direction = new OneStepDirection(DirectionType.NODIRECTION);
@@ -149,5 +149,13 @@ public final class Move {
 	 */
 	public void setPromoteTo(Figure promoteTo) {
 		this.promoteTo = promoteTo;
+	}
+
+	public Figure getMovingFigure() {
+		return movingFigure;
+	}
+
+	public void setMovingFigure(Figure movingFigure) {
+		this.movingFigure = movingFigure;
 	}
 }
