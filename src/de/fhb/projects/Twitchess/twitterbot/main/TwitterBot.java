@@ -134,7 +134,7 @@ public class TwitterBot extends Observable {
 		String result = null;
 		if (from != null && text != null && !from.equals("")
 				&& !text.equals("")) {
-			
+
 			ManagerInterface manager = ManagerFactory.getRelevantManager(text);
 
 			if (manager != null) {

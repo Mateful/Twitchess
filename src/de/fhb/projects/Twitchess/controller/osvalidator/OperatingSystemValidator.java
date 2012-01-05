@@ -19,7 +19,8 @@ public class OperatingSystemValidator {
 		} else if (isSolaris(os)) {
 			operatingSystem = OperatingSystem.SUN;
 		} else {
-			throw new RuntimeException("Your operating system is not supported.");
+			throw new RuntimeException(
+					"Your operating system is not supported.");
 		}
 	}
 

@@ -82,13 +82,13 @@ public final class Player implements Cloneable {
 		return "Player [color=" + color + ", figuresInGame=" + figuresInGame
 				+ "]";
 	}
-	
+
 	@Override
 	public Object clone() {
 		Player o = new Player(color);
 		for (Figure f : figuresInGame)
 			o.figuresInGame.add((Figure) f.clone());
-		return o;	
+		return o;
 	}
 
 	public void removeFigureFromGame(Figure hitTarget) {

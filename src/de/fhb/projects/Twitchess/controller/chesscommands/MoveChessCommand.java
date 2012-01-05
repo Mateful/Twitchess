@@ -45,7 +45,7 @@ public class MoveChessCommand implements ChessCommand {
 
 		t = parseMoveType(parameters);
 		playersMove = parseMove(parameters, t);
-		
+
 		if (t == null && playersMove != null)
 			t = MoveType.AI_AFTER_PLAYER;
 
@@ -81,8 +81,6 @@ public class MoveChessCommand implements ChessCommand {
 
 			state = new GameState(state, aiMove);
 			fen = new Fen(state);
-
-			
 
 			System.out.println("POS AFTER COMPUTER MOVE: " + fen.getFen());
 		}
@@ -132,7 +130,8 @@ public class MoveChessCommand implements ChessCommand {
 		return playersMove;
 	}
 
-	protected MoveType parseMoveType(List<String> parameters) throws ChessManagerException {
+	protected MoveType parseMoveType(List<String> parameters)
+			throws ChessManagerException {
 		MoveType t = null;
 		String p = parameters.get(0);
 

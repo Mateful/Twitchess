@@ -25,7 +25,7 @@ public class Configuration {
 		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		} catch (NullPointerException e) {
-			return '!' + FILE_NAME + " is missing"+ '!';
+			return '!' + FILE_NAME + " is missing" + '!';
 		}
 	}
 }

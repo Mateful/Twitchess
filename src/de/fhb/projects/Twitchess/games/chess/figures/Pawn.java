@@ -73,7 +73,7 @@ public final class Pawn extends Figure {
 	@Override
 	public Object clone() {
 		Pawn o = new Pawn((Position) position.clone(), color);
-		
+
 		return (Object) o;
 	}
 }

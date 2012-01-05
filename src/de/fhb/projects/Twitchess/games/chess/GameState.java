@@ -85,34 +85,46 @@ public final class GameState {
 	}
 
 	protected void doMove() {
-		Figure movingFigure = board[lastMove.getStart().x][lastMove.getStart().y];
-		movingFigure.setPosition(new Position(lastMove.getDestination().x,
-				lastMove.getDestination().y));
+		Figure movingFigure = getFigure(lastMove.getStart());
 		setNoFigure(lastMove.getStart());
 		hitFigure();
-		board[lastMove.getDestination().x][lastMove.getDestination().y] = movingFigure;
-		if (lastMove.getPromoteTo() != NO_FIGURE) {
-			currentTurnPlayer.removeFigureFromGame(getFigure(lastMove
-					.getDestination()));
-			currentTurnPlayer.add(lastMove.getPromoteTo());
-			board[lastMove.getDestination().x][lastMove.getDestination().y] = lastMove
-					.getPromoteTo();
-		}
-		if (movingFigure instanceof King) {
-			if (Position.calculateXDistance(lastMove) == 2) {
-				if (lastMove.getDirectionType() == DirectionType.RIGHT) {
-					board[movingFigure.getPosition().x - 1][movingFigure
-							.getPosition().y] = board[CHESSBOARD_WIDTH - 1][movingFigure
-							.getPosition().y];
-					board[CHESSBOARD_WIDTH - 1][movingFigure.getPosition().y] = NO_FIGURE;
-				} else if (lastMove.getDirectionType() == DirectionType.LEFT) {
-					board[movingFigure.getPosition().x + 1][movingFigure
-							.getPosition().y] = board[0][movingFigure
-							.getPosition().y];
-					board[0][movingFigure.getPosition().y] = NO_FIGURE;
-				}
+		movingFigure = promote(movingFigure);
+		setPosition(movingFigure);
+		doCastling(movingFigure);
+	}
+
+	private void setPosition(Figure movingFigure) {
+		setFigure(lastMove.getDestination(), movingFigure);
+		movingFigure.setPosition(lastMove.getDestination());
+	}
+
+	private void setFigure(final Position position, final Figure figure) {
+		board[position.x][position.y] = figure;
+	}
+
+	private void doCastling(Figure movingFigure) {
+		if (movingFigure instanceof King
+				&& Position.calculateXDistance(lastMove) == 2) {
+			if (lastMove.getDirectionType() == DirectionType.RIGHT) {
+				board[movingFigure.getPosition().x - 1][movingFigure
+						.getPosition().y] = board[CHESSBOARD_WIDTH - 1][movingFigure
+						.getPosition().y];
+				board[CHESSBOARD_WIDTH - 1][movingFigure.getPosition().y] = NO_FIGURE;
+			} else if (lastMove.getDirectionType() == DirectionType.LEFT) {
+				board[movingFigure.getPosition().x + 1][movingFigure
+						.getPosition().y] = board[0][movingFigure.getPosition().y];
+				board[0][movingFigure.getPosition().y] = NO_FIGURE;
 			}
 		}
+	}
+
+	private Figure promote(Figure movingFigure) {
+		if (lastMove.getPromoteTo() != NO_FIGURE) {
+			currentTurnPlayer.removeFigureFromGame(movingFigure);
+			getOpponent(currentTurnPlayer).add(lastMove.getPromoteTo());
+			movingFigure = lastMove.getPromoteTo();
+		}
+		return movingFigure;
 	}
 
 	private void hitFigure() {

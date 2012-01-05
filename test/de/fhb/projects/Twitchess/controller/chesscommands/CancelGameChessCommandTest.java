@@ -39,7 +39,7 @@ public class CancelGameChessCommandTest {
 		state.add(chessState);
 	}
 
-	@Test (expected = ChessManagerException.class)
+	@Test(expected = ChessManagerException.class)
 	public void processInputNoGameTest() throws SQLException,
 			ChessManagerException {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
@@ -56,7 +56,6 @@ public class CancelGameChessCommandTest {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
 		ChessStateVO vo = new ChessStateVO();
-		
 
 		vo.setId(1);
 		dao.updateTable(vo);
@@ -64,7 +63,8 @@ public class CancelGameChessCommandTest {
 			public Object answer() {
 				ChessStateVO arg1 = (ChessStateVO) EasyMock
 						.getCurrentArguments()[0];
-				assertEquals(ResultType.ABORTED.getNumber(), arg1.getResult().intValue());
+				assertEquals(ResultType.ABORTED.getNumber(), arg1.getResult()
+						.intValue());
 				return null;
 			}
 		});
@@ -74,32 +74,34 @@ public class CancelGameChessCommandTest {
 		assertNotNull(chessCommand.processInput("player1",
 				new ArrayList<String>()));
 
-		
 		EasyMock.verify(dao);
 	}
-	
-	@Test 
-	public void processInputTestManyGamesAreOpen() throws SQLException{
+
+	@Test
+	public void processInputTestManyGamesAreOpen() throws SQLException {
 		state.add(state.get(0));
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
 		EasyMock.replay(dao);
 		chessCommand.setDao(dao);
-		try{
+		try {
 			chessCommand.processInput("player1", new ArrayList<String>());
-		}catch(ChessManagerException e){
-			assertEquals("You have several running games, something is fishy.",e.getMessage());
-		}		
+		} catch (ChessManagerException e) {
+			assertEquals("You have several running games, something is fishy.",
+					e.getMessage());
+		}
 		EasyMock.verify();
 	}
-	
-	@Test (expected = ChessManagerException.class)
-	public void processInputTest() throws SQLException, ChessManagerException{
-		List <String> parameter = new ArrayList<String>();
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputTest() throws SQLException, ChessManagerException {
+		List<String> parameter = new ArrayList<String>();
 		parameter.add("");
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
 		EasyMock.replay(dao);
 		chessCommand.setDao(dao);
-		chessCommand.processInput("player1",parameter);
+		chessCommand.processInput("player1", parameter);
 		EasyMock.verify();
 	}
 

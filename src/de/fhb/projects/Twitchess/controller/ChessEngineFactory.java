@@ -11,7 +11,8 @@ public final class ChessEngineFactory {
 
 		switch (os) {
 			case WINDOWS :
-				fileName = Configuration.getString("ChessEngineFactory.Windows");
+				fileName = Configuration
+						.getString("ChessEngineFactory.Windows");
 				break;
 			case UNIX :
 				fileName = Configuration.getString("ChessEngineFactory.Linux");
@@ -19,8 +20,9 @@ public final class ChessEngineFactory {
 			case MAC :
 				fileName = Configuration.getString("ChessEngineFactory.Mac");
 				break;
-			default:
-				fileName = Configuration.getString("ChessEngineFactory.Windows");
+			default :
+				fileName = Configuration
+						.getString("ChessEngineFactory.Windows");
 		}
 
 		UCIEngine uciEngine = new UCIEngine(fileName);

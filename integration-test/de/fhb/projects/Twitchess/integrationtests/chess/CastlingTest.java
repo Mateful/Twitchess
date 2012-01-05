@@ -23,178 +23,196 @@ public class CastlingTest {
 		GameState state = fen.getGameState();
 		Move castleMove = Move.right(new Position(4, 0), 2);
 		GameState castleMoveDone = new GameState(state, castleMove);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 		assertTrue(castleMoveDone.getFigure(6, 0) instanceof King);
 		assertTrue(castleMoveDone.getFigure(5, 0) instanceof Rook);
 		assertFalse(castleMoveDone.isWhiteCastleKingSide());
 		assertFalse(castleMoveDone.isWhiteCastleQueenSide());
 	}
-	
+
 	@Test
 	public void whiteCastlingQueenSide() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
 		GameState state = fen.getGameState();
 		Move castleMove = Move.left(new Position(4, 0), 2);
 		GameState castleMoveDone = new GameState(state, castleMove);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 		assertTrue(castleMoveDone.getFigure(2, 0) instanceof King);
 		assertTrue(castleMoveDone.getFigure(3, 0) instanceof Rook);
 		assertFalse(castleMoveDone.isWhiteCastleKingSide());
 		assertFalse(castleMoveDone.isWhiteCastleQueenSide());
 	}
-	
+
 	@Test
 	public void blackCastlingKingSide() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1");
 		GameState state = fen.getGameState();
 		Move castleMove = Move.right(new Position(4, 7), 2);
 		GameState castleMoveDone = new GameState(state, castleMove);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 		assertTrue(castleMoveDone.getFigure(6, 7) instanceof King);
 		assertTrue(castleMoveDone.getFigure(5, 7) instanceof Rook);
 		assertFalse(castleMoveDone.isBlackCastleKingSide());
 		assertFalse(castleMoveDone.isBlackCastleQueenSide());
 	}
-	
+
 	@Test
 	public void blackCastlingQueenSide() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1");
 		GameState state = fen.getGameState();
 		Move castleMove = Move.left(new Position(4, 7), 2);
 		GameState castleMoveDone = new GameState(state, castleMove);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 		assertTrue(castleMoveDone.getFigure(2, 7) instanceof King);
 		assertTrue(castleMoveDone.getFigure(3, 7) instanceof Rook);
 		assertFalse(castleMoveDone.isBlackCastleKingSide());
 		assertFalse(castleMoveDone.isBlackCastleQueenSide());
 	}
-	
+
 	@Test(expected = MoveBlockedException.class)
 	public void whiteCastlingKingSideBlockedByKnight() {
-		GameState state = new Fen("r3k2r/8/8/8/8/8/8/R3K1NR w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/8/8/8/8/R3K1NR w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.right(new Position(4, 0), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test(expected = MoveBlockedException.class)
 	public void whiteCastlingKingSideBlockedByBishop() {
-		GameState state = new Fen("r3k2r/8/8/8/8/8/8/R3KB1R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/8/8/8/8/R3KB1R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.right(new Position(4, 0), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void whiteCastlingQueenSideBlockedByKnight() {
-		GameState state = new Fen("r3k2r/8/8/8/8/8/8/RN2K2R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/8/8/8/8/RN2K2R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 0), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test(expected = FigureCannotMoveIntoDirectionException.class)
 	public void blackCastlingQueenSideBlockedByKnight() {
-		GameState state = new Fen("rn2k2r/8/8/8/8/8/8/RN2K2R b KQkq - 0 1").getGameState();
+		GameState state = new Fen("rn2k2r/8/8/8/8/8/8/RN2K2R b KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 7), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void whiteCastlingKingSideBlockedByCheck1() {
-		GameState state = new Fen("r3k2r/8/8/6r1/8/8/8/R3K2R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/6r1/8/8/8/R3K2R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.right(new Position(4, 0), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void whiteCastlingKingSideBlockedByCheck2() {
-		GameState state = new Fen("r3k2r/8/8/5r2/8/8/8/R3K2R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/5r2/8/8/8/R3K2R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.right(new Position(4, 0), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test
 	public void whiteCastlingKingSideNotBlockedByCheck() {
-		GameState state = new Fen("r3k2r/8/8/7r/8/8/8/R3K2R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/7r/8/8/8/R3K2R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.right(new Position(4, 0), 2);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void whiteCastlingQueenSideBlockedByCheck1() {
-		GameState state = new Fen("r3k2r/8/8/3r4/8/8/8/R3K2R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/3r4/8/8/8/R3K2R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 0), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void whiteCastlingQueenSideBlockedByCheck2() {
-		GameState state = new Fen("r3k2r/8/8/2r5/8/8/8/R3K2R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/2r5/8/8/8/R3K2R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 0), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test
 	public void whiteCastlingQueenSideNotBlockedByCheck1() {
-		GameState state = new Fen("r3k2r/8/8/r7/8/8/8/R3K2R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/r7/8/8/8/R3K2R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 0), 2);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 	}
-	
+
 	@Test
 	public void whiteCastlingQueenSideNotBlockedByCheck2() {
-		GameState state = new Fen("r3k2r/8/8/1r6/8/8/8/R3K2R w KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/1r6/8/8/8/R3K2R w KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 0), 2);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void blackCastlingKingSideBlockedByCheck1() {
-		GameState state = new Fen("r3k2r/8/8/6R1/8/8/8/R3K2R b KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/6R1/8/8/8/R3K2R b KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.right(new Position(4, 7), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void blackCastlingKingSideBlockedByCheck2() {
-		GameState state = new Fen("r3k2r/8/8/5R2/8/8/8/R3K2R b KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/5R2/8/8/8/R3K2R b KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.right(new Position(4, 7), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test
 	public void blackCastlingKingSideNotBlockedByCheck() {
-		GameState state = new Fen("r3k2r/8/8/7R/8/8/8/R3K2R b KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/7R/8/8/8/R3K2R b KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.right(new Position(4, 7), 2);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void blackCastlingQueenSideBlockedByCheck1() {
-		GameState state = new Fen("r3k2r/8/8/3R4/8/8/8/R3K2R b KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/3R4/8/8/8/R3K2R b KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 7), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test(expected = InvalidMoveException.class)
 	public void blackCastlingQueenSideBlockedByCheck2() {
-		GameState state = new Fen("r3k2r/8/8/2R5/8/8/8/R3K2R b KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/2R5/8/8/8/R3K2R b KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 7), 2);
-		ChessLogic.isValidMoveWithCheck(state, castleMove);
+		ChessLogic.isValidMove(state, castleMove);
 	}
-	
+
 	@Test
 	public void blackCastlingQueenSideNotBlockedByCheck1() {
-		GameState state = new Fen("r3k2r/8/8/R7/8/8/8/R3K2R b KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/R7/8/8/8/R3K2R b KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 7), 2);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 	}
-	
+
 	@Test
 	public void blackCastlingQueenSideNotBlockedByCheck2() {
-		GameState state = new Fen("r3k2r/8/8/1R6/8/8/8/R3K2R b KQkq - 0 1").getGameState();
+		GameState state = new Fen("r3k2r/8/8/1R6/8/8/8/R3K2R b KQkq - 0 1")
+				.getGameState();
 		Move castleMove = Move.left(new Position(4, 7), 2);
-		assertTrue(ChessLogic.isValidMoveWithCheck(state, castleMove));
+		assertTrue(ChessLogic.isValidMove(state, castleMove));
 	}
-	
+
 	@Test
 	public void whiteCastlingBlockedBecauseKingMoved() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
@@ -204,7 +222,7 @@ public class CastlingTest {
 		assertFalse(kingMovesLeft.isWhiteCastleKingSide());
 		assertFalse(kingMovesLeft.isWhiteCastleQueenSide());
 	}
-	
+
 	@Test
 	public void whiteCastlingKingSideBlockedBecauseRookMoved() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
@@ -214,7 +232,7 @@ public class CastlingTest {
 		assertFalse(rookMovesLeft.isWhiteCastleKingSide());
 		assertTrue(rookMovesLeft.isWhiteCastleQueenSide());
 	}
-	
+
 	@Test
 	public void whiteCastlingQueenSideBlockedBecauseRookMoved() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
@@ -224,7 +242,7 @@ public class CastlingTest {
 		assertTrue(rookMovesLeft.isWhiteCastleKingSide());
 		assertFalse(rookMovesLeft.isWhiteCastleQueenSide());
 	}
-	
+
 	@Test
 	public void blackCastlingBlockedBecauseKingMoved() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
@@ -234,7 +252,7 @@ public class CastlingTest {
 		assertFalse(kingMovesLeft.isBlackCastleKingSide());
 		assertFalse(kingMovesLeft.isBlackCastleQueenSide());
 	}
-	
+
 	@Test
 	public void blackCastlingKingSideBlockedBecauseRookMoved() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
@@ -244,7 +262,7 @@ public class CastlingTest {
 		assertFalse(rookMovesLeft.isBlackCastleKingSide());
 		assertTrue(rookMovesLeft.isBlackCastleQueenSide());
 	}
-	
+
 	@Test
 	public void blackCastlingQueenSideBlockedBecauseRookMoved() {
 		Fen fen = new Fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
@@ -254,7 +272,7 @@ public class CastlingTest {
 		assertTrue(rookMovesLeft.isBlackCastleKingSide());
 		assertFalse(rookMovesLeft.isBlackCastleQueenSide());
 	}
-	
+
 	@Test
 	public void castlingStillBlockedAfterKingMovesBackWhite() {
 		Fen fen = new Fen("8/8/8/8/8/8/8/R2K3R w - - 0 1");
@@ -265,7 +283,7 @@ public class CastlingTest {
 		assertFalse(kingBackToStart.isWhiteCastleKingSide());
 		assertFalse(kingBackToStart.isWhiteCastleQueenSide());
 	}
-	
+
 	@Test
 	public void kingSideCastlingStillBlockedAfterRookMovesBackWhite() {
 		Fen fen = new Fen("8/8/8/8/8/8/8/R3K1R1 w Q - 0 1");
@@ -275,7 +293,7 @@ public class CastlingTest {
 		GameState rookBackToStart = new GameState(state, rookMovesBack);
 		assertFalse(rookBackToStart.isWhiteCastleKingSide());
 	}
-	
+
 	@Test
 	public void queenSideCastlingStillBlockedAfterRookMovesBackWhite() {
 		Fen fen = new Fen("8/8/8/8/8/8/8/1R2K2R w K - 0 1");
@@ -285,7 +303,7 @@ public class CastlingTest {
 		GameState rookBackToStart = new GameState(state, rookMovesBack);
 		assertFalse(rookBackToStart.isWhiteCastleQueenSide());
 	}
-	
+
 	@Test
 	public void castlingStillBlockedAfterKingMovesBackBlack() {
 		Fen fen = new Fen("r2k3r/8/8/8/8/8/8/8 b - - 0 1");
@@ -296,7 +314,7 @@ public class CastlingTest {
 		assertFalse(kingBackToStart.isBlackCastleKingSide());
 		assertFalse(kingBackToStart.isBlackCastleQueenSide());
 	}
-	
+
 	@Test
 	public void kingSideCastlingStillBlockedAfterRookMovesBackBlack() {
 		Fen fen = new Fen("r2k2r1/8/8/8/8/8/8/8 b - - 0 1");
@@ -306,7 +324,7 @@ public class CastlingTest {
 		GameState rookBackToStart = new GameState(state, rookMovesBack);
 		assertFalse(rookBackToStart.isBlackCastleKingSide());
 	}
-	
+
 	@Test
 	public void queenSideCastlingStillBlockedAfterRookMovesBackBlack() {
 		Fen fen = new Fen("1r1k3r/8/8/8/8/8/8/8 b - - 0 1");

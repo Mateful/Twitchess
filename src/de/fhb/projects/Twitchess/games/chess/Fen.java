@@ -81,8 +81,7 @@ public class Fen {
 
 		if (column != 8 || row != 8 || i == fen.length())
 			return false;
-		
-		
+
 		rest = fen.substring(i + 1);
 
 		return rest
@@ -146,37 +145,38 @@ public class Fen {
 			gameState.setWhiteCastleKingSide(true);
 		else
 			gameState.setWhiteCastleKingSide(false);
-		
+
 		if (s[1].contains("Q"))
 			gameState.setWhiteCastleQueenSide(true);
 		else
 			gameState.setWhiteCastleQueenSide(false);
-		
+
 		if (s[1].contains("k"))
 			gameState.setBlackCastleKingSide(true);
 		else
 			gameState.setBlackCastleKingSide(false);
-		
+
 		if (s[1].contains("q"))
 			gameState.setBlackCastleQueenSide(true);
 		else
 			gameState.setBlackCastleQueenSide(false);
 
-
 		if (!s[2].contains("-")) {
-			Position p = ChessboardPositionToArrayPosition.parseChessboardPosition(s[2]);
+			Position p = ChessboardPositionToArrayPosition
+					.parseChessboardPosition(s[2]);
 			Position start, dest;
 			Move m;
-			
+
 			if (p.y == 5) {
-				start = new Position (p.x, p.y + 1);
-				dest = new Position (p.x, p.y - 1);
+				start = new Position(p.x, p.y + 1);
+				dest = new Position(p.x, p.y - 1);
 			} else if (p.y == 2) {
-				start = new Position (p.x, p.y - 1);
-				dest = new Position (p.x, p.y + 1);
+				start = new Position(p.x, p.y - 1);
+				dest = new Position(p.x, p.y + 1);
 			} else
-				throw new RuntimeException("Error while parsing EnPassant-Position in Fen");
-			
+				throw new RuntimeException(
+						"Error while parsing EnPassant-Position in Fen");
+
 			m = new Move(start, dest);
 			gameState.setLastMove(m);
 			System.out.println("gameState.setLastMove(" + m + ")");
@@ -228,9 +228,9 @@ public class Fen {
 			sb.append(" w ");
 
 		// TODO implement it
-		
-		boolean castlingRights = false; 
-		
+
+		boolean castlingRights = false;
+
 		if (state.isWhiteCastleKingSide()) {
 			sb.append("K");
 			castlingRights = true;
@@ -249,7 +249,7 @@ public class Fen {
 		}
 		if (!castlingRights)
 			sb.append("-");
-		
+
 		sb.append(" - 0 1");
 
 		setFen(sb.toString());
@@ -272,7 +272,7 @@ public class Fen {
 		throw new RuntimeException(
 				"Error while parsing fen (Figure->Character)");
 	}
-	
+
 	protected void addToPlayer(Player p, char c, Position pos) {
 		Figure f;
 
@@ -298,7 +298,7 @@ public class Fen {
 			default :
 				throw new RuntimeException("Error while parsing fen");
 		}
-		
+
 		p.add(f);
 	}
 }

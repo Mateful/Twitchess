@@ -20,7 +20,7 @@ public class CancelGameChessCommand implements ChessCommand {
 	public String processInput(String player, List<String> parameters)
 			throws ChessManagerException {
 		String result = null;
-		
+
 		if (parameters.size() > 0) {
 			throw new ChessManagerException("Error! \"" + commandText
 					+ "\" command format: " + commandText);
@@ -29,19 +29,22 @@ public class CancelGameChessCommand implements ChessCommand {
 		try {
 			List<ChessStateVO> state = dao.findNotFinishedGameByPlayer(player);
 			if (state == null || state.size() <= 0) {
-				throw new ChessManagerException("You have not a running game hence you cannot cancel it.");
-			} else if (state.size() > 1){
-				throw new ChessManagerException("You have several running games, something is fishy.");
+				throw new ChessManagerException(
+						"You have not a running game hence you cannot cancel it.");
+			} else if (state.size() > 1) {
+				throw new ChessManagerException(
+						"You have several running games, something is fishy.");
 			} else {
 				ChessStateVO vo = state.get(0);
-				
+
 				vo.setResult(ResultType.ABORTED.getNumber());
 				dao.updateTable(vo);
-				
+
 				result = "Game has been successfully aborted!";
 			}
 		} catch (SQLException e) {
-			throw new ChessManagerException("Error! Could not create new game: " + e.getMessage());
+			throw new ChessManagerException(
+					"Error! Could not create new game: " + e.getMessage());
 		}
 
 		return result;

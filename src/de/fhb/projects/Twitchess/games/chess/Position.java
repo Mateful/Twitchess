@@ -33,7 +33,7 @@ public final class Position extends Point {
 		bits ^= y * 31;
 		return (((int) bits) ^ ((int) (bits >> 32)));
 	}
-	
+
 	public int calculateXDistance(final Position destination) {
 		return calculateXDistance(this, destination);
 	}
@@ -45,7 +45,7 @@ public final class Position extends Point {
 	public static int calculateXDistance(final Move move) {
 		return calculateXDistance(move.getStart(), move.getDestination());
 	}
-	
+
 	public static int calculateXDistance(final Position start,
 			final Position destination) {
 		return Math.abs(destination.x - start.x);

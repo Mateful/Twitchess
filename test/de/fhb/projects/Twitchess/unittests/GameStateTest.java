@@ -47,16 +47,20 @@ public class GameStateTest {
 				firstState.getFigureAtStart(blackPawnMove));
 
 		GameState thirdState = new GameState(secondState, blackPawnMove);
-		//assertEquals(thirdState.getCurrentPlayer(), white);
+		// assertEquals(thirdState.getCurrentPlayer(), white);
 		assertEquals(WHITE, thirdState.getCurrentColor());
 		assertEquals(secondState, thirdState.getLastState());
 		assertEquals(blackPawnMove, thirdState.getLastMove());
-		
-		assertEquals(new Pawn(new Position(0, 1), WHITE), firstState.getFigureAtStart(whitePawnMove));
-		assertEquals(NoFigure.NO_FIGURE, firstState.getFigureAtDestination(whitePawnMove));
-		
-		assertEquals(new Pawn(new Position(0, 3), WHITE), secondState.getFigureAtDestination(whitePawnMove));
-		assertEquals(NoFigure.NO_FIGURE, secondState.getFigureAtStart(whitePawnMove));
+
+		assertEquals(new Pawn(new Position(0, 1), WHITE),
+				firstState.getFigureAtStart(whitePawnMove));
+		assertEquals(NoFigure.NO_FIGURE,
+				firstState.getFigureAtDestination(whitePawnMove));
+
+		assertEquals(new Pawn(new Position(0, 3), WHITE),
+				secondState.getFigureAtDestination(whitePawnMove));
+		assertEquals(NoFigure.NO_FIGURE,
+				secondState.getFigureAtStart(whitePawnMove));
 	}
 
 	@Test

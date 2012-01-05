@@ -139,4 +139,4 @@ public class ChessStateDAOTest {
 		if (f.exists())
 			f.delete();
 	}
-}
+ }

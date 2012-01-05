@@ -1,7 +1,7 @@
 package de.fhb.projects.Twitchess.data;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 
 public class ChessStateVO {
 	private int id;
@@ -82,7 +82,7 @@ public class ChessStateVO {
 				+ ((date == null) ? "null" : dateFormat.format(date))
 				+ ", result=" + result + "]";
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -106,7 +106,7 @@ public class ChessStateVO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		ChessStateVO other = (ChessStateVO) obj;
 
 		return other.id == id;

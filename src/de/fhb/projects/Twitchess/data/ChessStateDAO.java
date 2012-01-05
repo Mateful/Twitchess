@@ -148,7 +148,7 @@ public class ChessStateDAO implements ChessStateDAOInterface {
 		generatedKey = insertIntoChessGame.getGeneratedKeys();
 		vo.setId(generatedKey.getInt(1));
 
-		//System.out.println("INSERTED " + vo + "\n    RETURNS " + vo.getId());
+		// System.out.println("INSERTED " + vo + "\n    RETURNS " + vo.getId());
 
 		return vo.getId();
 	}
@@ -204,7 +204,7 @@ public class ChessStateDAO implements ChessStateDAOInterface {
 		updateChessGame.setInt(6, vo.getId());
 
 		updateChessGame.execute();
-		//System.out.println("UPDATED " + vo);
+		// System.out.println("UPDATED " + vo);
 	}
 
 }

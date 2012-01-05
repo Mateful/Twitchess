@@ -44,31 +44,29 @@ public final class ChessLogic {
 	private ChessLogic() {
 	}
 
-	public static boolean isValidMoveWithCheck(final GameState state,
-			final Move move) {
-		isValidMove(state, move, false);
-		isCheckAfterMove(state, move);
-		return true;
-	}
-
-	public static boolean isValidMoveIgnoreNotYourTurnWithCheck(
-			final GameState state, final Move move) {
-		isValidMove(state, move, true);
-		isCheckAfterMove(state, move);
-		return true;
-	}
-
 	public static boolean isValidMove(final GameState state, final Move move) {
-		return isValidMove(state, move, false);
+		return isValidMove(state, move, false, false);
 	}
-
+	
+	public static boolean isValidMoveWithoutCheck(
+			final GameState state, final Move move) {
+		isValidMove(state, move, false, true);
+		return true;
+	}
+	
 	public static boolean isValidMoveIgnoreNotYourTurn(final GameState state,
 			final Move move) {
-		return isValidMove(state, move, true);
+		return isValidMove(state, move, true, false);
+	}
+	
+	public static boolean isValidMoveIgnoreNotYourTurnWithoutCheck(
+			final GameState state, final Move move) {
+		isValidMove(state, move, true, true);
+		return true;
 	}
 
 	private static boolean isValidMove(final GameState state, final Move move,
-			final boolean ignoreNotYourTurn) {
+			final boolean ignoreNotYourTurn, final boolean withoutCheck) {
 		currentMove = move;
 		figureAtStart = state.getFigureAtStart(move);
 		figureAtDestionation = state.getFigureAtDestination(move);
@@ -82,6 +80,8 @@ public final class ChessLogic {
 		}
 		figureCanDoMove(state, move);
 		isBlocked(state, move);
+		if (!withoutCheck)
+			isCheckAfterMove(state, move);
 		return true;
 	}
 
@@ -92,7 +92,6 @@ public final class ChessLogic {
 			move.setPromoteTo(new Queen(move.getDestination()));
 		}
 		hasInvalidPromoteTo(state, move);
-		move.getPromoteTo().setPosition(move.getDestination());
 	}
 
 	private static void hasInvalidPromoteTo(final GameState state,
@@ -272,7 +271,7 @@ public final class ChessLogic {
 			Player opponent = state.getOpponent(currentTurnPlayer);
 			for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
 				try {
-					if (isValidMoveIgnoreNotYourTurn(state, new Move(opponent
+					if (isValidMoveIgnoreNotYourTurnWithoutCheck(state, new Move(opponent
 							.getFiguresInGame().get(i).getPosition(), kingPos))) {
 						return true;
 					}
@@ -332,7 +331,7 @@ public final class ChessLogic {
 				try {
 					Move move = new Move(figure.getPosition(), new Position(x,
 							y));
-					if (isValidMoveIgnoreNotYourTurnWithCheck(state, move)) {
+					if (isValidMoveIgnoreNotYourTurn(state, move)) {
 						validMoves.add(move);
 					}
 				} catch (RuntimeException e) {

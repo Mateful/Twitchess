@@ -1,6 +1,6 @@
 package de.fhb.projects.Twitchess.integrationtests.chess;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +40,12 @@ public class GetAllMovesTest {
 					.getFiguresInGame().get(i)));
 		}
 
-		
 		assertEquals(36, l.size());
 	}
-	
+
 	@Test
 	public void getAllMovesDoubleCheckWhite() {
-		Fen f = new Fen(
-				"6k1/8/8/6r1/4R3/4Rn1b/5P1P/6K1 w - - 0 1");
+		Fen f = new Fen("6k1/8/8/6r1/4R3/4Rn1b/5P1P/6K1 w - - 0 1");
 		List<Move> l = new ArrayList<Move>();
 		GameState s = f.getGameState();
 
@@ -56,14 +54,12 @@ public class GetAllMovesTest {
 					.getFiguresInGame().get(i)));
 		}
 
-		
 		assertEquals(1, l.size());
 	}
-	
+
 	@Test
 	public void getAllMovesDoubleCheckBlack() {
-		Fen f = new Fen(
-				"6K1/8/8/6R1/4r3/4rN2/5p1p/6k1 b - - 0 1");
+		Fen f = new Fen("6K1/8/8/6R1/4r3/4rN2/5p1p/6k1 b - - 0 1");
 		List<Move> l = new ArrayList<Move>();
 		GameState s = f.getGameState();
 
@@ -72,11 +68,6 @@ public class GetAllMovesTest {
 					.getFiguresInGame().get(i)));
 		}
 
-		
 		assertEquals(2, l.size());
-//		System.out.println("COUNT = " + l.size());
-//		for (Move m : l) {
-//			System.out.println(m);
-//		}
 	}
 }

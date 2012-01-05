@@ -34,7 +34,7 @@ public final class Rook extends Figure {
 	@Override
 	public Object clone() {
 		Rook o = new Rook((Position) position.clone(), color);
-		
+
 		return (Object) o;
 	}
 }

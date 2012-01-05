@@ -31,9 +31,9 @@ public class GenerateImageTest {
 	@Test
 	public void testGenerateImage() throws Exception {
 		gi = new GenerateImage("test-files/board.properties");
-//		GenerateImage gi2 = new GenerateImage("test-files/board.properties");
-//		BufferedImage bi = ImageIO
-//				.read(new File("test-files/board.properties"));
+		// GenerateImage gi2 = new GenerateImage("test-files/board.properties");
+		// BufferedImage bi = ImageIO
+		// .read(new File("test-files/board.properties"));
 		// Kann erst getestet werden wenn das Bild gespeichert wird
 	}
 
@@ -71,7 +71,6 @@ public class GenerateImageTest {
 		assertTrue(Integer.MIN_VALUE == gi.rowToCoordinate(Integer.MIN_VALUE));
 		assertTrue(Integer.MAX_VALUE == gi.rowToCoordinate(Integer.MAX_VALUE));
 	}
-
 
 	@Test
 	public void testGenerateImageFromFen() {

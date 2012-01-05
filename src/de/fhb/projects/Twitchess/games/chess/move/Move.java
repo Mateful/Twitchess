@@ -143,7 +143,7 @@ public final class Move {
 
 	/**
 	 * Sets the figure the moving pawn should promote to. NOTE: The position of
-	 * promoteTo doesn't concern us, since it will be set by ChessLogic.
+	 * promoteTo doesn't concern us, since it will be set by GameState.
 	 * 
 	 * @param promoteTo
 	 */

@@ -108,7 +108,7 @@ public abstract class Figure implements Cloneable {
 				&& moveDirections.equals(other.moveDirections)
 				&& position.equals(other.position);
 	}
-	
+
 	@Override
 	public abstract Object clone();
 }

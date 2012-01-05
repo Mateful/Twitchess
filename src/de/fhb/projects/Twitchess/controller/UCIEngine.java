@@ -138,7 +138,7 @@ public class UCIEngine implements UCIEngineInterface {
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void sendCommandString(String s) {
 		if (s == null)
 			return;
