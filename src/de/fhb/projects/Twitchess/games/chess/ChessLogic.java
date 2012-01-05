@@ -52,9 +52,7 @@ public final class ChessLogic {
 
 	private static boolean isValidMove(final GameState state, final Move move,
 			final boolean ignoreNotYourTurn, final boolean withoutCheck) {
-		move.setMovingFigure(state.getFigure(move.getStart()));
-		move.setHitTarget(state.getFigureAtDestination(move));
-		
+		setFigures(state, move);
 		isPromotion(state, move);
 		moveStartHasNoFigure(move);
 		moveDestinationIsBlockedByFigureOfSameColor(move);
@@ -66,6 +64,11 @@ public final class ChessLogic {
 		if (!withoutCheck)
 			isCheckAfterMove(state, move);
 		return true;
+	}
+
+	private static void setFigures(final GameState state, final Move move) {
+		move.setMovingFigure(state.getFigure(move.getStart()));
+		move.setHitTarget(state.getFigureAtDestination(move));
 	}
 
 	private static void isPromotion(final GameState state, final Move move) {
