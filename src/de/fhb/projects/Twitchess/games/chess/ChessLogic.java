@@ -1,9 +1,9 @@
 package de.fhb.projects.Twitchess.games.chess;
 
-import static de.fhb.projects.Twitchess.games.chess.ChessProperties.BLACK_PAWN_LINE;
+import static de.fhb.projects.Twitchess.games.chess.ChessProperties.BLACK_PAWN_RANK;
 import static de.fhb.projects.Twitchess.games.chess.ChessProperties.CHESSBOARD_HEIGHT;
 import static de.fhb.projects.Twitchess.games.chess.ChessProperties.CHESSBOARD_WIDTH;
-import static de.fhb.projects.Twitchess.games.chess.ChessProperties.WHITE_PAWN_LINE;
+import static de.fhb.projects.Twitchess.games.chess.ChessProperties.WHITE_PAWN_RANK;
 import static de.fhb.projects.Twitchess.games.chess.figures.NoFigure.NO_FIGURE;
 
 import java.util.ArrayList;
@@ -109,12 +109,12 @@ public final class ChessLogic {
 						"Tried to promote a figure different from Pawn.");
 			}
 			if (state.getCurrentColor() == Color.WHITE) {
-				if (move.getStart().y != ChessProperties.BLACK_PAWN_LINE) {
+				if (move.getStart().y != ChessProperties.BLACK_PAWN_RANK) {
 					throw new PromoteException(
 							"Tried to promote Pawn with wrong position.");
 				}
 			} else if (state.getCurrentColor() == Color.BLACK) {
-				if (move.getStart().y != ChessProperties.WHITE_PAWN_LINE) {
+				if (move.getStart().y != ChessProperties.WHITE_PAWN_RANK) {
 					throw new PromoteException(
 							"Tried to promote Pawn with wrong position.");
 				}
@@ -220,8 +220,8 @@ public final class ChessLogic {
 
 	private static boolean isPawnInInitialLine(final Pawn pawn, final Move move) {
 		return pawn.getColor().equals(Color.WHITE)
-				? move.getStart().getY() == WHITE_PAWN_LINE
-				: move.getStart().getY() == BLACK_PAWN_LINE;
+				? move.getStart().getY() == WHITE_PAWN_RANK
+				: move.getStart().getY() == BLACK_PAWN_RANK;
 	}
 
 	private static void hasWrongColor(GameState state) {

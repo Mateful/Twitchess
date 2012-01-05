@@ -16,8 +16,8 @@ import de.fhb.projects.Twitchess.games.chess.player.Color;
  */
 public final class ChessProperties {
 	public static final int CHESSBOARD_WIDTH = 8, CHESSBOARD_HEIGHT = 8;
-	public static final int WHITE_PAWN_LINE = 1;
-	public static final int BLACK_PAWN_LINE = 6;
+	public static final int WHITE_PAWN_RANK = 1;
+	public static final int BLACK_PAWN_RANK = 6;
 	public static final Position WHITE_KING_POSITION = new Position(4, 0);
 	public static final Position BLACK_KING_POSITION = new Position(4, 7);
 	public static final Position WHITE_QUEEN_POSITION = new Position(3, 0);
@@ -84,9 +84,42 @@ public final class ChessProperties {
 		Pawn[] pawns = new Pawn[CHESSBOARD_WIDTH];
 		for (int i = 0; i < CHESSBOARD_WIDTH; i++) {
 			pawns[i] = new Pawn(new Position(i, color == WHITE
-					? WHITE_PAWN_LINE
-					: BLACK_PAWN_LINE), color);
+					? WHITE_PAWN_RANK
+					: BLACK_PAWN_RANK), color);
 		}
 		return pawns;
+	}
+
+	public static Position getLeftRookPosition(Color color) {
+		switch (color) {
+			case WHITE :
+				return WHITE_ROOK_POSITIONS[0];
+			case BLACK :
+				return BLACK_ROOK_POSITIONS[0];
+			default :
+				throw new RuntimeException("No Rook with this color.");
+		}
+	}
+
+	public static Position getRightRookPosition(Color color) {
+		switch (color) {
+			case WHITE :
+				return WHITE_ROOK_POSITIONS[1];
+			case BLACK :
+				return BLACK_ROOK_POSITIONS[1];
+			default :
+				throw new RuntimeException("No Rook with this color.");
+		}
+	}
+
+	public static Position getKingPosition(Color color) {
+		switch (color) {
+			case WHITE :
+				return WHITE_KING_POSITION;
+			case BLACK :
+				return BLACK_KING_POSITION;
+			default :
+				throw new RuntimeException("No King with this color.");
+		}
 	}
 }

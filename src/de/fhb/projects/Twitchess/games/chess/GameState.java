@@ -32,88 +32,98 @@ public final class GameState {
 	}
 
 	public GameState(final GameState oldState, final Move move) {
-		lastState = oldState;
-		board = new Figure[CHESSBOARD_WIDTH][CHESSBOARD_HEIGHT];
+		initAttributes(oldState, move);
+		updatePositions();
+		doMove();
+		updateCastlingPossibilities();
+	}
 
+	private void initAttributes(final GameState oldState, final Move move) {
+		lastState = oldState;
+		lastMove = move;
+		board = new Figure[CHESSBOARD_WIDTH][CHESSBOARD_HEIGHT];
 		white = (Player) oldState.white.clone();
 		black = (Player) oldState.black.clone();
-		updatePositions();
-
 		if (oldState.getCurrentColor() == Color.WHITE) {
 			currentTurnPlayer = black;
 		} else {
 			currentTurnPlayer = white;
 		}
-
-		whiteCastleKingSide = lastState.whiteCastleKingSide;
-		whiteCastleQueenSide = lastState.whiteCastleQueenSide;
-		blackCastleKingSide = lastState.blackCastleKingSide;
-		blackCastleQueenSide = lastState.blackCastleQueenSide;
-
-		doMove(move);
 	}
 
-	protected void doMove(final Move move) {
-		lastMove = move;
-		// TODO: ENPASSANT/CASTLING
-		Figure f = board[move.getStart().x][move.getStart().y];
-		f.setPosition(new Position(move.getDestination().x, move
-				.getDestination().y));
-		board[move.getStart().x][move.getStart().y] = NoFigure.NO_FIGURE;
-		if (move.getHitTarget() != NO_FIGURE) {
-			getPlayer(move.getHitTarget().getColor()).removeFigureFromGame(
-					move.getHitTarget());
-			board[move.getHitTarget().getPosition().x][move.getHitTarget()
-					.getPosition().y] = NO_FIGURE;
-		}
-		board[move.getDestination().x][move.getDestination().y] = f;
-		if (move.getPromoteTo() != NO_FIGURE) {
-			getPlayer(getFigureAtDestination(move).getColor())
-					.removeFigureFromGame(
-							board[move.getDestination().x][move
-									.getDestination().y]);
-			getPlayer(getFigureAtDestination(move).getColor()).add(
-					move.getPromoteTo());
-			board[move.getDestination().x][move.getDestination().y] = move
+	private void updateCastlingPossibilities() {
+		whiteCastleKingSide = lastState.whiteCastleKingSide
+				&& kingAtInitialPosition(Color.WHITE)
+				&& rightRookAtInitialPosition(Color.WHITE);
+		whiteCastleQueenSide = lastState.whiteCastleQueenSide
+				&& kingAtInitialPosition(Color.WHITE)
+				&& leftRookAtInitialPosition(Color.WHITE);
+		blackCastleKingSide = lastState.blackCastleKingSide
+				&& kingAtInitialPosition(Color.BLACK)
+				&& rightRookAtInitialPosition(Color.BLACK);
+		blackCastleQueenSide = lastState.blackCastleQueenSide
+				&& kingAtInitialPosition(Color.BLACK)
+				&& leftRookAtInitialPosition(Color.BLACK);
+	}
+
+	private boolean leftRookAtInitialPosition(final Color color) {
+		Position leftRookPosition = ChessProperties.getLeftRookPosition(color);
+		return getFigure(leftRookPosition).equals(
+				new Rook(leftRookPosition, color));
+	}
+
+	private boolean rightRookAtInitialPosition(final Color color) {
+		Position rightRookPosition = ChessProperties
+				.getRightRookPosition(color);
+		return getFigure(rightRookPosition).equals(
+				new Rook(rightRookPosition, color));
+	}
+
+	private boolean kingAtInitialPosition(final Color color) {
+		Position kingPosition = ChessProperties.getKingPosition(color);
+		return getFigure(kingPosition).equals(new King(kingPosition, color));
+	}
+
+	protected void doMove() {
+		Figure movingFigure = board[lastMove.getStart().x][lastMove.getStart().y];
+		movingFigure.setPosition(new Position(lastMove.getDestination().x,
+				lastMove.getDestination().y));
+		setNoFigure(lastMove.getStart());
+		hitFigure();
+		board[lastMove.getDestination().x][lastMove.getDestination().y] = movingFigure;
+		if (lastMove.getPromoteTo() != NO_FIGURE) {
+			currentTurnPlayer.removeFigureFromGame(getFigure(lastMove
+					.getDestination()));
+			currentTurnPlayer.add(lastMove.getPromoteTo());
+			board[lastMove.getDestination().x][lastMove.getDestination().y] = lastMove
 					.getPromoteTo();
 		}
-		if (f instanceof King) {
-			if (Position.calculateXDistance(move) == 2) {
-				if (move.getDirectionType() == DirectionType.RIGHT) {
-					board[f.getPosition().x - 1][f.getPosition().y] = board[CHESSBOARD_WIDTH - 1][f
+		if (movingFigure instanceof King) {
+			if (Position.calculateXDistance(lastMove) == 2) {
+				if (lastMove.getDirectionType() == DirectionType.RIGHT) {
+					board[movingFigure.getPosition().x - 1][movingFigure
+							.getPosition().y] = board[CHESSBOARD_WIDTH - 1][movingFigure
 							.getPosition().y];
-					board[CHESSBOARD_WIDTH - 1][f.getPosition().y] = NO_FIGURE;
-				} else if (move.getDirectionType() == DirectionType.LEFT) {
-					board[f.getPosition().x + 1][f.getPosition().y] = board[0][f
+					board[CHESSBOARD_WIDTH - 1][movingFigure.getPosition().y] = NO_FIGURE;
+				} else if (lastMove.getDirectionType() == DirectionType.LEFT) {
+					board[movingFigure.getPosition().x + 1][movingFigure
+							.getPosition().y] = board[0][movingFigure
 							.getPosition().y];
-					board[0][f.getPosition().y] = NO_FIGURE;
+					board[0][movingFigure.getPosition().y] = NO_FIGURE;
 				}
 			}
-			if (f.getColor() == Color.WHITE) {
-				whiteCastleKingSide = whiteCastleQueenSide = false;
-			} else if (f.getColor() == Color.BLACK) {
-				blackCastleKingSide = blackCastleQueenSide = false;
-			}
 		}
-		if (f instanceof Rook) {
-			if (f.getColor() == Color.WHITE
-					&& move.getStart().equals(
-							ChessProperties.WHITE_ROOK_POSITIONS[0])) {
-				whiteCastleQueenSide = false;
-			} else if (f.getColor() == Color.WHITE
-					&& move.getStart().equals(
-							ChessProperties.WHITE_ROOK_POSITIONS[1])) {
-				whiteCastleKingSide = false;
-			} else if (f.getColor() == Color.BLACK
-					&& move.getStart().equals(
-							ChessProperties.BLACK_ROOK_POSITIONS[0])) {
-				blackCastleQueenSide = false;
-			} else if (f.getColor() == Color.BLACK
-					&& move.getStart().equals(
-							ChessProperties.BLACK_ROOK_POSITIONS[1])) {
-				blackCastleKingSide = false;
-			}
+	}
+
+	private void hitFigure() {
+		if (lastMove.getHitTarget() != NO_FIGURE) {
+			currentTurnPlayer.removeFigureFromGame(lastMove.getHitTarget());
+			setNoFigure(lastMove.getHitTarget().getPosition());
 		}
+	}
+
+	private void setNoFigure(final Position position) {
+		board[position.x][position.y] = NoFigure.NO_FIGURE;
 	}
 
 	public void updatePositions() {
@@ -172,6 +182,10 @@ public final class GameState {
 
 	public Move getLastMove() {
 		return lastMove;
+	}
+
+	public Figure getFigure(final Position position) {
+		return getFigure(position.x, position.y);
 	}
 
 	public Figure getFigure(final int x, final int y) {

@@ -118,17 +118,17 @@ public final class Move {
 				&& destination.equals(other.destination)
 				&& direction.equals(other.direction);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Move [direction=" + direction + ", start=" + start
 				+ ", destination=" + destination + "]";
-	}	
-	
+	}
+
 	public String getLongNotation() {
 		return start.toString() + destination.toString();
 	}
-	
+
 	public Figure getHitTarget() {
 		return hitTarget;
 	}
@@ -136,11 +136,17 @@ public final class Move {
 	public void setHitTarget(Figure hitTarget) {
 		this.hitTarget = hitTarget;
 	}
-	
+
 	public Figure getPromoteTo() {
 		return promoteTo;
 	}
 
+	/**
+	 * Sets the figure the moving pawn should promote to. NOTE: The position of
+	 * promoteTo doesn't concern us, since it will be set by ChessLogic.
+	 * 
+	 * @param promoteTo
+	 */
 	public void setPromoteTo(Figure promoteTo) {
 		this.promoteTo = promoteTo;
 	}

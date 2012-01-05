@@ -254,4 +254,66 @@ public class CastlingTest {
 		assertTrue(rookMovesLeft.isBlackCastleKingSide());
 		assertFalse(rookMovesLeft.isBlackCastleQueenSide());
 	}
+	
+	@Test
+	public void castlingStillBlockedAfterKingMovesBackWhite() {
+		Fen fen = new Fen("8/8/8/8/8/8/8/R2K3R w - - 0 1");
+		GameState state = fen.getGameState();
+		Move kingMovesBack = Move.right(new Position(3, 0), 1);
+		assertTrue(ChessLogic.isValidMove(state, kingMovesBack));
+		GameState kingBackToStart = new GameState(state, kingMovesBack);
+		assertFalse(kingBackToStart.isWhiteCastleKingSide());
+		assertFalse(kingBackToStart.isWhiteCastleQueenSide());
+	}
+	
+	@Test
+	public void kingSideCastlingStillBlockedAfterRookMovesBackWhite() {
+		Fen fen = new Fen("8/8/8/8/8/8/8/R3K1R1 w Q - 0 1");
+		GameState state = fen.getGameState();
+		Move rookMovesBack = Move.right(new Position(6, 0), 1);
+		assertTrue(ChessLogic.isValidMove(state, rookMovesBack));
+		GameState rookBackToStart = new GameState(state, rookMovesBack);
+		assertFalse(rookBackToStart.isWhiteCastleKingSide());
+	}
+	
+	@Test
+	public void queenSideCastlingStillBlockedAfterRookMovesBackWhite() {
+		Fen fen = new Fen("8/8/8/8/8/8/8/1R2K2R w K - 0 1");
+		GameState state = fen.getGameState();
+		Move rookMovesBack = Move.left(new Position(1, 0), 1);
+		assertTrue(ChessLogic.isValidMove(state, rookMovesBack));
+		GameState rookBackToStart = new GameState(state, rookMovesBack);
+		assertFalse(rookBackToStart.isWhiteCastleQueenSide());
+	}
+	
+	@Test
+	public void castlingStillBlockedAfterKingMovesBackBlack() {
+		Fen fen = new Fen("r2k3r/8/8/8/8/8/8/8 b - - 0 1");
+		GameState state = fen.getGameState();
+		Move kingMovesBack = Move.right(new Position(3, 7), 1);
+		assertTrue(ChessLogic.isValidMove(state, kingMovesBack));
+		GameState kingBackToStart = new GameState(state, kingMovesBack);
+		assertFalse(kingBackToStart.isBlackCastleKingSide());
+		assertFalse(kingBackToStart.isBlackCastleQueenSide());
+	}
+	
+	@Test
+	public void kingSideCastlingStillBlockedAfterRookMovesBackBlack() {
+		Fen fen = new Fen("r2k2r1/8/8/8/8/8/8/8 b - - 0 1");
+		GameState state = fen.getGameState();
+		Move rookMovesBack = Move.right(new Position(6, 7), 1);
+		assertTrue(ChessLogic.isValidMove(state, rookMovesBack));
+		GameState rookBackToStart = new GameState(state, rookMovesBack);
+		assertFalse(rookBackToStart.isBlackCastleKingSide());
+	}
+	
+	@Test
+	public void queenSideCastlingStillBlockedAfterRookMovesBackBlack() {
+		Fen fen = new Fen("1r1k3r/8/8/8/8/8/8/8 b - - 0 1");
+		GameState state = fen.getGameState();
+		Move rookMovesBack = Move.left(new Position(1, 7), 1);
+		assertTrue(ChessLogic.isValidMove(state, rookMovesBack));
+		GameState rookBackToStart = new GameState(state, rookMovesBack);
+		assertFalse(rookBackToStart.isBlackCastleQueenSide());
+	}
 }
