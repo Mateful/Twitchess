@@ -224,19 +224,19 @@ public final class GameState {
 		lastMove = m;
 	}
 
-	public boolean isWhiteCastleKingSide() {
+	public boolean canWhiteCastleKingSide() {
 		return whiteCastleKingSide;
 	}
 
-	public boolean isWhiteCastleQueenSide() {
+	public boolean canWhiteCastleQueenSide() {
 		return whiteCastleQueenSide;
 	}
 
-	public boolean isBlackCastleKingSide() {
+	public boolean canBlackCastleKingSide() {
 		return blackCastleKingSide;
 	}
 
-	public boolean isBlackCastleQueenSide() {
+	public boolean canBlackCastleQueenSide() {
 		return blackCastleQueenSide;
 	}
 

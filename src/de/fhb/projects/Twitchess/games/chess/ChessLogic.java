@@ -32,18 +32,18 @@ public final class ChessLogic {
 	public static boolean isValidMove(final GameState state, final Move move) {
 		return isValidMove(state, move, false, false);
 	}
-	
-	public static boolean isValidMoveWithoutCheck(
-			final GameState state, final Move move) {
+
+	public static boolean isValidMoveWithoutCheck(final GameState state,
+			final Move move) {
 		isValidMove(state, move, false, true);
 		return true;
 	}
-	
+
 	public static boolean isValidMoveIgnoreNotYourTurn(final GameState state,
 			final Move move) {
 		return isValidMove(state, move, true, false);
 	}
-	
+
 	public static boolean isValidMoveIgnoreNotYourTurnWithoutCheck(
 			final GameState state, final Move move) {
 		isValidMove(state, move, true, true);
@@ -72,37 +72,53 @@ public final class ChessLogic {
 	}
 
 	private static void isPromotion(final GameState state, final Move move) {
+		setPromotion(move);
+		hasInvalidPromoteTo(state, move);
+	}
+
+	private static void setPromotion(final Move move) {
 		if (move.getMovingFigure() instanceof Pawn
-				&& (move.getDestination().y == 0 || move.getDestination().y == 7)
+				&& (move.getDestination().y == ChessProperties.CHESSBOARD_BOTTOM_RANK || move.getDestination().y == ChessProperties.CHESSBOARD_TOP_RANK)
 				&& move.getPromoteTo() == NO_FIGURE) {
 			move.setPromoteTo(new Queen(move.getDestination()));
 		}
-		hasInvalidPromoteTo(state, move);
 	}
 
 	private static void hasInvalidPromoteTo(final GameState state,
 			final Move move) {
 		if (move.getPromoteTo() != NO_FIGURE) {
-			if (move.getPromoteTo() instanceof King) {
-				throw new PromoteException("Tried to promote to King.");
-			}
-			if (move.getPromoteTo() instanceof Pawn) {
-				throw new PromoteException("Tried to promote to Pawn.");
-			}
-			if (!(move.getMovingFigure() instanceof Pawn)) {
+			checkPromoteToForInvalidFigure(move);
+			checkPromotedFigure(move);
+			checkPawnRankForPromotion(state, move);
+		}
+	}
+
+	private static void checkPromoteToForInvalidFigure(final Move move) {
+		if (move.getPromoteTo() instanceof King) {
+			throw new PromoteException("Tried to promote to King.");
+		}
+		if (move.getPromoteTo() instanceof Pawn) {
+			throw new PromoteException("Tried to promote to Pawn.");
+		}
+	}
+
+	private static void checkPromotedFigure(final Move move) {
+		if (!(move.getMovingFigure() instanceof Pawn)) {
+			throw new PromoteException(
+					"Tried to promote a figure different from Pawn.");
+		}
+	}
+
+	private static void checkPawnRankForPromotion(final GameState state, final Move move) {
+		if (state.getCurrentColor() == Color.WHITE) {
+			if (move.getStart().y != ChessProperties.BLACK_PAWN_RANK) {
 				throw new PromoteException(
-						"Tried to promote a figure different from Pawn.");
+						"Tried to promote Pawn with wrong position.");
 			}
-			if (state.getCurrentColor() == Color.WHITE) {
-				if (move.getStart().y != ChessProperties.BLACK_PAWN_RANK) {
-					throw new PromoteException(
-							"Tried to promote Pawn with wrong position.");
-				}
-			} else if (state.getCurrentColor() == Color.BLACK) {
-				if (move.getStart().y != ChessProperties.WHITE_PAWN_RANK) {
-					throw new PromoteException(
-							"Tried to promote Pawn with wrong position.");
-				}
+		} else if (state.getCurrentColor() == Color.BLACK) {
+			if (move.getStart().y != ChessProperties.WHITE_PAWN_RANK) {
+				throw new PromoteException(
+						"Tried to promote Pawn with wrong position.");
 			}
 		}
 	}
@@ -123,7 +139,8 @@ public final class ChessLogic {
 		}
 	}
 
-	private static void moveDestinationIsBlockedByFigureOfSameColor(final Move move) {
+	private static void moveDestinationIsBlockedByFigureOfSameColor(
+			final Move move) {
 		if (move.getHitTarget().getColor() == move.getMovingFigure().getColor()) {
 			throw new MoveBlockedException(
 					"The move is invalid because the destination is occupied by a figure of your own color. Your move:"
@@ -153,36 +170,44 @@ public final class ChessLogic {
 	}
 
 	private static boolean isCastling(final GameState state, final Move move) {
-		if (move.getMovingFigure() instanceof King
-				&& Position.calculateXDistance(move) == 2) {
-			if (move.getMovingFigure().getColor() == Color.WHITE) {
-				if (move.getDirectionType() == DirectionType.LEFT
-						&& state.isWhiteCastleQueenSide()
-						&& state.getFigure(1, 0) == NO_FIGURE) {
-					isCheckAfterMove(state, Move.left(move.getStart(), 1));
-					return true;
-				}
-				if (move.getDirectionType() == DirectionType.RIGHT
-						&& state.isWhiteCastleKingSide()) {
-					isCheckAfterMove(state, Move.right(move.getStart(), 1));
-					return true;
-				}
-			}
-			if (move.getMovingFigure().getColor() == Color.BLACK) {
-				if (move.getDirectionType() == DirectionType.LEFT
-						&& state.isBlackCastleQueenSide()
-						&& state.getFigure(1, 7) == NO_FIGURE) {
-					isCheckAfterMove(state, Move.left(move.getStart(), 1));
-					return true;
-				}
-				if (move.getDirectionType() == DirectionType.RIGHT
-						&& state.isBlackCastleKingSide()) {
-					isCheckAfterMove(state, Move.right(move.getStart(), 1));
-					return true;
-				}
-			}
+		if (isCastlingMove(move, move.getMovingFigure())) {
+			return checkFieldsForMovement(state, move, move.getMovingFigure());
 		}
 		return false;
+	}
+
+	private static boolean checkFieldsForMovement(final GameState state,
+			final Move move, final Figure figure) {
+		if (move.getDirectionType() == DirectionType.LEFT
+				&& canCastleQueenSide(state, figure)
+				&& state.getFigure(1, figure.getPosition().y) == NO_FIGURE) {
+			isCheckAfterMove(state, Move.left(move.getStart(), 1));
+			return true;
+		}
+		if (move.getDirectionType() == DirectionType.RIGHT
+				&& canCastleKingSide(state, figure)) {
+			isCheckAfterMove(state, Move.right(move.getStart(), 1));
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean canCastleKingSide(final GameState state,
+			final Figure figure) {
+		return figure.getColor() == Color.WHITE ? state
+				.canWhiteCastleKingSide() : state
+				.canBlackCastleKingSide();
+	}
+
+	private static boolean canCastleQueenSide(final GameState state,
+			final Figure figure) {
+		return figure.getColor() == Color.WHITE ? state
+				.canWhiteCastleQueenSide() : state
+				.canBlackCastleQueenSide();
+	}
+
+	private static boolean isCastlingMove(final Move move, Figure figure) {
+		return figure instanceof King && Position.calculateXDistance(move) == 2;
 	}
 	private static void figureCanDoHit(final Move move) {
 		if (!move.getMovingFigure().canDoHit(move)) {
@@ -192,7 +217,8 @@ public final class ChessLogic {
 		}
 	}
 
-	private static boolean isInitialPawn2Step(final Move move, final Figure figure) {
+	private static boolean isInitialPawn2Step(final Move move,
+			final Figure figure) {
 		return figure instanceof Pawn
 				&& isPawnInInitialLine((Pawn) figure, move)
 				&& Position.calculateXDistance(move) == 0
@@ -254,8 +280,9 @@ public final class ChessLogic {
 			Player opponent = state.getOpponent(currentTurnPlayer);
 			for (int i = 0; i < opponent.getFiguresInGame().size(); i++) {
 				try {
-					if (isValidMoveIgnoreNotYourTurnWithoutCheck(state, new Move(opponent
-							.getFiguresInGame().get(i).getPosition(), kingPos))) {
+					if (isValidMoveIgnoreNotYourTurnWithoutCheck(state,
+							new Move(opponent.getFiguresInGame().get(i)
+									.getPosition(), kingPos))) {
 						return true;
 					}
 				} catch (RuntimeException e) {

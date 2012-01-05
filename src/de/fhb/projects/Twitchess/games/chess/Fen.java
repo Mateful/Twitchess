@@ -231,19 +231,19 @@ public class Fen {
 
 		boolean castlingRights = false;
 
-		if (state.isWhiteCastleKingSide()) {
+		if (state.canWhiteCastleKingSide()) {
 			sb.append("K");
 			castlingRights = true;
 		}
-		if (state.isWhiteCastleQueenSide()) {
+		if (state.canWhiteCastleQueenSide()) {
 			sb.append("Q");
 			castlingRights = true;
 		}
-		if (state.isBlackCastleKingSide()) {
+		if (state.canBlackCastleKingSide()) {
 			sb.append("k");
 			castlingRights = true;
 		}
-		if (state.isBlackCastleQueenSide()) {
+		if (state.canBlackCastleQueenSide()) {
 			sb.append("q");
 			castlingRights = true;
 		}

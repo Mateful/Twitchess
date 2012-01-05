@@ -26,8 +26,8 @@ public class CastlingTest {
 		assertTrue(ChessLogic.isValidMove(state, castleMove));
 		assertTrue(castleMoveDone.getFigure(6, 0) instanceof King);
 		assertTrue(castleMoveDone.getFigure(5, 0) instanceof Rook);
-		assertFalse(castleMoveDone.isWhiteCastleKingSide());
-		assertFalse(castleMoveDone.isWhiteCastleQueenSide());
+		assertFalse(castleMoveDone.canWhiteCastleKingSide());
+		assertFalse(castleMoveDone.canWhiteCastleQueenSide());
 	}
 
 	@Test
@@ -39,8 +39,8 @@ public class CastlingTest {
 		assertTrue(ChessLogic.isValidMove(state, castleMove));
 		assertTrue(castleMoveDone.getFigure(2, 0) instanceof King);
 		assertTrue(castleMoveDone.getFigure(3, 0) instanceof Rook);
-		assertFalse(castleMoveDone.isWhiteCastleKingSide());
-		assertFalse(castleMoveDone.isWhiteCastleQueenSide());
+		assertFalse(castleMoveDone.canWhiteCastleKingSide());
+		assertFalse(castleMoveDone.canWhiteCastleQueenSide());
 	}
 
 	@Test
@@ -52,8 +52,8 @@ public class CastlingTest {
 		assertTrue(ChessLogic.isValidMove(state, castleMove));
 		assertTrue(castleMoveDone.getFigure(6, 7) instanceof King);
 		assertTrue(castleMoveDone.getFigure(5, 7) instanceof Rook);
-		assertFalse(castleMoveDone.isBlackCastleKingSide());
-		assertFalse(castleMoveDone.isBlackCastleQueenSide());
+		assertFalse(castleMoveDone.canBlackCastleKingSide());
+		assertFalse(castleMoveDone.canBlackCastleQueenSide());
 	}
 
 	@Test
@@ -65,8 +65,8 @@ public class CastlingTest {
 		assertTrue(ChessLogic.isValidMove(state, castleMove));
 		assertTrue(castleMoveDone.getFigure(2, 7) instanceof King);
 		assertTrue(castleMoveDone.getFigure(3, 7) instanceof Rook);
-		assertFalse(castleMoveDone.isBlackCastleKingSide());
-		assertFalse(castleMoveDone.isBlackCastleQueenSide());
+		assertFalse(castleMoveDone.canBlackCastleKingSide());
+		assertFalse(castleMoveDone.canBlackCastleQueenSide());
 	}
 
 	@Test(expected = MoveBlockedException.class)
@@ -219,8 +219,8 @@ public class CastlingTest {
 		GameState state = fen.getGameState();
 		Move kingMoveLeft = Move.left(new Position(4, 0), 1);
 		GameState kingMovesLeft = new GameState(state, kingMoveLeft);
-		assertFalse(kingMovesLeft.isWhiteCastleKingSide());
-		assertFalse(kingMovesLeft.isWhiteCastleQueenSide());
+		assertFalse(kingMovesLeft.canWhiteCastleKingSide());
+		assertFalse(kingMovesLeft.canWhiteCastleQueenSide());
 	}
 
 	@Test
@@ -229,8 +229,8 @@ public class CastlingTest {
 		GameState state = fen.getGameState();
 		Move rookMoveLeft = Move.left(new Position(7, 0), 1);
 		GameState rookMovesLeft = new GameState(state, rookMoveLeft);
-		assertFalse(rookMovesLeft.isWhiteCastleKingSide());
-		assertTrue(rookMovesLeft.isWhiteCastleQueenSide());
+		assertFalse(rookMovesLeft.canWhiteCastleKingSide());
+		assertTrue(rookMovesLeft.canWhiteCastleQueenSide());
 	}
 
 	@Test
@@ -239,8 +239,8 @@ public class CastlingTest {
 		GameState state = fen.getGameState();
 		Move rookMoveRight = Move.right(new Position(0, 0), 1);
 		GameState rookMovesLeft = new GameState(state, rookMoveRight);
-		assertTrue(rookMovesLeft.isWhiteCastleKingSide());
-		assertFalse(rookMovesLeft.isWhiteCastleQueenSide());
+		assertTrue(rookMovesLeft.canWhiteCastleKingSide());
+		assertFalse(rookMovesLeft.canWhiteCastleQueenSide());
 	}
 
 	@Test
@@ -249,8 +249,8 @@ public class CastlingTest {
 		GameState state = fen.getGameState();
 		Move kingMoveLeft = Move.left(new Position(4, 7), 1);
 		GameState kingMovesLeft = new GameState(state, kingMoveLeft);
-		assertFalse(kingMovesLeft.isBlackCastleKingSide());
-		assertFalse(kingMovesLeft.isBlackCastleQueenSide());
+		assertFalse(kingMovesLeft.canBlackCastleKingSide());
+		assertFalse(kingMovesLeft.canBlackCastleQueenSide());
 	}
 
 	@Test
@@ -259,8 +259,8 @@ public class CastlingTest {
 		GameState state = fen.getGameState();
 		Move rookMoveLeft = Move.left(new Position(7, 7), 1);
 		GameState rookMovesLeft = new GameState(state, rookMoveLeft);
-		assertFalse(rookMovesLeft.isBlackCastleKingSide());
-		assertTrue(rookMovesLeft.isBlackCastleQueenSide());
+		assertFalse(rookMovesLeft.canBlackCastleKingSide());
+		assertTrue(rookMovesLeft.canBlackCastleQueenSide());
 	}
 
 	@Test
@@ -269,8 +269,8 @@ public class CastlingTest {
 		GameState state = fen.getGameState();
 		Move rookMoveRight = Move.right(new Position(0, 7), 1);
 		GameState rookMovesLeft = new GameState(state, rookMoveRight);
-		assertTrue(rookMovesLeft.isBlackCastleKingSide());
-		assertFalse(rookMovesLeft.isBlackCastleQueenSide());
+		assertTrue(rookMovesLeft.canBlackCastleKingSide());
+		assertFalse(rookMovesLeft.canBlackCastleQueenSide());
 	}
 
 	@Test
@@ -280,8 +280,8 @@ public class CastlingTest {
 		Move kingMovesBack = Move.right(new Position(3, 0), 1);
 		assertTrue(ChessLogic.isValidMove(state, kingMovesBack));
 		GameState kingBackToStart = new GameState(state, kingMovesBack);
-		assertFalse(kingBackToStart.isWhiteCastleKingSide());
-		assertFalse(kingBackToStart.isWhiteCastleQueenSide());
+		assertFalse(kingBackToStart.canWhiteCastleKingSide());
+		assertFalse(kingBackToStart.canWhiteCastleQueenSide());
 	}
 
 	@Test
@@ -291,7 +291,7 @@ public class CastlingTest {
 		Move rookMovesBack = Move.right(new Position(6, 0), 1);
 		assertTrue(ChessLogic.isValidMove(state, rookMovesBack));
 		GameState rookBackToStart = new GameState(state, rookMovesBack);
-		assertFalse(rookBackToStart.isWhiteCastleKingSide());
+		assertFalse(rookBackToStart.canWhiteCastleKingSide());
 	}
 
 	@Test
@@ -301,7 +301,7 @@ public class CastlingTest {
 		Move rookMovesBack = Move.left(new Position(1, 0), 1);
 		assertTrue(ChessLogic.isValidMove(state, rookMovesBack));
 		GameState rookBackToStart = new GameState(state, rookMovesBack);
-		assertFalse(rookBackToStart.isWhiteCastleQueenSide());
+		assertFalse(rookBackToStart.canWhiteCastleQueenSide());
 	}
 
 	@Test
@@ -311,8 +311,8 @@ public class CastlingTest {
 		Move kingMovesBack = Move.right(new Position(3, 7), 1);
 		assertTrue(ChessLogic.isValidMove(state, kingMovesBack));
 		GameState kingBackToStart = new GameState(state, kingMovesBack);
-		assertFalse(kingBackToStart.isBlackCastleKingSide());
-		assertFalse(kingBackToStart.isBlackCastleQueenSide());
+		assertFalse(kingBackToStart.canBlackCastleKingSide());
+		assertFalse(kingBackToStart.canBlackCastleQueenSide());
 	}
 
 	@Test
@@ -322,7 +322,7 @@ public class CastlingTest {
 		Move rookMovesBack = Move.right(new Position(6, 7), 1);
 		assertTrue(ChessLogic.isValidMove(state, rookMovesBack));
 		GameState rookBackToStart = new GameState(state, rookMovesBack);
-		assertFalse(rookBackToStart.isBlackCastleKingSide());
+		assertFalse(rookBackToStart.canBlackCastleKingSide());
 	}
 
 	@Test
@@ -332,6 +332,6 @@ public class CastlingTest {
 		Move rookMovesBack = Move.left(new Position(1, 7), 1);
 		assertTrue(ChessLogic.isValidMove(state, rookMovesBack));
 		GameState rookBackToStart = new GameState(state, rookMovesBack);
-		assertFalse(rookBackToStart.isBlackCastleQueenSide());
+		assertFalse(rookBackToStart.canBlackCastleQueenSide());
 	}
 }

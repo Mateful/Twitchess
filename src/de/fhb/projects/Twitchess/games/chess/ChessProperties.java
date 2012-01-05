@@ -16,6 +16,8 @@ import de.fhb.projects.Twitchess.games.chess.player.Color;
  */
 public final class ChessProperties {
 	public static final int CHESSBOARD_WIDTH = 8, CHESSBOARD_HEIGHT = 8;
+	public static final int CHESSBOARD_BOTTOM_RANK = 0;
+	public static final int CHESSBOARD_TOP_RANK = 7;
 	public static final int WHITE_PAWN_RANK = 1;
 	public static final int BLACK_PAWN_RANK = 6;
 	public static final Position WHITE_KING_POSITION = new Position(4, 0);
