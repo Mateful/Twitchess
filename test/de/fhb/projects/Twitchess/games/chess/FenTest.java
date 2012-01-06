@@ -22,32 +22,38 @@ public class FenTest {
 
 	@Test
 	public void FenRowHasLessThanEight1Test() {
-		assertFalse(Fen.isValid("rnbqkbnr/pppppppp/7/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+		assertFalse(Fen
+				.isValid("rnbqkbnr/pppppppp/7/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
 	}
 
 	@Test
 	public void FenRowHasLessThanEight2Test() {
-		assertFalse(Fen.isValid("rnbqkbnr/ppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+		assertFalse(Fen
+				.isValid("rnbqkbnr/ppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
 	}
 
 	@Test
 	public void FenRowHasMoreThanEight1Test() {
-		assertFalse(Fen.isValid("rnbqkbnr/pppppppp/9/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+		assertFalse(Fen
+				.isValid("rnbqkbnr/pppppppp/9/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
 	}
 
 	@Test
 	public void FenRowHasMoreThanEight2Test() {
-		assertFalse(Fen.isValid("rnbqkbnr/ppppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+		assertFalse(Fen
+				.isValid("rnbqkbnr/ppppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
 	}
 
 	@Test
 	public void FenHasUnknownCharacterTest() {
-		assertFalse(Fen.isValid("rnblkbnr/ppppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+		assertFalse(Fen
+				.isValid("rnblkbnr/ppppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
 	}
 
 	@Test
 	public void FenHasUnknownCharacter2Test() {
-		assertFalse(Fen.isValid("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPx/RNBQKBNR w KQkq - 0 1"));
+		assertFalse(Fen
+				.isValid("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPx/RNBQKBNR w KQkq - 0 1"));
 	}
 
 	@Test
@@ -82,7 +88,8 @@ public class FenTest {
 
 	@Test
 	public void FenIsLongTest() {
-		assertTrue(Fen.isValid("pppppppp/pppppppp/pppppppp/pppppppp/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP w KQkq e3 49 100"));
+		assertTrue(Fen
+				.isValid("pppppppp/pppppppp/pppppppp/pppppppp/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP w KQkq e3 49 100"));
 	}
 
 	@Test
@@ -204,7 +211,7 @@ public class FenTest {
 	public void FenNoSpaceBetweenPositionAndPlayerTest() {
 		assertFalse(Fen.isValid("8/8/8/8/8/8/8/8w - - 0 30"));
 	}
-	
+
 	@Test
 	public void wrongPlayerColor() {
 		assertFalse(Fen.isValid("8/8/8/8/8/8/8/8 q - - 0 30"));

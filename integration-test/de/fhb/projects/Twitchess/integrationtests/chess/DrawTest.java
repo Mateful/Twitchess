@@ -27,6 +27,35 @@ public class DrawTest {
 	}
 
 	@Test
+	public void drawBy3TimesSamePositioning() {
+		GameState lastState = Fen.createGameState(Fen.START_POSITION);
+		// Players do the same thing for 3 turns
+		for (int i = 0; i < 3; i++) {
+			Move whiteJump = new Move(new Position(1, 0), new Position(0, 2));
+			assertTrue(ChessLogic.isValidMove(lastState, whiteJump));
+			lastState = new GameState(lastState, whiteJump);
+
+			Move blackJump = new Move(new Position(1, 7), new Position(0, 5));
+			assertTrue(ChessLogic.isValidMove(lastState, blackJump));
+			lastState = new GameState(lastState, blackJump);
+
+			Move whiteJumpBack = new Move(new Position(0, 2),
+					new Position(1, 0));
+			assertTrue(ChessLogic.isValidMove(lastState, whiteJumpBack));
+			lastState = new GameState(lastState, whiteJumpBack);
+
+			Move blackJumpBack = new Move(new Position(0, 5),
+					new Position(1, 7));
+			assertTrue(ChessLogic.isValidMove(lastState, blackJumpBack));
+			lastState = new GameState(lastState, blackJumpBack);
+			// draw at turn 3
+			if (i == 2) {
+				assertTrue(ChessLogic.isDraw(lastState));
+			}
+		}
+	}
+
+	@Test
 	public void resetHalfMoveClockByPawnMove() {
 		Fen fen = new Fen(
 				"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 24 1");

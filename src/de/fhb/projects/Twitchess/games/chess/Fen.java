@@ -113,7 +113,8 @@ public final class Fen {
 		return gameState;
 	}
 
-	private static void setPlayerFigures(String position, Player white, Player black) {
+	private static void setPlayerFigures(String position, Player white,
+			Player black) {
 		char c;
 		for (int i = 0, row = 0, column = 0; i < position.length(); i++) {
 			c = position.charAt(i);
@@ -133,8 +134,8 @@ public final class Fen {
 		}
 	}
 
-	private static void setGameStateAttributes(final String rest, final Player white,
-			final Player black, final GameState gameState) {
+	private static void setGameStateAttributes(final String rest,
+			final Player white, final Player black, final GameState gameState) {
 		String[] s = rest.split("\\s+");
 
 		setCurrentColor(gameState, s);
@@ -217,7 +218,7 @@ public final class Fen {
 		sb.append(getEnPassantString(state));
 		sb.append(" ");
 		sb.append(getMoveCounterString(state));
-		
+
 		return sb.toString();
 	}
 
@@ -316,7 +317,8 @@ public final class Fen {
 		}
 	}
 
-	private static void addToPlayer(final Player p, final char c, final Position pos) {
+	private static void addToPlayer(final Player p, final char c,
+			final Position pos) {
 		Figure f;
 
 		switch (Character.toLowerCase(c)) {
@@ -368,8 +370,13 @@ public final class Fen {
 	public GameState getGameState() {
 		return gameState;
 	}
-	
+
 	public String getFen() {
+		return fen;
+	}
+
+	@Override
+	public String toString() {
 		return fen;
 	}
 }

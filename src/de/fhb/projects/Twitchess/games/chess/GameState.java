@@ -282,14 +282,37 @@ public final class GameState {
 	public void setFullMoveNumber(int fullMoveNumber) {
 		this.fullMoveNumber = fullMoveNumber;
 	}
-	
+
 	public void setCurrentColor(Color color) {
-		if(color == Color.WHITE) {
+		if (color == Color.WHITE) {
 			currentTurnPlayer = white;
-		} else if(color == Color.BLACK) {
+		} else if (color == Color.BLACK) {
 			currentTurnPlayer = black;
 		} else {
-			throw new RuntimeException("Can only set current color to white or black.");
+			throw new RuntimeException(
+					"Can only set current color to white or black.");
 		}
+	}
+
+	public boolean hasSamePositioningAndColor(final GameState state) {
+		return hasSamePositioning(state) && hasSameCurrentTurnColor(state);
+	}
+
+	private boolean hasSameCurrentTurnColor(final GameState state) {
+		return this.getCurrentColor() == state.getCurrentColor();
+	}
+
+	private boolean hasSamePositioning(final GameState state) {
+		if (this.board.length != state.board.length
+				|| this.board[0].length != state.board[0].length)
+			return false;
+		for (int x = 0; x < this.board.length; x++) {
+			for (int y = 0; y < this.board[x].length; y++) {
+				if (!this.getFigure(x, y).equals(state.getFigure(x, y))) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

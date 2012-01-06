@@ -320,7 +320,23 @@ public final class ChessLogic {
 	}
 
 	public static boolean isDraw(final GameState state) {
-		return state.getHalfMoveClock() >= 50 || playerHasNoMovesLeft(state);
+		return state.getHalfMoveClock() >= 50 || playerHasNoMovesLeft(state)
+				|| isSamePositioningFor3rdTime(state);
+	}
+
+	private static boolean isSamePositioningFor3rdTime(final GameState state) {
+		int count = 0;
+		GameState stateBefore = state;
+		while (stateBefore.getLastState() != null) {
+			if (state.hasSamePositioningAndColor(stateBefore.getLastState())) {
+				count++;
+				if (count == 3) {
+					return true;
+				}
+			}
+			stateBefore = stateBefore.getLastState();
+		}
+		return false;
 	}
 
 	private static boolean playerHasNoMovesLeft(final GameState state) {
