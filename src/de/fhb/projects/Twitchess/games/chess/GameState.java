@@ -282,4 +282,14 @@ public final class GameState {
 	public void setFullMoveNumber(int fullMoveNumber) {
 		this.fullMoveNumber = fullMoveNumber;
 	}
+	
+	public void setCurrentColor(Color color) {
+		if(color == Color.WHITE) {
+			currentTurnPlayer = white;
+		} else if(color == Color.BLACK) {
+			currentTurnPlayer = black;
+		} else {
+			throw new RuntimeException("Can only set current color to white or black.");
+		}
+	}
 }

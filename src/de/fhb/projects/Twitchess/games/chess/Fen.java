@@ -45,25 +45,20 @@ public class Fen {
 	public static String START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 	protected String fen;
 
-	public Fen(String fen) {
+	public Fen(final String fen) {
 		super();
 		this.fen = fen;
 	}
 
-	public Fen(GameState state) {
+	public Fen(final GameState state) {
 		parseFromGameState(state);
-	}
-
-	public static Fen getStartingPosition() {
-		return new Fen(
-				"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 	}
 
 	public String getFen() {
 		return fen;
 	}
 
-	public void setFen(String fen) {
+	public void setFen(final String fen) {
 		this.fen = fen;
 	}
 
@@ -101,7 +96,7 @@ public class Fen {
 				.matches("[WwBb] ((KQ?k?q?)|(Qk?q?)|(kq?)|(q)|(\\-)) (([a-hA-H][36])|(\\-)) (0|([1-9]\\d*)) [1-9]\\d*");
 	}
 
-	protected boolean isValidLetter(char p) {
+	protected boolean isValidLetter(final char p) {
 		char c = Character.toLowerCase(p);
 
 		return c == 'p' || c == 'r' || c == 'n' || c == 'b' || c == 'q'
@@ -112,15 +107,21 @@ public class Fen {
 		if (!isValid())
 			throw new RuntimeException(
 					"The FEN was invalid, no GameState can be returned!");
-
-		char c;
-		String rest;
-		int i, row = 0, column = 0;
+		String position = fen.split(" ", 2)[0];
+		String attributes = fen.split(" ", 2)[1];
 		Player white = new Player(Color.WHITE), black = new Player(Color.BLACK);
 		GameState gameState;
+		
+		setPlayerFigures(position, white, black);
+		gameState = new GameState(white, black);
+		setGameStateAttributes(attributes, white, black, gameState);
+		return gameState;
+	}
 
-		for (i = 0; ' ' != fen.charAt(i); i++) {
-			c = fen.charAt(i);
+	private void setPlayerFigures(String position, Player white, Player black) {
+		char c;
+		for (int i = 0, row = 0, column = 0; i < position.length(); i++) {
+			c = position.charAt(i);
 			if (isValidLetter(c)) {
 				if (Character.isLowerCase(c)) {
 					addToPlayer(black, c, new Position(column, 7 - row));
@@ -135,43 +136,53 @@ public class Fen {
 				column = 0;
 			}
 		}
-
-		gameState = new GameState(white, black);
-
-		rest = fen.substring(i + 1);
-
-		return setAttributes(rest, white, black, gameState);
 	}
 
-	protected GameState setAttributes(String rest, Player white, Player black,
-			GameState gameState) {
+	protected void setGameStateAttributes(final String rest, final Player white,
+			final Player black, final GameState gameState) {
 		String[] s = rest.split("\\s+");
 
-		if (s[0].equalsIgnoreCase("b"))
-			gameState.setCurrentPlayer(black);
-		else
-			gameState.setCurrentPlayer(white);
+		setCurrentColor(gameState, s);
+		setCastling(gameState, s);
+		setLastMove(gameState, s);
+		setTurnCounters(gameState, s);
+	}
 
-		if (s[1].contains("K"))
+	private void setCurrentColor(final GameState gameState, String[] s) {
+		if (s[0].equalsIgnoreCase("b")) {
+			gameState.setCurrentColor(Color.BLACK);
+		} else {
+			gameState.setCurrentColor(Color.WHITE);
+		}
+	}
+
+	private void setCastling(final GameState gameState, String[] s) {
+		if (s[1].contains("K")) {
 			gameState.setWhiteCastleKingSide(true);
-		else
+		} else {
 			gameState.setWhiteCastleKingSide(false);
+		}
 
-		if (s[1].contains("Q"))
+		if (s[1].contains("Q")) {
 			gameState.setWhiteCastleQueenSide(true);
-		else
+		} else {
 			gameState.setWhiteCastleQueenSide(false);
+		}
 
-		if (s[1].contains("k"))
+		if (s[1].contains("k")) {
 			gameState.setBlackCastleKingSide(true);
-		else
+		} else {
 			gameState.setBlackCastleKingSide(false);
+		}
 
-		if (s[1].contains("q"))
+		if (s[1].contains("q")) {
 			gameState.setBlackCastleQueenSide(true);
-		else
+		} else {
 			gameState.setBlackCastleQueenSide(false);
+		}
+	}
 
+	private void setLastMove(final GameState gameState, String[] s) {
 		if (!s[2].contains("-")) {
 			Position p = ChessboardPositionToArrayPosition
 					.parseChessboardPosition(s[2]);
@@ -184,62 +195,52 @@ public class Fen {
 			} else if (p.y == 2) {
 				start = new Position(p.x, p.y - 1);
 				dest = new Position(p.x, p.y + 1);
-			} else
+			} else {
 				throw new RuntimeException(
 						"Error while parsing EnPassant-Position in Fen");
+			}
 
 			m = new Move(start, dest);
 			gameState.setLastMove(m);
-			System.out.println("gameState.setLastMove(" + m + ")");
 		}
-
-		gameState.setHalfMoveClock(Integer.valueOf(s[3]));
-		gameState.setFullMoveNumber(Integer.valueOf(s[4]));
-
-		return gameState;
 	}
 
-	public void parseFromGameState(GameState state) {
+	private void setTurnCounters(final GameState gameState, String[] s) {
+		gameState.setHalfMoveClock(Integer.valueOf(s[3]));
+		gameState.setFullMoveNumber(Integer.valueOf(s[4]));
+	}
+
+	public void parseFromGameState(final GameState state) {
 		StringBuilder sb = new StringBuilder();
-		int counter;
 
-		for (int y = 7; y >= 0; y--) {
-			counter = 0;
-			for (int x = 0; x < 8; x++) {
-				Figure f = state.getFigure(x, y);
-				if (f.equals(NoFigure.NO_FIGURE)) {
-					counter++;
-				} else {
-					char c = getCharFromFigure(f);
+		sb.append(getPositionString(state));
+		sb.append(" ");
+		sb.append(getCurrentColorString(state));
+		sb.append(" ");
+		sb.append(getCastlingString(state));
+		sb.append(" ");
+		sb.append(getEnPassantString(state));
+		sb.append(" ");
+		sb.append(getMoveCounterString(state));
 
-					if (counter > 0) {
-						sb.append("" + counter);
-						counter = 0;
-					}
+		setFen(sb.toString());
+	}
 
-					if (f.getColor().equals(Color.WHITE))
-						sb.append(Character.toUpperCase(c));
-					else
-						sb.append(Character.toLowerCase(c));
-				}
-			}
+	private String getMoveCounterString(final GameState state) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(state.getHalfMoveClock() + " ");
+		sb.append(state.getFullMoveNumber());
+		return sb.toString();
+	}
 
-			if (counter > 0)
-				sb.append("" + counter);
+	private String getEnPassantString(final GameState state) {
+		// we don't save enpassant field in GameState
+		return "-";
+	}
 
-			if (y != 0)
-				sb.append("/");
-		}
-
-		if (state.getCurrentColor() == Color.BLACK)
-			sb.append(" b ");
-		else
-			sb.append(" w ");
-
-		// TODO implement it
-
+	private String getCastlingString(final GameState state) {
+		StringBuilder sb = new StringBuilder();
 		boolean castlingRights = false;
-
 		if (state.canWhiteCastleKingSide()) {
 			sb.append("K");
 			castlingRights = true;
@@ -256,33 +257,71 @@ public class Fen {
 			sb.append("q");
 			castlingRights = true;
 		}
-		if (!castlingRights)
+		if (!castlingRights) {
 			sb.append("-");
-
-		sb.append(" - 0 1");
-
-		setFen(sb.toString());
+		}
+		return sb.toString();
 	}
 
-	protected char getCharFromFigure(Figure f) {
-		if (f instanceof King)
+	private String getCurrentColorString(final GameState state) {
+		if (state.getCurrentColor() == Color.BLACK)
+			return "b";
+		else
+			return "w";
+	}
+
+	private String getPositionString(final GameState state) {
+		StringBuilder sb = new StringBuilder();
+		int counter;
+		for (int y = 7; y >= 0; y--) {
+			counter = 0;
+			for (int x = 0; x < 8; x++) {
+				Figure f = state.getFigure(x, y);
+				if (f.equals(NoFigure.NO_FIGURE)) {
+					counter++;
+				} else {
+					char c = getCharFromFigure(f);
+					if (counter > 0) {
+						sb.append("" + counter);
+						counter = 0;
+					}
+					if (f.getColor().equals(Color.WHITE)) {
+						sb.append(Character.toUpperCase(c));
+					} else {
+						sb.append(Character.toLowerCase(c));
+					}
+				}
+			}
+			if (counter > 0) {
+				sb.append("" + counter);
+			}
+			if (y != 0) {
+				sb.append("/");
+			}
+		}
+		return sb.toString();
+	}
+
+	protected char getCharFromFigure(final Figure f) {
+		if (f instanceof King) {
 			return 'k';
-		if (f instanceof Queen)
+		} else if (f instanceof Queen) {
 			return 'q';
-		if (f instanceof Pawn)
+		} else if (f instanceof Pawn) {
 			return 'p';
-		if (f instanceof Bishop)
+		} else if (f instanceof Bishop) {
 			return 'b';
-		if (f instanceof Knight)
+		} else if (f instanceof Knight) {
 			return 'n';
-		if (f instanceof Rook)
+		} else if (f instanceof Rook) {
 			return 'r';
-
-		throw new RuntimeException(
-				"Error while parsing fen (Figure->Character)");
+		} else {
+			throw new RuntimeException(
+					"Error while parsing fen (Figure->Character)");
+		}
 	}
 
-	protected void addToPlayer(Player p, char c, Position pos) {
+	protected void addToPlayer(final Player p, final char c, final Position pos) {
 		Figure f;
 
 		switch (Character.toLowerCase(c)) {
@@ -309,5 +348,30 @@ public class Fen {
 		}
 
 		p.add(f);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fen == null) ? 0 : fen.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Fen other = (Fen) obj;
+		if (fen == null) {
+			if (other.fen != null)
+				return false;
+		} else if (!fen.equals(other.fen))
+			return false;
+		return true;
 	}
 }

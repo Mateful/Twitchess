@@ -249,6 +249,12 @@ public class FenTest {
 		Fen f = new Fen("8/8/8/8/8/8/8/8w - - 0 30");
 		assertFalse(f.isValid());
 	}
+	
+	@Test
+	public void wrongPlayerColor() {
+		Fen f = new Fen("8/8/8/8/8/8/8/8 q - - 0 30");
+		assertFalse(f.isValid());
+	}
 
 	@Test
 	public void FenIsValidLetterValidTest() {
@@ -294,7 +300,7 @@ public class FenTest {
 
 	@Test
 	public void initialGameState() {
-		Fen fen = Fen.getStartingPosition();
+		Fen fen = new Fen(Fen.START_POSITION);
 		GameState state = fen.getGameState();
 
 		assertEquals(
@@ -370,5 +376,13 @@ public class FenTest {
 		GameState state = fen.getGameState();
 		assertEquals(34, state.getHalfMoveClock());
 		assertEquals(89, state.getFullMoveNumber());
+	}
+
+	@Test
+	public void parseGameStateToFen() {
+		Fen fen = new Fen(
+				"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 48 125");
+		GameState state = fen.getGameState();
+		assertEquals(fen, new Fen(state));
 	}
 }
