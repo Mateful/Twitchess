@@ -93,7 +93,7 @@ public class MoveChessCommand implements ChessCommand {
 
 		return result;
 	}
-
+ 
 	protected ChessStateVO getCurrentGame(String player)
 			throws ChessManagerException {
 		List<ChessStateVO> listVO;
