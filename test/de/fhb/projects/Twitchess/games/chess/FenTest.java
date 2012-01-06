@@ -245,7 +245,7 @@ public class FenTest {
 	@Test(expected = RuntimeException.class)
 	public void invalidGameState() {
 		Fen f = new Fen("");
-		f.createGameState();
+		f.getGameState();
 	}
 
 	@Test
@@ -322,7 +322,7 @@ public class FenTest {
 	@Test
 	public void gameStateCounters() {
 		Fen fen = new Fen("8/8/8/8/8/8/8/8 w KQkq - 34 89");
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		assertEquals(34, state.getHalfMoveClock());
 		assertEquals(89, state.getFullMoveNumber());
 	}
@@ -331,7 +331,7 @@ public class FenTest {
 	public void parseGameStateToFen() {
 		Fen fen = new Fen(
 				"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 48 125");
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		assertEquals(fen, new Fen(state));
 	}
 }

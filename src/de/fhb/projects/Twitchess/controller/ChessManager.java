@@ -41,7 +41,7 @@ public class ChessManager implements ManagerInterface {
 		ChessManager m;
 		try {
 			Fen f = new Fen(Fen.START_POSITION);
-			GameState s = f.createGameState();
+			GameState s = f.getGameState();
 			List<Move> l = new ArrayList<Move>();
 
 			for (Figure fig : s.getCurrentPlayer().getFiguresInGame())

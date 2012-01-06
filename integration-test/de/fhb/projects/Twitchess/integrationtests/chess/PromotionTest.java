@@ -26,7 +26,7 @@ public class PromotionTest {
 		Move move = Move.up(pawn, 1);
 		Queen queen = new Queen(new Position(7, 7), Color.WHITE);
 		move.setPromoteTo(queen);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		assertTrue(ChessLogic.isValidMove(state, move));
 		GameState nextState = new GameState(state, move);
 		assertEquals(nextState.getFigure(7, 7), queen);
@@ -39,7 +39,7 @@ public class PromotionTest {
 		Move move = Move.up(new Position(7, 6), 1);
 		Bishop bishop = new Bishop(new Position(7, 7));
 		move.setPromoteTo(bishop);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		assertTrue(ChessLogic.isValidMove(state, move));
 		GameState nextState = new GameState(state, move);
 		assertEquals(nextState.getFigure(7, 7), bishop);
@@ -51,7 +51,7 @@ public class PromotionTest {
 		Move move = Move.up(new Position(7, 6), 1);
 		King king = new King(new Position(7, 7));
 		move.setPromoteTo(king);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		ChessLogic.isValidMove(state, move);
 	}
 
@@ -61,14 +61,14 @@ public class PromotionTest {
 		Move move = Move.up(new Position(7, 6), 1);
 		Pawn pawn = new Pawn(new Position(7, 7));
 		move.setPromoteTo(pawn);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		ChessLogic.isValidMove(state, move);
 	}
 
 	public void promoteToQueenIfNoPromoteToSet() {
 		Fen fen = new Fen("k7/7P/8/8/8/8/8/7K w - - 0 1");
 		Move move = Move.up(new Position(7, 6), 1);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		assertTrue(ChessLogic.isValidMove(state, move));
 		GameState nextState = new GameState(state, move);
 		assertTrue(nextState.getFigure(7, 7) instanceof Queen);
@@ -80,7 +80,7 @@ public class PromotionTest {
 		Move move = Move.down(new Position(0, 1), 1);
 		Queen queen = new Queen(new Position(0, 0));
 		move.setPromoteTo(queen);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		assertTrue(ChessLogic.isValidMove(state, move));
 		GameState nextState = new GameState(state, move);
 		assertEquals(nextState.getFigure(0, 0), queen);
@@ -92,7 +92,7 @@ public class PromotionTest {
 		Move move = Move.up(new Position(7, 6), 1);
 		Queen queen = new Queen(new Position(7, 7));
 		move.setPromoteTo(queen);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		ChessLogic.isValidMove(state, move);
 	}
 
@@ -102,7 +102,7 @@ public class PromotionTest {
 		Move move = Move.up(new Position(7, 5), 1);
 		Queen queen = new Queen(new Position(7, 6));
 		move.setPromoteTo(queen);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		ChessLogic.isValidMove(state, move);
 	}
 
@@ -112,7 +112,7 @@ public class PromotionTest {
 		Move move = Move.down(new Position(0, 1), 1);
 		Queen queen = new Queen(new Position(0, 0));
 		move.setPromoteTo(queen);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		ChessLogic.isValidMove(state, move);
 	}
 
@@ -122,7 +122,7 @@ public class PromotionTest {
 		Move move = Move.up(new Position(7, 6), 1);
 		Queen queen = new Queen(new Position(0, 0));
 		move.setPromoteTo(queen);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		assertTrue(ChessLogic.isValidMove(state, move));
 		GameState nextState = new GameState(state, move);
 		nextState.updatePositions();
@@ -136,7 +136,7 @@ public class PromotionTest {
 		Move move = Move.upLeft(new Position(7, 6), 1);
 		Queen queen = new Queen(new Position(6, 7));
 		move.setPromoteTo(queen);
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		assertTrue(ChessLogic.isValidMove(state, move));
 		GameState nextState = new GameState(state, move);
 		assertEquals(nextState.getFigure(6, 7), queen);

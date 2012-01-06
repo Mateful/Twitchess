@@ -52,7 +52,7 @@ public class MoveChessCommand implements ChessCommand {
 		ChessStateVO vo = getCurrentGame(player);
 		Fen fen = new Fen(vo.getFen());
 
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 
 		if ((t == MoveType.PLAYER || t == MoveType.AI_AFTER_PLAYER)
 				&& playersMove != null) {

@@ -49,21 +49,15 @@ public final class Fen {
 	public Fen(final String fen) {
 		if (isValid(fen)) {
 			this.fen = fen;
+			gameState = createGameState(fen);
 		} else {
 			throw new RuntimeException("Invalid fen.");
 		}
 	}
 
-	public Fen(final GameState state) {
-		parseFromGameState(state);
-	}
-
-	public static GameState createGameState(String fen) {
-		return new Fen(fen).createGameState();
-	}
-
-	public String getFen() {
-		return fen;
+	public Fen(final GameState gameState) {
+		fen = parseFromGameState(gameState);
+		this.gameState = gameState;
 	}
 
 	public static boolean isValid(final String fen) {
@@ -107,7 +101,7 @@ public final class Fen {
 				|| c == 'k';
 	}
 
-	public GameState createGameState() {
+	public static GameState createGameState(String fen) {
 		String position = fen.split(" ", 2)[0];
 		String attributes = fen.split(" ", 2)[1];
 		Player white = new Player(Color.WHITE), black = new Player(Color.BLACK);
@@ -119,7 +113,7 @@ public final class Fen {
 		return gameState;
 	}
 
-	private void setPlayerFigures(String position, Player white, Player black) {
+	private static void setPlayerFigures(String position, Player white, Player black) {
 		char c;
 		for (int i = 0, row = 0, column = 0; i < position.length(); i++) {
 			c = position.charAt(i);
@@ -139,7 +133,7 @@ public final class Fen {
 		}
 	}
 
-	private void setGameStateAttributes(final String rest, final Player white,
+	private static void setGameStateAttributes(final String rest, final Player white,
 			final Player black, final GameState gameState) {
 		String[] s = rest.split("\\s+");
 
@@ -149,7 +143,7 @@ public final class Fen {
 		setTurnCounters(gameState, s);
 	}
 
-	private void setCurrentColor(final GameState gameState, String[] s) {
+	private static void setCurrentColor(final GameState gameState, String[] s) {
 		if (s[0].equalsIgnoreCase("b")) {
 			gameState.setCurrentColor(Color.BLACK);
 		} else {
@@ -157,7 +151,7 @@ public final class Fen {
 		}
 	}
 
-	private void setCastling(final GameState gameState, String[] s) {
+	private static void setCastling(final GameState gameState, String[] s) {
 		if (s[1].contains("K")) {
 			gameState.setWhiteCastleKingSide(true);
 		} else {
@@ -183,7 +177,7 @@ public final class Fen {
 		}
 	}
 
-	private void setLastMove(final GameState gameState, String[] s) {
+	private static void setLastMove(final GameState gameState, String[] s) {
 		if (!s[2].contains("-")) {
 			Position p = ChessboardPositionToArrayPosition
 					.parseChessboardPosition(s[2]);
@@ -206,12 +200,12 @@ public final class Fen {
 		}
 	}
 
-	private void setTurnCounters(final GameState gameState, String[] s) {
+	private static void setTurnCounters(final GameState gameState, String[] s) {
 		gameState.setHalfMoveClock(Integer.valueOf(s[3]));
 		gameState.setFullMoveNumber(Integer.valueOf(s[4]));
 	}
 
-	private void parseFromGameState(final GameState state) {
+	private String parseFromGameState(final GameState state) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(getPositionString(state));
@@ -223,8 +217,8 @@ public final class Fen {
 		sb.append(getEnPassantString(state));
 		sb.append(" ");
 		sb.append(getMoveCounterString(state));
-
-		fen = sb.toString();
+		
+		return sb.toString();
 	}
 
 	private String getMoveCounterString(final GameState state) {
@@ -322,7 +316,7 @@ public final class Fen {
 		}
 	}
 
-	private void addToPlayer(final Player p, final char c, final Position pos) {
+	private static void addToPlayer(final Player p, final char c, final Position pos) {
 		Figure f;
 
 		switch (Character.toLowerCase(c)) {
@@ -371,7 +365,11 @@ public final class Fen {
 		return fen.equals(other.fen);
 	}
 
-//	public GameState getGameState() {
-//		return gameState;
-//	}
+	public GameState getGameState() {
+		return gameState;
+	}
+	
+	public String getFen() {
+		return fen;
+	}
 }

@@ -19,7 +19,7 @@ public class HitFigureTest {
 	@Test
 	public void enPassantWhiteHitRemovesFigure() {
 		Fen fen = new Fen("k7/8/8/pP6/8/8/8/7K w - a6 0 1");
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		Move m = Move.upLeft(new Position(1, 4), 1);
 
 		assertTrue(ChessLogic.isValidMove(state, m));
@@ -34,7 +34,7 @@ public class HitFigureTest {
 	@Test
 	public void enPassantBlackHitRemovesFigure() {
 		Fen fen = new Fen("k7/8/8/8/5Pp1/8/8/7K b - f3 0 1");
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		Move m = Move.downLeft(new Position(6, 3), 1);
 
 		assertTrue(ChessLogic.isValidMove(state, m));
@@ -49,7 +49,7 @@ public class HitFigureTest {
 	@Test
 	public void enPassantBlack2HitRemovesFigure() {
 		Fen fen = new Fen("k7/8/8/8/4pP2/8/8/7K b - f3 0 1");
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		Move m = Move.downRight(new Position(4, 3), 1);
 
 		assertTrue(ChessLogic.isValidMove(state, m));
@@ -64,7 +64,7 @@ public class HitFigureTest {
 	@Test
 	public void queenHitExchangesFigure() {
 		Fen fen = new Fen("k7/8/8/p7/Q7/8/8/7K w - a6 0 1");
-		GameState state = fen.createGameState();
+		GameState state = fen.getGameState();
 		Move m = Move.up(new Position(0, 3), 1);
 
 		assertTrue(ChessLogic.isValidMove(state, m));

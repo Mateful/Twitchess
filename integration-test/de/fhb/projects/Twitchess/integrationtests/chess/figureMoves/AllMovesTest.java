@@ -20,7 +20,7 @@ public class AllMovesTest {
 
 	@Test
 	public void getAllMovesOfFreeKing() {
-		state = new Fen("8/8/8/8/3k4/8/8/8 w - - 0 1").createGameState();
+		state = new Fen("8/8/8/8/3k4/8/8/8 w - - 0 1").getGameState();
 		King king = new King(new Position(3, 3));
 
 		List<Move> moves = ChessLogic.getAllMoves(state, king);
@@ -45,7 +45,7 @@ public class AllMovesTest {
 
 	@Test
 	public void getAllMovesOfKingInBottomLeftCorner() {
-		state = new Fen("8/8/8/8/8/8/8/K7 w - - 0 1").createGameState();
+		state = new Fen("8/8/8/8/8/8/8/K7 w - - 0 1").getGameState();
 		King king = new King(new Position(0, 0));
 
 		List<Move> moves = ChessLogic.getAllMoves(state, king);
@@ -60,7 +60,7 @@ public class AllMovesTest {
 
 	@Test
 	public void getAllMovesOfQueenInBottomRightCorner() {
-		state = new Fen("8/8/8/8/8/8/8/7Q w - - 0 1").createGameState();
+		state = new Fen("8/8/8/8/8/8/8/7Q w - - 0 1").getGameState();
 		Queen queen = new Queen(new Position(7, 0));
 
 		List<Move> moves = ChessLogic.getAllMoves(state, queen);
