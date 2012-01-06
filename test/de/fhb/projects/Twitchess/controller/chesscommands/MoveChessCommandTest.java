@@ -17,10 +17,10 @@ import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
 import de.fhb.projects.Twitchess.exception.UCIException;
 
+
 public class MoveChessCommandTest {
 	
 	private ChessStateDAOInterface dao;
-	private CancelGameChessCommand chessCommand;
 	private UCIEngineInterface uci;
 	private ChessStateVO chessState;
 	private List<ChessStateVO> state;
@@ -81,8 +81,6 @@ public class MoveChessCommandTest {
 		EasyMock.verify(uci);
 	}
 	
-	//TODO assertFail Expectation failure on verify
-//	@Ignore
 	@Test
 	public void processInputPlayerTest() throws Throwable{
 		parameters.add("player");
@@ -90,17 +88,14 @@ public class MoveChessCommandTest {
 		ChessStateVO vo = new ChessStateVO();
 		vo.setId(1);
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
-//		uci.init();
-//		EasyMock.expect(uci.calculateMove("rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR b KQkq - 0 1", 2000)).andReturn("a7a6");
-//		uci.destroy();		
+	
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
 		EasyMock.replay(uci);
 		mcc.processInput("player1", parameters);		
-		
-		
+	
 		EasyMock.verify(dao);
-//		EasyMock.verify(uci);
+
 	}
 	
 
@@ -203,14 +198,7 @@ public class MoveChessCommandTest {
 		mcc.getCurrentGame("player1");
 		EasyMock.verify(dao);
 	}
-//	//Todo bekomme kein Zugriff auf enums bin zu blöd ^^
-//	@Ignore
-//	@Test 
-//	public void parseMoveTest(){
-//		parameters.add("a2a3");
-//		assertEquals("AI", mcc.parseMove(parameters, MoveChessCommand.))
-//	}
-//	
+	
 	@Test 
 	public void parseMoveTypeTest() throws ChessManagerException{
 		parameters.add("ai");
