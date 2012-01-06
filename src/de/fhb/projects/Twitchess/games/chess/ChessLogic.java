@@ -78,7 +78,8 @@ public final class ChessLogic {
 
 	private static void setPromotion(final Move move) {
 		if (move.getMovingFigure() instanceof Pawn
-				&& (move.getDestination().y == ChessProperties.CHESSBOARD_BOTTOM_RANK || move.getDestination().y == ChessProperties.CHESSBOARD_TOP_RANK)
+				&& (move.getDestination().y == ChessProperties.CHESSBOARD_BOTTOM_RANK || move
+						.getDestination().y == ChessProperties.CHESSBOARD_TOP_RANK)
 				&& move.getPromoteTo() == NO_FIGURE) {
 			move.setPromoteTo(new Queen(move.getDestination()));
 		}
@@ -109,7 +110,8 @@ public final class ChessLogic {
 		}
 	}
 
-	private static void checkPawnRankForPromotion(final GameState state, final Move move) {
+	private static void checkPawnRankForPromotion(final GameState state,
+			final Move move) {
 		if (state.getCurrentColor() == Color.WHITE) {
 			if (move.getStart().y != ChessProperties.BLACK_PAWN_RANK) {
 				throw new PromoteException(
@@ -195,15 +197,13 @@ public final class ChessLogic {
 	private static boolean canCastleKingSide(final GameState state,
 			final Figure figure) {
 		return figure.getColor() == Color.WHITE ? state
-				.canWhiteCastleKingSide() : state
-				.canBlackCastleKingSide();
+				.canWhiteCastleKingSide() : state.canBlackCastleKingSide();
 	}
 
 	private static boolean canCastleQueenSide(final GameState state,
 			final Figure figure) {
 		return figure.getColor() == Color.WHITE ? state
-				.canWhiteCastleQueenSide() : state
-				.canBlackCastleQueenSide();
+				.canWhiteCastleQueenSide() : state.canBlackCastleQueenSide();
 	}
 
 	private static boolean isCastlingMove(final Move move, Figure figure) {
@@ -320,14 +320,16 @@ public final class ChessLogic {
 	}
 
 	public static boolean isDraw(final GameState state) {
+		return state.getHalfMoveClock() >= 50 || playerHasNoMovesLeft(state);
+	}
+
+	private static boolean playerHasNoMovesLeft(final GameState state) {
 		List<Move> allMoves = new ArrayList<Move>();
 		for (int i = 0; i < state.getCurrentPlayer().getFiguresInGame().size(); i++) {
 			allMoves.addAll(getAllMoves(state, state.getCurrentPlayer()
 					.getFiguresInGame().get(i)));
 		}
-		if (allMoves.size() == 0)
-			return true;
-		return false;
+		return allMoves.size() == 0;
 	}
 
 	// TODO Sollte vielleicht optimiert werden. Im moment wird einfach jeder Zug

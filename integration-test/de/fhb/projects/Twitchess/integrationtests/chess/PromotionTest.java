@@ -126,7 +126,8 @@ public class PromotionTest {
 		assertTrue(ChessLogic.isValidMove(state, move));
 		GameState nextState = new GameState(state, move);
 		nextState.updatePositions();
-		assertEquals(new Queen(new Position(7, 7), Color.WHITE), nextState.getFigure(7, 7));
+		assertEquals(new Queen(new Position(7, 7), Color.WHITE),
+				nextState.getFigure(7, 7));
 	}
 
 	@Test

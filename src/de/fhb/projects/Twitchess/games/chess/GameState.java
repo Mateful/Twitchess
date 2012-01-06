@@ -6,6 +6,7 @@ import static de.fhb.projects.Twitchess.games.chess.figures.NoFigure.NO_FIGURE;
 import de.fhb.projects.Twitchess.games.chess.figures.Figure;
 import de.fhb.projects.Twitchess.games.chess.figures.King;
 import de.fhb.projects.Twitchess.games.chess.figures.NoFigure;
+import de.fhb.projects.Twitchess.games.chess.figures.Pawn;
 import de.fhb.projects.Twitchess.games.chess.figures.Rook;
 import de.fhb.projects.Twitchess.games.chess.move.DirectionType;
 import de.fhb.projects.Twitchess.games.chess.move.Move;
@@ -20,6 +21,7 @@ public final class GameState {
 	private GameState lastState;
 	private boolean whiteCastleKingSide, whiteCastleQueenSide,
 			blackCastleKingSide, blackCastleQueenSide;
+	private int halfMoveClock, fullMoveNumber;
 
 	public GameState(final Player white, final Player black) {
 		board = new Figure[CHESSBOARD_WIDTH][CHESSBOARD_HEIGHT];
@@ -28,17 +30,20 @@ public final class GameState {
 		currentTurnPlayer = white;
 		lastMove = Move.NO_MOVE;
 		whiteCastleKingSide = whiteCastleQueenSide = blackCastleKingSide = blackCastleQueenSide = true;
+		fullMoveNumber = 1;
+		halfMoveClock = 0;
 		updatePositions();
 	}
 
 	public GameState(final GameState oldState, final Move move) {
-		initAttributes(oldState, move);
+		initAttributesFromLastState(oldState, move);
 		updatePositions();
 		doMove();
 		updateCastlingPossibilities();
 	}
 
-	private void initAttributes(final GameState oldState, final Move move) {
+	private void initAttributesFromLastState(final GameState oldState,
+			final Move move) {
 		lastState = oldState;
 		lastMove = move;
 		board = new Figure[CHESSBOARD_WIDTH][CHESSBOARD_HEIGHT];
@@ -49,6 +54,12 @@ public final class GameState {
 		} else {
 			currentTurnPlayer = white;
 		}
+		halfMoveClock = move.getMovingFigure() instanceof Pawn
+				|| move.getHitTarget() != NO_FIGURE
+				? 0
+				: lastState.halfMoveClock + 1;
+		fullMoveNumber = lastState.fullMoveNumber
+				+ (getCurrentColor() == Color.WHITE ? 1 : 0);
 	}
 
 	private void updateCastlingPossibilities() {
@@ -254,5 +265,21 @@ public final class GameState {
 
 	public void setBlackCastleQueenSide(boolean blackCastleQueenSide) {
 		this.blackCastleQueenSide = blackCastleQueenSide;
+	}
+
+	public int getHalfMoveClock() {
+		return halfMoveClock;
+	}
+
+	public void setHalfMoveClock(int halfMoveClock) {
+		this.halfMoveClock = halfMoveClock;
+	}
+
+	public int getFullMoveNumber() {
+		return fullMoveNumber;
+	}
+
+	public void setFullMoveNumber(int fullMoveNumber) {
+		this.fullMoveNumber = fullMoveNumber;
 	}
 }

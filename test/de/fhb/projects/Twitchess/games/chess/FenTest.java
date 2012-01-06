@@ -1,9 +1,18 @@
 package de.fhb.projects.Twitchess.games.chess;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import de.fhb.projects.Twitchess.games.chess.figures.Bishop;
+import de.fhb.projects.Twitchess.games.chess.figures.King;
+import de.fhb.projects.Twitchess.games.chess.figures.Knight;
+import de.fhb.projects.Twitchess.games.chess.figures.Pawn;
+import de.fhb.projects.Twitchess.games.chess.figures.Queen;
+import de.fhb.projects.Twitchess.games.chess.figures.Rook;
+import de.fhb.projects.Twitchess.games.chess.player.Color;
 
 public class FenTest {
 	@Test
@@ -275,5 +284,91 @@ public class FenTest {
 		assertFalse(f.isValidLetter('!'));
 		assertFalse(f.isValidLetter('y'));
 		assertFalse(f.isValidLetter('x'));
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void invalidGameState() {
+		Fen f = new Fen("");
+		f.getGameState();
+	}
+
+	@Test
+	public void initialGameState() {
+		Fen fen = Fen.getStartingPosition();
+		GameState state = fen.getGameState();
+
+		assertEquals(
+				new King(ChessProperties.BLACK_KING_POSITION, Color.BLACK),
+				state.getFigure(ChessProperties.BLACK_KING_POSITION));
+		assertEquals(new Queen(ChessProperties.BLACK_QUEEN_POSITION,
+				Color.BLACK),
+				state.getFigure(ChessProperties.BLACK_QUEEN_POSITION));
+		assertEquals(new Rook(ChessProperties.BLACK_ROOK_POSITIONS[0],
+				Color.BLACK),
+				state.getFigure(ChessProperties.BLACK_ROOK_POSITIONS[0]));
+		assertEquals(new Rook(ChessProperties.BLACK_ROOK_POSITIONS[1],
+				Color.BLACK),
+				state.getFigure(ChessProperties.BLACK_ROOK_POSITIONS[1]));
+		assertEquals(new Knight(ChessProperties.BLACK_KNIGHT_POSITIONS[0],
+				Color.BLACK),
+				state.getFigure(ChessProperties.BLACK_KNIGHT_POSITIONS[0]));
+		assertEquals(new Knight(ChessProperties.BLACK_KNIGHT_POSITIONS[1],
+				Color.BLACK),
+				state.getFigure(ChessProperties.BLACK_KNIGHT_POSITIONS[1]));
+		assertEquals(new Bishop(ChessProperties.BLACK_BISHOP_POSITIONS[0],
+				Color.BLACK),
+				state.getFigure(ChessProperties.BLACK_BISHOP_POSITIONS[0]));
+		assertEquals(new Bishop(ChessProperties.BLACK_BISHOP_POSITIONS[1],
+				Color.BLACK),
+				state.getFigure(ChessProperties.BLACK_BISHOP_POSITIONS[1]));
+		for (int i = 0; i < ChessProperties.CHESSBOARD_WIDTH; i++) {
+			Position p = new Position(i, ChessProperties.BLACK_PAWN_RANK);
+			assertEquals(new Pawn(p, Color.BLACK), state.getFigure(p));
+		}
+
+		assertEquals(
+				new King(ChessProperties.WHITE_KING_POSITION, Color.WHITE),
+				state.getFigure(ChessProperties.WHITE_KING_POSITION));
+		assertEquals(new Queen(ChessProperties.WHITE_QUEEN_POSITION,
+				Color.WHITE),
+				state.getFigure(ChessProperties.WHITE_QUEEN_POSITION));
+		assertEquals(new Rook(ChessProperties.WHITE_ROOK_POSITIONS[0],
+				Color.WHITE),
+				state.getFigure(ChessProperties.WHITE_ROOK_POSITIONS[0]));
+		assertEquals(new Rook(ChessProperties.WHITE_ROOK_POSITIONS[1],
+				Color.WHITE),
+				state.getFigure(ChessProperties.WHITE_ROOK_POSITIONS[1]));
+		assertEquals(new Knight(ChessProperties.WHITE_KNIGHT_POSITIONS[0],
+				Color.WHITE),
+				state.getFigure(ChessProperties.WHITE_KNIGHT_POSITIONS[0]));
+		assertEquals(new Knight(ChessProperties.WHITE_KNIGHT_POSITIONS[1],
+				Color.WHITE),
+				state.getFigure(ChessProperties.WHITE_KNIGHT_POSITIONS[1]));
+		assertEquals(new Bishop(ChessProperties.WHITE_BISHOP_POSITIONS[0],
+				Color.WHITE),
+				state.getFigure(ChessProperties.WHITE_BISHOP_POSITIONS[0]));
+		assertEquals(new Bishop(ChessProperties.WHITE_BISHOP_POSITIONS[1],
+				Color.WHITE),
+				state.getFigure(ChessProperties.WHITE_BISHOP_POSITIONS[1]));
+		for (int i = 0; i < ChessProperties.CHESSBOARD_WIDTH; i++) {
+			Position p = new Position(i, ChessProperties.WHITE_PAWN_RANK);
+			assertEquals(new Pawn(p, Color.WHITE), state.getFigure(p));
+		}
+
+		assertEquals(0, state.getHalfMoveClock());
+		assertEquals(1, state.getFullMoveNumber());
+		assertEquals(Color.WHITE, state.getCurrentColor());
+		assertTrue(state.canBlackCastleKingSide());
+		assertTrue(state.canBlackCastleQueenSide());
+		assertTrue(state.canWhiteCastleKingSide());
+		assertTrue(state.canWhiteCastleQueenSide());
+	}
+
+	@Test
+	public void gameStateCounters() {
+		Fen fen = new Fen("8/8/8/8/8/8/8/8 w KQkq - 34 89");
+		GameState state = fen.getGameState();
+		assertEquals(34, state.getHalfMoveClock());
+		assertEquals(89, state.getFullMoveNumber());
 	}
 }

@@ -12,6 +12,35 @@ import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 import de.fhb.projects.Twitchess.games.chess.player.Player;
 
+/**
+ * Represents a chess GameState as a String. The Fen is built as follows(copied
+ * from wikipedia): A FEN record contains six fields. The separator between
+ * fields is a space. The fields are:
+ * 
+ * 1.Piece placement (from white's perspective). Each rank is described,
+ * starting with rank 8 and ending with rank 1; within each rank, the contents
+ * of each square are described from file a through file h. Following the
+ * Standard Algebraic Notation (SAN), each piece is identified by a single
+ * letter taken from the standard English names (pawn = "P", knight = "N",
+ * bishop = "B", rook = "R", queen = "Q" and king = "K").[1] White pieces are
+ * designated using upper-case letters ("PNBRQK") while black pieces use
+ * lowercase ("pnbrqk"). Blank squares are noted using digits 1 through 8 (the
+ * number of blank squares), and "/" separate ranks. 2.Active color. "w" means
+ * white moves next, "b" means black. 3.Castling availability. If neither side
+ * can castle, this is "-". Otherwise, this has one or more letters: "K" (White
+ * can castle kingside), "Q" (White can castle queenside), "k" (Black can castle
+ * kingside), and/or "q" (Black can castle queenside). 4.En passant target
+ * square in algebraic notation. If there's no en passant target square, this is
+ * "-". If a pawn has just made a two-square move, this is the position "behind"
+ * the pawn. This is recorded regardless of whether there is a pawn in position
+ * to make an en passant capture. 5.Halfmove clock: This is the number of
+ * halfmoves since the last pawn advance or capture. This is used to determine
+ * if a draw can be claimed under the fifty-move rule. 6.Fullmove number: The
+ * number of the full move. It starts at 1, and is incremented after Black's
+ * move.
+ * 
+ * 
+ */
 public class Fen {
 	public static String START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 	protected String fen;
@@ -25,33 +54,17 @@ public class Fen {
 		parseFromGameState(state);
 	}
 
+	public static Fen getStartingPosition() {
+		return new Fen(
+				"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	}
+
 	public String getFen() {
 		return fen;
 	}
 
 	public void setFen(String fen) {
 		this.fen = fen;
-	}
-
-	public static void main(String[] args) {
-		String f = "rr6/7R/8/8/8/8/8/K7 w KQkq - 0 1";
-
-		Fen fen = new Fen(f);
-
-		GameState s = fen.getGameState();
-
-		System.out.println(fen.isValid());
-
-		for (int y = 7; y >= 0; y--) {
-			for (int x = 0; x < 8; x++) {
-				System.out.println(s.getFigure(x, y));
-			}
-		}
-
-		Fen fen2 = new Fen(s);
-
-		System.out.println(fen2.getFen());
-
 	}
 
 	public boolean isValid() {
@@ -97,7 +110,8 @@ public class Fen {
 
 	public GameState getGameState() {
 		if (!isValid())
-			return null;
+			throw new RuntimeException(
+					"The FEN was invalid, no GameState can be returned!");
 
 		char c;
 		String rest;
@@ -107,14 +121,12 @@ public class Fen {
 
 		for (i = 0; ' ' != fen.charAt(i); i++) {
 			c = fen.charAt(i);
-
 			if (isValidLetter(c)) {
-
-				if (Character.isLowerCase(c))
+				if (Character.isLowerCase(c)) {
 					addToPlayer(black, c, new Position(column, 7 - row));
-				else
+				} else {
 					addToPlayer(white, c, new Position(column, 7 - row));
-
+				}
 				column++;
 			} else if (Character.isDigit(c) && c != '0') {
 				column += c - '0';
@@ -122,7 +134,6 @@ public class Fen {
 				row++;
 				column = 0;
 			}
-
 		}
 
 		gameState = new GameState(white, black);
@@ -182,10 +193,8 @@ public class Fen {
 			System.out.println("gameState.setLastMove(" + m + ")");
 		}
 
-		System.out.println("gameState.setHalfMoves(" + Integer.valueOf(s[3])
-				+ ")");
-		System.out.println("gameState.setMoveCount(" + Integer.valueOf(s[4])
-				+ ")");
+		gameState.setHalfMoveClock(Integer.valueOf(s[3]));
+		gameState.setFullMoveNumber(Integer.valueOf(s[4]));
 
 		return gameState;
 	}
