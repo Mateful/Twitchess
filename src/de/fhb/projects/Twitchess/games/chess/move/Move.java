@@ -17,6 +17,7 @@ public final class Move {
 	private Figure movingFigure, hitTarget, promoteTo;
 
 	private Move() {
+		System.out.println();
 		direction = new OneStepDirection(DirectionType.NODIRECTION);
 		start = new Position(0, 0);
 		destination = start;
