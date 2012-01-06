@@ -41,28 +41,31 @@ import de.fhb.projects.Twitchess.games.chess.player.Player;
  * 
  * 
  */
-public class Fen {
+public final class Fen {
 	public static String START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-	protected String fen;
+	private String fen;
 
 	public Fen(final String fen) {
-		super();
-		this.fen = fen;
+		if (isValid(fen)) {
+			this.fen = fen;
+		} else {
+			throw new RuntimeException("Invalid fen.");
+		}
 	}
 
 	public Fen(final GameState state) {
 		parseFromGameState(state);
 	}
 
+	public static GameState createGameState(String fen) {
+		return new Fen(fen).getGameState();
+	}
+
 	public String getFen() {
 		return fen;
 	}
 
-	public void setFen(final String fen) {
-		this.fen = fen;
-	}
-
-	public boolean isValid() {
+	public static boolean isValid(final String fen) {
 		if (fen == null || fen.length() == 0)
 			return false;
 
@@ -96,7 +99,7 @@ public class Fen {
 				.matches("[WwBb] ((KQ?k?q?)|(Qk?q?)|(kq?)|(q)|(\\-)) (([a-hA-H][36])|(\\-)) (0|([1-9]\\d*)) [1-9]\\d*");
 	}
 
-	protected boolean isValidLetter(final char p) {
+	public static boolean isValidLetter(final char p) {
 		char c = Character.toLowerCase(p);
 
 		return c == 'p' || c == 'r' || c == 'n' || c == 'b' || c == 'q'
@@ -104,14 +107,11 @@ public class Fen {
 	}
 
 	public GameState getGameState() {
-		if (!isValid())
-			throw new RuntimeException(
-					"The FEN was invalid, no GameState can be returned!");
 		String position = fen.split(" ", 2)[0];
 		String attributes = fen.split(" ", 2)[1];
 		Player white = new Player(Color.WHITE), black = new Player(Color.BLACK);
 		GameState gameState;
-		
+
 		setPlayerFigures(position, white, black);
 		gameState = new GameState(white, black);
 		setGameStateAttributes(attributes, white, black, gameState);
@@ -138,7 +138,7 @@ public class Fen {
 		}
 	}
 
-	protected void setGameStateAttributes(final String rest, final Player white,
+	private void setGameStateAttributes(final String rest, final Player white,
 			final Player black, final GameState gameState) {
 		String[] s = rest.split("\\s+");
 
@@ -210,7 +210,7 @@ public class Fen {
 		gameState.setFullMoveNumber(Integer.valueOf(s[4]));
 	}
 
-	public void parseFromGameState(final GameState state) {
+	private void parseFromGameState(final GameState state) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(getPositionString(state));
@@ -223,7 +223,7 @@ public class Fen {
 		sb.append(" ");
 		sb.append(getMoveCounterString(state));
 
-		setFen(sb.toString());
+		fen = sb.toString();
 	}
 
 	private String getMoveCounterString(final GameState state) {
@@ -302,7 +302,7 @@ public class Fen {
 		return sb.toString();
 	}
 
-	protected char getCharFromFigure(final Figure f) {
+	private char getCharFromFigure(final Figure f) {
 		if (f instanceof King) {
 			return 'k';
 		} else if (f instanceof Queen) {
@@ -321,7 +321,7 @@ public class Fen {
 		}
 	}
 
-	protected void addToPlayer(final Player p, final char c, final Position pos) {
+	private void addToPlayer(final Player p, final char c, final Position pos) {
 		Figure f;
 
 		switch (Character.toLowerCase(c)) {
@@ -354,7 +354,7 @@ public class Fen {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((fen == null) ? 0 : fen.hashCode());
+		result = prime * result + fen.hashCode();
 		return result;
 	}
 
@@ -367,11 +367,6 @@ public class Fen {
 		if (getClass() != obj.getClass())
 			return false;
 		Fen other = (Fen) obj;
-		if (fen == null) {
-			if (other.fen != null)
-				return false;
-		} else if (!fen.equals(other.fen))
-			return false;
-		return true;
+		return fen.equals(other.fen);
 	}
 }

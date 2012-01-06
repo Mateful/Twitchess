@@ -157,24 +157,20 @@ public class TwitterBot extends Observable {
 			if (end >= 0) {
 				String s = param.substring(start + 1, end);
 				Fen fen = new Fen(s);
+				File f = generateImageFromFen(fen);
 
-				if (fen.isValid()) {
-					File f = generateImageFromFen(fen);
+				String url = null;
 
-					String url = null;
+				try {
+					url = uploadFile(f);
 
-					try {
-						url = uploadFile(f);
-
-						if (url != null) {
-							result = param.substring(0, start) + url
-									+ param.substring(end + 1);
-						}
-					} catch (TwitterException e) {
-						notifyObservers(e);
-						return param;
+					if (url != null) {
+						result = param.substring(0, start) + url
+								+ param.substring(end + 1);
 					}
-
+				} catch (TwitterException e) {
+					notifyObservers(e);
+					return param;
 				}
 			}
 		}
