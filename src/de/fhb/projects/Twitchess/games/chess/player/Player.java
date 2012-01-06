@@ -7,6 +7,10 @@ import de.fhb.projects.Twitchess.games.chess.ChessProperties;
 import de.fhb.projects.Twitchess.games.chess.figures.Figure;
 import de.fhb.projects.Twitchess.games.chess.figures.King;
 
+/**
+ * This class represents one player with color and figures currently in game for
+ * a standard game of chess.
+ */
 public final class Player implements Cloneable {
 	private Color color;
 	private List<Figure> figuresInGame;

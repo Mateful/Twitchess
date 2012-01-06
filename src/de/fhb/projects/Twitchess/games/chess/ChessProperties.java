@@ -10,7 +10,7 @@ import de.fhb.projects.Twitchess.games.chess.figures.Rook;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 
 /**
- * This class holds every information about the chessboard. The
+ * This class holds every information about the chessboard for a standard game of chess. The
  * get*Figure*-methods return the figure(s) with their initial position and
  * color set.
  */

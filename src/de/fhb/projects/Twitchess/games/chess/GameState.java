@@ -13,6 +13,11 @@ import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 import de.fhb.projects.Twitchess.games.chess.player.Player;
 
+/**
+ * This class provides every information of one state in a standard game of
+ * chess (with one exception: it does not provide the en passant field. The en
+ * passant rule is implemented here: @see {@link ChessLogic}).
+ */
 public final class GameState {
 	private Figure[][] board;
 	private Player currentTurnPlayer;

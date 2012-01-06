@@ -25,6 +25,10 @@ import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 import de.fhb.projects.Twitchess.games.chess.player.Player;
 
+/**
+ * This class contains all rules for the standard game of chess. It will give
+ * you every semantic information that's not provided by GameState.
+ */
 public final class ChessLogic {
 	private ChessLogic() {
 	}
@@ -352,7 +356,6 @@ public final class ChessLogic {
 	// auf JEDES FELD geprueft.
 	public static List<Move> getAllMoves(final GameState state,
 			final Figure figure) {
-
 		ArrayList<Move> validMoves = new ArrayList<Move>();
 		for (int x = 0; x < CHESSBOARD_WIDTH; x++) {
 			for (int y = 0; y < CHESSBOARD_HEIGHT; y++) {

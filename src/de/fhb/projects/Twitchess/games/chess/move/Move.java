@@ -1,9 +1,15 @@
 package de.fhb.projects.Twitchess.games.chess.move;
 
+import de.fhb.projects.Twitchess.games.chess.GameState;
 import de.fhb.projects.Twitchess.games.chess.Position;
 import de.fhb.projects.Twitchess.games.chess.figures.Figure;
 import de.fhb.projects.Twitchess.games.chess.figures.NoFigure;
 
+/**
+ * This class contains information about one move in a standard game of chess.
+ * The Move-class manages the flow of the game, since it is used to take the
+ * game from one {@link GameState} to another.
+ */
 public final class Move {
 	public static final Move NO_MOVE = new Move();
 	private Direction direction;
