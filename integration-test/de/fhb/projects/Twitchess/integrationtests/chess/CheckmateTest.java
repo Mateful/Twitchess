@@ -43,14 +43,14 @@ public class CheckmateTest {
 
 	@Test
 	public void checkmate1() {
-		state = new Fen("rr6/8/8/8/8/8/8/K7 w - - 0 1").getGameState();
+		state = new Fen("rr6/8/8/8/8/8/8/K7 w - - 0 1").createGameState();
 		assertTrue(ChessLogic.isCheckmate(state, Color.WHITE));
 	}
 
 	@Test
 	public void noCheckmate2() {
 		Fen f = new Fen("rr6/7R/8/8/8/8/8/K7 w KQkq - 0 1");
-		assertFalse(ChessLogic.isCheckmate(f.getGameState(), f.getGameState()
+		assertFalse(ChessLogic.isCheckmate(f.createGameState(), f.createGameState()
 				.getCurrentColor()));
 	}
 

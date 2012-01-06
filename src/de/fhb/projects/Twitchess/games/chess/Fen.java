@@ -44,6 +44,7 @@ import de.fhb.projects.Twitchess.games.chess.player.Player;
 public final class Fen {
 	public static String START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 	private String fen;
+	private GameState gameState;
 
 	public Fen(final String fen) {
 		if (isValid(fen)) {
@@ -58,7 +59,7 @@ public final class Fen {
 	}
 
 	public static GameState createGameState(String fen) {
-		return new Fen(fen).getGameState();
+		return new Fen(fen).createGameState();
 	}
 
 	public String getFen() {
@@ -106,7 +107,7 @@ public final class Fen {
 				|| c == 'k';
 	}
 
-	public GameState getGameState() {
+	public GameState createGameState() {
 		String position = fen.split(" ", 2)[0];
 		String attributes = fen.split(" ", 2)[1];
 		Player white = new Player(Color.WHITE), black = new Player(Color.BLACK);
@@ -369,4 +370,8 @@ public final class Fen {
 		Fen other = (Fen) obj;
 		return fen.equals(other.fen);
 	}
+
+//	public GameState getGameState() {
+//		return gameState;
+//	}
 }

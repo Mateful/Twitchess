@@ -12,7 +12,7 @@ public class IsDrawTest {
 	@Test
 	public void test() {
 		Fen f = new Fen("6k1/8/8/8/5n2/8/6r1/7K w - - 0 1");
-		GameState s = f.getGameState();
+		GameState s = f.createGameState();
 		assertTrue(ChessLogic.isDraw(s));
 	}
 }
