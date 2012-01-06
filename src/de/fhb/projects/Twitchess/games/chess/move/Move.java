@@ -11,13 +11,13 @@ import de.fhb.projects.Twitchess.games.chess.figures.NoFigure;
  * game from one {@link GameState} to another.
  */
 public final class Move {
+	//TODO no move never used
 	public static final Move NO_MOVE = new Move();
 	private Direction direction;
 	private Position start, destination;
 	private Figure movingFigure, hitTarget, promoteTo;
 
 	private Move() {
-		System.out.println();
 		direction = new OneStepDirection(DirectionType.NODIRECTION);
 		start = new Position(0, 0);
 		destination = start;
