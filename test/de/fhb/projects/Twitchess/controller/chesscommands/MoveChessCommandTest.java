@@ -12,6 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
+import de.fhb.projects.Twitchess.controller.chesscommands.MoveChessCommand.MoveType;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
@@ -236,6 +237,11 @@ public class MoveChessCommandTest {
 		parameters.add("a2a3");
 		parameters.add("");
 		assertEquals("AI_AFTER_PLAYER", mcc.parseMoveType(parameters).toString());
+	}
+	
+	@Test (expected = ChessManagerException.class)
+	public void parseMoveChessManagerExceptionTest() throws ChessManagerException{
+		mcc.parseMove(parameters, MoveType.PLAYER);
 	}
 	
 }
