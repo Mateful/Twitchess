@@ -15,6 +15,10 @@ import de.fhb.projects.Twitchess.games.chess.ChessLogic;
 import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.games.chess.GameState;
 import de.fhb.projects.Twitchess.games.chess.Position;
+import de.fhb.projects.Twitchess.games.chess.figures.Bishop;
+import de.fhb.projects.Twitchess.games.chess.figures.Knight;
+import de.fhb.projects.Twitchess.games.chess.figures.Queen;
+import de.fhb.projects.Twitchess.games.chess.figures.Rook;
 import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 
@@ -93,6 +97,13 @@ public class MoveChessCommand implements ChessCommand {
 				throw new ChessManagerException(
 						"Error while calculating your move: " + e.getMessage());
 			}
+			
+			try {
+				ChessLogic.isValidMove(state, aiMove);
+			} catch (RuntimeException e) {
+				throw new ChessManagerException("Computer's move is invalid!");
+			}
+			
 			state = new GameState(state, aiMove);
 
 			result = "Computer move: " + aiMove.getLongNotation();
@@ -215,7 +226,7 @@ public class MoveChessCommand implements ChessCommand {
 
 	protected Move getMove(String s) throws ChessManagerException {
 		Position start = null, destination = null;
-		if (!s.matches("([a-hA-H][1-8]){2}"))
+		if (!s.matches("([a-hA-H][1-8]){2}[QqRrBbNn]?"))
 			throw new ChessManagerException("Invalid move. Could not parse it.");
 
 		for (int i = 0; i < 2; ++i) {
@@ -228,7 +239,26 @@ public class MoveChessCommand implements ChessCommand {
 				destination = new Position(x, y);
 		}
 
-		return new Move(start, destination);
+		Move m = new Move(start, destination);
+		
+		if (s.length() == 5) {
+			switch(Character.toLowerCase(s.charAt(4))) {
+				case 'q':
+					m.setPromoteTo(new Queen(new Position(0,0)));
+					break;
+				case 'r':
+					m.setPromoteTo(new Rook(new Position(0,0)));
+					break;
+				case 'b':
+					m.setPromoteTo(new Bishop(new Position(0,0)));
+					break;
+				case 'n':
+					m.setPromoteTo(new Knight(new Position(0,0)));
+					break;
+			}
+		}
+		
+		return m;
 	}
 
 	public ChessStateDAOInterface getDao() {
