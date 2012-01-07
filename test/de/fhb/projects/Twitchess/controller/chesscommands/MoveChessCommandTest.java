@@ -31,7 +31,7 @@ public class MoveChessCommandTest {
 	private List<String> parameters;
 
 	@Before
-	public void ini() {
+	public void init() {
 		uci = EasyMock.createStrictMock(UCIEngineInterface.class);
 		dao = EasyMock.createStrictMock(ChessStateDAOInterface.class);
 		mcc = new MoveChessCommand(dao, uci);
@@ -362,15 +362,13 @@ public class MoveChessCommandTest {
 		mcc.processInput("player1", parameters);
 		EasyMock.verify(dao);
 	}
-	
-	
+
 	@Test
 	public void promotionTest() throws Throwable {
 		List<ChessStateVO> state = new ArrayList<ChessStateVO>();
 		ChessStateVO pos = new ChessStateVO();
 		pos.setId(1);
-		pos
-				.setFen("r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PpQ2PPP/RNB1KB1R b KQkq - 0 6");
+		pos.setFen("r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PpQ2PPP/RNB1KB1R b KQkq - 0 6");
 		pos.setPlayerName("player1");
 		pos.setResult(null);
 		pos.setDate(null);
@@ -393,7 +391,9 @@ public class MoveChessCommandTest {
 			public Object answer() {
 				ChessStateVO arg1 = (ChessStateVO) EasyMock
 						.getCurrentArguments()[0];
-				assertEquals("r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PQ3PPP/nNB1KB1R b Kkq - 1 7", arg1.getFen());
+				assertEquals(
+						"r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PQ3PPP/nNB1KB1R b Kkq - 1 7",
+						arg1.getFen());
 				assertTrue(arg1.getResult() == null);
 				return null;
 			}
@@ -404,15 +404,13 @@ public class MoveChessCommandTest {
 		EasyMock.verify(dao);
 		EasyMock.verify(uci);
 	}
-	
-	
+
 	@Test
 	public void whiteIsDrawAITest() throws Throwable {
 		List<ChessStateVO> state = new ArrayList<ChessStateVO>();
 		ChessStateVO pos = new ChessStateVO();
 		pos.setId(1);
-		pos
-				.setFen("7k/8/5K2/6R1/8/8/8/R7 w - - 0 1");
+		pos.setFen("7k/8/5K2/6R1/8/8/8/R7 w - - 0 1");
 		pos.setPlayerName("player1");
 		pos.setResult(null);
 		pos.setDate(null);
@@ -430,7 +428,8 @@ public class MoveChessCommandTest {
 				ChessStateVO arg1 = (ChessStateVO) EasyMock
 						.getCurrentArguments()[0];
 				assertEquals("7k/R7/5K2/6R1/8/8/8/8 b - - 1 1", arg1.getFen());
-				assertEquals(arg1.getResult().intValue(), ResultType.REMIS.getNumber());
+				assertEquals(arg1.getResult().intValue(),
+						ResultType.REMIS.getNumber());
 				return null;
 			}
 		});
@@ -438,7 +437,6 @@ public class MoveChessCommandTest {
 		mcc.processInput("player1", parameters);
 		EasyMock.verify(dao);
 	}
-
 
 	@Test
 	public void isGameOverCheckMateAITest() throws Throwable {

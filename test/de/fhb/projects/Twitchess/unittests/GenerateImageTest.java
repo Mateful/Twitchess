@@ -4,18 +4,20 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.security.MessageDigest;
 
 import javax.imageio.ImageIO;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.internal.ArrayComparisonFailure;
 
 import de.fhb.projects.Twitchess.image.GenerateImage;
 
@@ -25,16 +27,6 @@ public class GenerateImageTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		gi = new GenerateImage("test-files/board.properties");
-	}
-
-	@Ignore
-	@Test
-	public void testGenerateImage() throws Exception {
-		gi = new GenerateImage("test-files/board.properties");
-		// GenerateImage gi2 = new GenerateImage("test-files/board.properties");
-		// BufferedImage bi = ImageIO
-		// .read(new File("test-files/board.properties"));
-		// Kann erst getestet werden wenn das Bild gespeichert wird
 	}
 
 	@Test
@@ -74,6 +66,7 @@ public class GenerateImageTest {
 
 	@Test
 	public void testGenerateImageFromFen() {
+		
 		gi = new GenerateImage("test-files/board.properties");
 		assertNotNull(gi
 				.generateImageFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
@@ -84,11 +77,19 @@ public class GenerateImageTest {
 	}
 
 	@Test
-	public void testResetImage() throws Exception {
+	public void testResetImage() {
 		gi = new GenerateImage("test-files/board.properties");
-		assertArrayEquals("",
-				getMD5Hash(ImageIO.read(new File("test-files/field.png"))),
-				getMD5Hash(gi.resetImage()));
+		try {
+			assertArrayEquals("",
+					getMD5Hash(ImageIO.read(new File("test-files/field.png"))),
+					getMD5Hash(gi.resetImage()));
+		} catch (ArrayComparisonFailure e) {
+			fail();
+		} catch (IOException e) {
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(true);
+		}
 	}
 
 	@Test

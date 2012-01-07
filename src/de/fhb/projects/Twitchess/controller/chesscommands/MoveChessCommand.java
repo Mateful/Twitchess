@@ -97,19 +97,16 @@ public class MoveChessCommand implements ChessCommand {
 				throw new ChessManagerException(
 						"Error while calculating your move: " + e.getMessage());
 			}
-			
+
 			try {
 				ChessLogic.isValidMove(state, aiMove);
 			} catch (RuntimeException e) {
 				throw new ChessManagerException("Computer's move is invalid!");
 			}
-			
+
 			state = new GameState(state, aiMove);
 
 			result = "Computer move: " + aiMove.getLongNotation();
-
-			fen = new Fen(state);
-			state = fen.getGameState();
 
 			if (setResultInChessState(vo, state)) {
 				if (vo.getResult() == ResultType.REMIS.getNumber())
@@ -240,24 +237,24 @@ public class MoveChessCommand implements ChessCommand {
 		}
 
 		Move m = new Move(start, destination);
-		
+
 		if (s.length() == 5) {
-			switch(Character.toLowerCase(s.charAt(4))) {
-				case 'q':
-					m.setPromoteTo(new Queen(new Position(0,0)));
+			switch (Character.toLowerCase(s.charAt(4))) {
+				case 'q' :
+					m.setPromoteTo(new Queen(new Position(0, 0)));
 					break;
-				case 'r':
-					m.setPromoteTo(new Rook(new Position(0,0)));
+				case 'r' :
+					m.setPromoteTo(new Rook(new Position(0, 0)));
 					break;
-				case 'b':
-					m.setPromoteTo(new Bishop(new Position(0,0)));
+				case 'b' :
+					m.setPromoteTo(new Bishop(new Position(0, 0)));
 					break;
-				case 'n':
-					m.setPromoteTo(new Knight(new Position(0,0)));
+				case 'n' :
+					m.setPromoteTo(new Knight(new Position(0, 0)));
 					break;
 			}
 		}
-		
+
 		return m;
 	}
 
