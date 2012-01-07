@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -16,6 +18,7 @@ import twitter4j.TwitterStream;
 import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
+import twitter4j.media.ImageUpload;
 
 public class TwitterBotTest {
 
@@ -24,6 +27,7 @@ public class TwitterBotTest {
 	private TwitterStream twitterStreamInterface;
 	private RequestToken requestToken;
 	private AccessToken accessToken;
+	private ImageUpload upload;
 	private Status status;
 	private User user;
 	
@@ -172,14 +176,17 @@ public class TwitterBotTest {
 		EasyMock.verify(twitterInterface);
 	}
 	
-	@Ignore
+
 	@Test
 	public void onIncomingStatusTest() throws IllegalStateException, TwitterException{
+		EasyMock.expect(status.getText()).andReturn("@twitterBot Hallo");
+		EasyMock.expect(twitterInterface.getScreenName()).andReturn("twitterBot");
+		EasyMock.expect(status.getUser()).andReturn(user);
+		EasyMock.expect(user.getScreenName()).andReturn("twitterBot");
 		EasyMock.expect(status.getText()).andReturn("@twitterBot Hallo");
 		EasyMock.expect(status.getUser()).andReturn(user);
 		EasyMock.expect(user.getScreenName()).andReturn("twitterBot");
 		EasyMock.expect(twitterInterface.getScreenName()).andReturn("twitterBot");
-		EasyMock.expect(status.getText()).andReturn("@twitterBot Hallo");
 		
 		EasyMock.replay(status);
 		EasyMock.replay(user);
@@ -282,5 +289,53 @@ public class TwitterBotTest {
 		EasyMock.verify(twitterInterface);
 	}
 	
+	@Ignore
+	@Test
+	public void replaceFenWithImageUrlTest() throws TwitterException{
+		upload = EasyMock.createStrictMock(ImageUpload.class);
+//		EasyMock.expect(upload.upload(new File("generateImage.png"))).andReturn("www.Twitter.de");
+//		EasyMock.replay(upload);
+		tb.setAccessToken(accessToken);
+		
+		System.out.println(tb.replaceFenWithImageUrl("{rnbqkbnr/pppppppp/7p/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}"));
+		
+//		EasyMock.verify(upload);
+	}
+	
+	@Test
+	public void answerMention() throws IllegalStateException, TwitterException{
+		EasyMock.expect(status.getUser()).andReturn(user);
+		EasyMock.expect(user.getScreenName()).andReturn("twitterBot");
+		EasyMock.expect(status.getText()).andReturn("@twitterBot chess");
+		EasyMock.expect(twitterInterface.updateStatus("@twitterBot Error while processing your request: Message does not contain a command.")).andReturn(status);
+		
+		EasyMock.replay(status);
+		EasyMock.replay(user);
+		EasyMock.replay(twitterInterface);
+		
+		tb.answerMention(status);	
+		
+		EasyMock.verify(status);
+		EasyMock.verify(user);
+		EasyMock.verify(twitterInterface);		
+	}
+	
+	@Test
+	public void onMentionTest() throws IllegalStateException, TwitterException{
+		EasyMock.expect(status.getUser()).andReturn(user).times(2);
+		EasyMock.expect(user.getScreenName()).andReturn("twitterBot").times(2);	
+		EasyMock.expect(twitterInterface.getScreenName()).andReturn("twiitterBot");
+		EasyMock.expect(status.getText()).andReturn("Hallo");
+		
+		EasyMock.replay(status);
+		EasyMock.replay(user);
+		EasyMock.replay(twitterInterface);
+		
+		tb.onMention(status);	
+		
+		EasyMock.verify(status);
+		EasyMock.verify(user);
+		EasyMock.verify(twitterInterface);
+	}
 
 }
