@@ -318,7 +318,6 @@ public class MoveChessCommandTest {
 		dao.updateTable(vo);
 		EasyMock.expectLastCall().andAnswer(new IAnswer<Object>() {
 			public Object answer() {
-				System.out.println(EasyMock.getCurrentArguments());
 				ChessStateVO arg1 = (ChessStateVO) EasyMock
 						.getCurrentArguments()[0];
 				assertTrue(arg1.getResult() != null);
@@ -363,9 +362,86 @@ public class MoveChessCommandTest {
 		mcc.processInput("player1", parameters);
 		EasyMock.verify(dao);
 	}
+	
+	
+	@Test
+	public void promotionTest() throws Throwable {
+		List<ChessStateVO> state = new ArrayList<ChessStateVO>();
+		ChessStateVO pos = new ChessStateVO();
+		pos.setId(1);
+		pos
+				.setFen("r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PpQ2PPP/RNB1KB1R b KQkq - 0 6");
+		pos.setPlayerName("player1");
+		pos.setResult(null);
+		pos.setDate(null);
+		state.add(pos);
+		parameters.add("both");
+		parameters.add("b2a1n");
+		ChessStateVO vo = new ChessStateVO();
+		vo.setId(1);
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
+		uci.init();
+		EasyMock.expect(
+				uci.calculateMove(
+						"r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/P1Q2PPP/nNB1KB1R w Kkq - 0 7",
+						2000)).andReturn("c2b2");
+		uci.destroy();
+		dao.updateTable(vo);
+
+		EasyMock.expectLastCall().andAnswer(new IAnswer<Object>() {
+			public Object answer() {
+				ChessStateVO arg1 = (ChessStateVO) EasyMock
+						.getCurrentArguments()[0];
+				assertEquals("r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PQ3PPP/nNB1KB1R b Kkq - 1 7", arg1.getFen());
+				assertTrue(arg1.getResult() == null);
+				return null;
+			}
+		});
+		EasyMock.replay(dao);
+		EasyMock.replay(uci);
+		mcc.processInput("player1", parameters);
+		EasyMock.verify(dao);
+		EasyMock.verify(uci);
+	}
+	
+	
+	@Test
+	public void whiteIsDrawAITest() throws Throwable {
+		List<ChessStateVO> state = new ArrayList<ChessStateVO>();
+		ChessStateVO pos = new ChessStateVO();
+		pos.setId(1);
+		pos
+				.setFen("7k/8/5K2/6R1/8/8/8/R7 w - - 0 1");
+		pos.setPlayerName("player1");
+		pos.setResult(null);
+		pos.setDate(null);
+		state.add(pos);
+		parameters.add("both");
+		parameters.add("a1a7");
+		ChessStateVO vo = new ChessStateVO();
+		vo.setId(1);
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
+		dao.updateTable(vo);
+
+		EasyMock.expectLastCall().andAnswer(new IAnswer<Object>() {
+			public Object answer() {
+				ChessStateVO arg1 = (ChessStateVO) EasyMock
+						.getCurrentArguments()[0];
+				assertEquals("7k/R7/5K2/6R1/8/8/8/8 b - - 1 1", arg1.getFen());
+				assertEquals(arg1.getResult().intValue(), ResultType.REMIS.getNumber());
+				return null;
+			}
+		});
+		EasyMock.replay(dao);
+		mcc.processInput("player1", parameters);
+		EasyMock.verify(dao);
+	}
+
 
 	@Test
-	public void isGameOverDrawAITest() throws Throwable {
+	public void isGameOverCheckMateAITest() throws Throwable {
 		List<ChessStateVO> state = new ArrayList<ChessStateVO>();
 		ChessStateVO checkMateVO = new ChessStateVO();
 		checkMateVO.setId(1);
@@ -393,7 +469,6 @@ public class MoveChessCommandTest {
 			public Object answer() {
 				ChessStateVO arg1 = (ChessStateVO) EasyMock
 						.getCurrentArguments()[0];
-				//System.out.println(arg1);
 				assertTrue(arg1.getResult() != null);
 				assertEquals(ResultType.WHITE_WINS.getNumber(), arg1
 						.getResult().intValue());
