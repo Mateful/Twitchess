@@ -36,6 +36,38 @@ public class TwitterBot extends Observable {
 	private AccessToken accessToken;
 	private boolean answering;
 
+	public Twitter getTwitter() {
+		return twitter;
+	}
+
+	public void setTwitter(Twitter twitter) {
+		this.twitter = twitter;
+	}
+
+	public TwitterStream getTwitterStream() {
+		return twitterStream;
+	}
+ 
+	public void setTwitterStream(TwitterStream twitterStream) {
+		this.twitterStream = twitterStream;
+	}
+
+	public RequestToken getRequestToken() {
+		return requestToken;
+	}
+
+	public void setRequestToken(RequestToken requestToken) {
+		this.requestToken = requestToken;
+	}
+
+	public AccessToken getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(AccessToken accessToken) {
+		this.accessToken = accessToken;
+	}
+
 	public TwitterBot() {
 		this(new TwitterFactory().getInstance(), new TwitterStreamFactory()
 				.getInstance());
@@ -252,7 +284,13 @@ public class TwitterBot extends Observable {
 	}
 
 	public String getUserName() {
-		return accessToken.getScreenName();
+		try {
+			return twitter.getScreenName();
+		} catch (IllegalStateException e) {
+			return null;
+		} catch (TwitterException e) {
+			return null;
+		}
 	}
 
 	public void setAnswering(boolean b) {
