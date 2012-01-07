@@ -7,13 +7,16 @@ import java.util.List;
 import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
+import de.fhb.projects.Twitchess.data.ResultType;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
+import de.fhb.projects.Twitchess.exception.ChessManagerGameAlreadyOverException;
 import de.fhb.projects.Twitchess.exception.UCIException;
 import de.fhb.projects.Twitchess.games.chess.ChessLogic;
 import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.games.chess.GameState;
 import de.fhb.projects.Twitchess.games.chess.Position;
 import de.fhb.projects.Twitchess.games.chess.move.Move;
+import de.fhb.projects.Twitchess.games.chess.player.Color;
 
 public class MoveChessCommand implements ChessCommand {
 	public static String commandText = "move";
@@ -54,8 +57,15 @@ public class MoveChessCommand implements ChessCommand {
 
 		GameState state = fen.getGameState();
 
+		if (setResultInChessState(vo, state)) {
+			updateInDatabase(vo);
+			throw new ChessManagerGameAlreadyOverException(
+					"Game's already ended!");
+		}
+
 		if ((t == MoveType.PLAYER || t == MoveType.AI_AFTER_PLAYER)
 				&& playersMove != null) {
+
 			try {
 				ChessLogic.isValidMove(state, playersMove);
 			} catch (RuntimeException e) {
@@ -63,37 +73,75 @@ public class MoveChessCommand implements ChessCommand {
 			}
 
 			state = new GameState(state, playersMove);
-			fen = new Fen(state);
-			result = "Your move has been executed.";
+
+			if (setResultInChessState(vo, state)) {
+				if (vo.getResult() == ResultType.REMIS.getNumber())
+					result = "Game's remis! Well played.";
+				else
+					result = "You won the game! Congratulations!";
+			} else {
+				result = "Your move has been executed.";
+			}
 		}
 
-		if (t == MoveType.AI || t == MoveType.AI_AFTER_PLAYER) {
-
+		if ((t == MoveType.AI || t == MoveType.AI_AFTER_PLAYER)
+				&& vo.getResult() == null) {
+			fen = new Fen(state);
 			try {
 				aiMove = calculateMove(fen);
 			} catch (Throwable e) {
 				throw new ChessManagerException(
 						"Error while calculating your move: " + e.getMessage());
 			}
-
 			state = new GameState(state, aiMove);
-			fen = new Fen(state);
 
-			System.out.println("POS AFTER COMPUTER MOVE: " + fen.getFen());
+			result = "Computer move: " + aiMove.getLongNotation();
+
+			fen = new Fen(state);
+			state = fen.getGameState();
+
+			if (setResultInChessState(vo, state)) {
+				if (vo.getResult() == ResultType.REMIS.getNumber())
+					result = " -> Game ends with remis.";
+				else
+					result = "#";
+			}
 		}
 
+		fen = new Fen(state);
 		vo.setFen(fen.getFen());
 
+		updateInDatabase(vo);
+
+		return result;
+	}
+
+	protected boolean setResultInChessState(ChessStateVO vo, GameState state) {
+		if (ChessLogic.isCheckmate(state, state.getCurrentColor())) {
+			if (state.getCurrentColor() == Color.BLACK) {
+				vo.setResult(ResultType.WHITE_WINS.getNumber());
+			} else {
+				vo.setResult(ResultType.BLACK_WINS.getNumber());
+			}
+			return true;
+		} else if (ChessLogic.isDraw(state)) {
+			vo.setResult(ResultType.REMIS.getNumber());
+			return true;
+		}
+
+		return false;
+	}
+
+	protected void updateInDatabase(ChessStateVO vo)
+			throws ChessManagerException {
 		try {
 			dao.updateTable(vo);
 		} catch (SQLException e) {
 			throw new ChessManagerException(
 					"Error while writing to the database.");
 		}
-
-		return result;
 	}
- 
+
 	protected ChessStateVO getCurrentGame(String player)
 			throws ChessManagerException {
 		List<ChessStateVO> listVO;

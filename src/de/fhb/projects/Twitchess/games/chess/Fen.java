@@ -57,7 +57,11 @@ public final class Fen {
 
 	public Fen(final GameState gameState) {
 		fen = parseFromGameState(gameState);
-		this.gameState = gameState;
+		this.gameState = createGameState(fen);
+		
+		if (!isValid(fen)) {
+			throw new RuntimeException("Generated invalid fen.");
+		}
 	}
 
 	public static boolean isValid(final String fen) {
@@ -230,7 +234,18 @@ public final class Fen {
 	}
 
 	private String getEnPassantString(final GameState state) {
-		// we don't save enpassant field in GameState
+		Move m = state.getLastMove();
+
+		if (m != null) {
+			if (state.getFigureAtDestination(m) instanceof Pawn
+					&& Position.calculateYDistance(m.getStart(),
+							m.getDestination()) == 2
+					&& Position.calculateXDistance(m.getStart(),
+							m.getDestination()) == 0)
+				return new Position(m.getStart().x,
+						(m.getStart().y + m.getDestination().y) / 2).toString();
+		}
+		
 		return "-";
 	}
 
