@@ -15,8 +15,7 @@ public final class ManagerFactory {
 				ChessStateDAOInterface dao = new ChessStateDAO(
 						ChessManager.indicator + ".db");
 
-				OperatingSystem os = osv
-						.getOperatingSystem();
+				OperatingSystem os = osv.getOperatingSystem();
 				UCIEngineInterface uciEngine = ChessEngineFactory
 						.getUCIEngine(os);
 

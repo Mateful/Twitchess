@@ -152,7 +152,7 @@ public class MoveChessCommandTest {
 		EasyMock.verify(dao);
 		EasyMock.verify(uci);
 	}
-	
+
 	@Test(expected = ChessManagerException.class)
 	public void processInputInvalidMoveTest2() throws Throwable {
 		parameters.add("a1k1");
@@ -173,7 +173,7 @@ public class MoveChessCommandTest {
 		EasyMock.verify(dao);
 		EasyMock.verify(uci);
 	}
-	
+
 	@Test(expected = ChessManagerException.class)
 	public void processInputInvalidMoveAITest() throws Throwable {
 		parameters.add("a2a4");
@@ -522,17 +522,18 @@ public class MoveChessCommandTest {
 		EasyMock.verify(dao);
 		EasyMock.verify(uci);
 	}
-	
-	@Test (expected = ChessManagerException.class)
-	public void updateInDatabaseSQLExceptionTest () throws SQLException, ChessManagerException{
+
+	@Test(expected = ChessManagerException.class)
+	public void updateInDatabaseSQLExceptionTest() throws SQLException,
+			ChessManagerException {
 		ChessStateVO vo = new ChessStateVO();
 		vo.setId(1);
 		dao.updateTable(vo);
 		EasyMock.expectLastCall().andThrow(new SQLException());
 		EasyMock.replay(dao);
-		
+
 		mcc.updateInDatabase(chessState);
-		
+
 		EasyMock.verify(dao);
 	}
 }
