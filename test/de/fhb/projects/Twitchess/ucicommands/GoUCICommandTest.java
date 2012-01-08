@@ -18,12 +18,11 @@ import de.fhb.projects.Twitchess.exception.UCIException;
 public class GoUCICommandTest {
 
 	private GoUCICommand uciCommand;
-//	private UCICommand uciMock;
 	
 	
 	@Before
 	public void init(){
-//		uciMock = EasyMock.createStrictMock(UCICommand.class);
+
 		uciCommand = new GoUCICommand();
 	}
 	
