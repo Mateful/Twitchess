@@ -8,7 +8,7 @@ public class IsreadyUCICommand extends UCICommand {
 
 	@Override
 	public void processResponse(String s) {
-		if (s.contains("readyok"))
+		if (s != null && s.contains("readyok"))
 			setFinished(true);
 	}
 

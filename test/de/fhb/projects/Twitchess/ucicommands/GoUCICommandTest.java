@@ -139,14 +139,16 @@ public class GoUCICommandTest {
 	}
 	
 	@Test
-	public void setMoveTimeNullTest(){
+	public void setMoveTimeInvalidInput(){
 		uciCommand.setMovetime(null);
 		assertTrue(10000==uciCommand.getMovetime());
+		uciCommand.setMovetime(Integer.MIN_VALUE);
+		assertTrue(10000==uciCommand.getMovetime());	
 	}
 	
 	 @Test 
 	 public void MoveTimeNullDepthTimeNullTest(){
-		uciCommand.processResponse("info");
+		uciCommand.processResponse("bestmove");
 		assertEquals("{}",uciCommand.getResult().toString());
 
 	 }

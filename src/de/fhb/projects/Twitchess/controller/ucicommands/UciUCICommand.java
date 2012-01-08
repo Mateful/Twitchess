@@ -8,7 +8,7 @@ public class UciUCICommand extends UCICommand {
 
 	@Override
 	public void processResponse(String s) {
-		if (s.equals("uciok"))
+		if (s != null && s.equals("uciok"))
 			this.setFinished(true);
 	}
 
