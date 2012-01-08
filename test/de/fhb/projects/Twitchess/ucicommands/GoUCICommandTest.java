@@ -2,6 +2,7 @@ package de.fhb.projects.Twitchess.ucicommands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,9 +82,6 @@ public class GoUCICommandTest {
 		uciCommand.processResponse("bestmove g1f3 ponder g8f6");
 		uciCommand.getBestMove();
 	}
-	
-	//TODO
-	//komme in die exception nicht rein 
 
 	@Test (expected = UCIException.class)
 	public void getBestMoveNoneTest() throws UCIException{
@@ -140,4 +138,24 @@ public class GoUCICommandTest {
 	public void getScoreNotFinishedTest() throws UCIException{
 		uciCommand.getScore();
 	}
+	
+	@Test
+	public void setMoveTimeNullTest(){
+		uciCommand.setMovetime(null);
+		assertTrue(10000==uciCommand.getMovetime());
+	}
+	
+	 @Test 
+	 public void MoveTimeNullDepthTimeNullTest(){
+		uciCommand.processResponse("info");
+		assertEquals("{}",uciCommand.getResult().toString());
+
+	 }
+	 
+	@Test
+	public void processResponseInfoScoreTest(){
+		uciCommand.processResponse("info score fail input");
+		assertEquals("{}",uciCommand.getResult().toString());
+	}
+	 
 }

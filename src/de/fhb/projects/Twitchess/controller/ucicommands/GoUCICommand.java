@@ -81,7 +81,7 @@ public class GoUCICommand extends UCICommand {
 			sb.append(" depth");
 			sb.append(" ");
 			sb.append(depth);
-		} else if (movetime != null) {
+		} else {
 			sb.append(" movetime");
 			sb.append(" ");
 			sb.append(movetime);
