@@ -121,7 +121,7 @@ public class GoUCICommand extends UCICommand {
 		String score = "";
 		if (isFinished()) {
 			score = result.get("score");
-
+			System.out.println(score);
 			try {
 				return Integer.valueOf(score);
 			} catch (NumberFormatException e) {
@@ -130,5 +130,15 @@ public class GoUCICommand extends UCICommand {
 		} else
 			throw new UCIException("Calculation has not been finished yet!");
 	}
+
+	public Map<String, String> getResult() {
+		return result;
+	}
+
+	public void setResult(Map<String, String> result) {
+		this.result = result;
+	}
+	
+	
 
 }

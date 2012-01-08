@@ -35,6 +35,14 @@ public class UCIEngine implements UCIEngineInterface {
 		WAIT_UNTIL_FINISHED, DO_NOT_WAIT_UNTIL_FINISHED;
 	}
 
+	public UCIEngine(String filename, Process p, InputStream stdout, OutputStream stdin){
+		this.filename = filename;
+		this.process = p;
+		this.stdin = stdin;
+		this.stdout = stdout;
+		this.brStdout = new BufferedReader(new InputStreamReader(stdout));
+	}
+	
 	public UCIEngine(String filename) throws IOException {
 		this.filename = filename;
 		this.process = null;
