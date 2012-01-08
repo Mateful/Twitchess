@@ -254,6 +254,8 @@ public final class ChessLogic {
 
 	private static boolean isEnPassant(final GameState state, final Move move) {
 		if (move.getMovingFigure() instanceof Pawn
+				&& move.getStart().x != move.getDestination().x
+				&& move.getStart().y == state.getLastMove().getDestination().y
 				&& isInitialPawn2Step(state.getLastMove(),
 						state.getFigureAtDestination(state.getLastMove()))) {
 			move.setHitTarget(state.getFigureAtDestination(state.getLastMove()));

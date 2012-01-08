@@ -54,7 +54,7 @@ public class MoveChessCommand implements ChessCommand {
 		ChessStateVO vo = getCurrentGame(player);
 		Fen fen = new Fen(vo.getFen());
 		GameState state = fen.getGameState();
-
+		
 		if (setResultInChessState(vo, state)) {
 			updateInDatabase(vo);
 			throw new ChessManagerGameAlreadyOverException(
@@ -74,6 +74,7 @@ public class MoveChessCommand implements ChessCommand {
 			result = getResultAI(aiMove, vo, fen, state);
 		}
 
+		
 		fen = new Fen(state);
 		vo.setFen(fen.getFen());
 		updateInDatabase(vo);
@@ -136,6 +137,7 @@ public class MoveChessCommand implements ChessCommand {
 		}
 
 		state = new GameState(state, playersMove);
+		
 		return state;
 	}
 
