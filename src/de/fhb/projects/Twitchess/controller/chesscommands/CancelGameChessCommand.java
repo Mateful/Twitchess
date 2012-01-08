@@ -21,7 +21,7 @@ public class CancelGameChessCommand implements ChessCommand {
 			throws ChessManagerException {
 		String result = null;
 
-		if (parameters.size() > 0) {
+		if (parameters != null && parameters.size() > 0) {
 			throw new ChessManagerException("Error! \"" + commandText
 					+ "\" command format: " + commandText);
 		}

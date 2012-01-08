@@ -1,6 +1,7 @@
 package de.fhb.projects.Twitchess.controller.chesscommands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
@@ -521,5 +522,17 @@ public class MoveChessCommandTest {
 		EasyMock.verify(dao);
 		EasyMock.verify(uci);
 	}
-
+	
+	@Test (expected = ChessManagerException.class)
+	public void updateInDatabaseSQLExceptionTest () throws SQLException, ChessManagerException{
+		ChessStateVO vo = new ChessStateVO();
+		vo.setId(1);
+		dao.updateTable(vo);
+		EasyMock.expectLastCall().andThrow(new SQLException());
+		EasyMock.replay(dao);
+		
+		mcc.updateInDatabase(chessState);
+		
+		EasyMock.verify(dao);
+	}
 }

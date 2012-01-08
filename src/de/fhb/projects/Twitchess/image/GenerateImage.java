@@ -13,6 +13,8 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
+import de.fhb.projects.Twitchess.games.chess.Fen;
+
 public class GenerateImage implements ImageObserver {
 	private int fieldDimension;
 	private Point origin;
@@ -73,6 +75,8 @@ public class GenerateImage implements ImageObserver {
 		char c;
 		int row = 0, column = 0;
 
+		Fen f = new Fen(fen);
+		
 		for (int i = 0; ' ' != fen.charAt(i); i++) {
 			c = fen.charAt(i);
 

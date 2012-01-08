@@ -2,6 +2,7 @@ package de.fhb.projects.Twitchess.controller.chesscommands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class CancelGameChessCommandTest {
 		EasyMock.replay(dao);
 
 		chessCommand.setDao(dao);
-		assertNotNull(chessCommand.processInput("player1",
+		assertEquals("Game has been successfully aborted!", chessCommand.processInput("player1",
 				new ArrayList<String>()));
 
 		EasyMock.verify(dao);
@@ -84,7 +85,7 @@ public class CancelGameChessCommandTest {
 				state);
 		EasyMock.replay(dao);
 		chessCommand.setDao(dao);
-		chessCommand.processInput("player1", new ArrayList<String>());
+		assertNotNull(chessCommand.processInput("player1", new ArrayList<String>()));
 		EasyMock.verify();
 	}
 
@@ -96,8 +97,39 @@ public class CancelGameChessCommandTest {
 				state);
 		EasyMock.replay(dao);
 		chessCommand.setDao(dao);
-		chessCommand.processInput("player1", parameter);
+		assertNotNull(chessCommand.processInput("player1", parameter));
 		EasyMock.verify();
 	}
 
+	@Test (expected = ChessManagerException.class)
+	public void processInputSQLExceptionTest() throws SQLException, ChessManagerException{
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(new SQLException());
+		ChessStateVO vo = new ChessStateVO();
+
+		vo.setId(1);
+		dao.updateTable(vo);
+		EasyMock.replay(dao);
+
+		chessCommand.setDao(dao);
+		assertNotNull(chessCommand.processInput("player1",
+				new ArrayList<String>()));
+		
+		EasyMock.verify(dao);
+	}
+	
+	@Test 
+	public void processInputNullParameterTest() throws SQLException, ChessManagerException{
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
+		ChessStateVO vo = new ChessStateVO();
+
+		vo.setId(1);
+		dao.updateTable(vo);
+		EasyMock.replay(dao);
+
+		chessCommand.setDao(dao);
+		assertEquals("Game has been successfully aborted!", chessCommand.processInput("player1",null));
+		
+		EasyMock.verify(dao);
+	}
+	
 }
