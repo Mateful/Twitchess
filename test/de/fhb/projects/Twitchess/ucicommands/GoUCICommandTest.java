@@ -149,7 +149,7 @@ public class GoUCICommandTest {
 	 @Test 
 	 public void MoveTimeNullDepthTimeNullTest(){
 		uciCommand.processResponse("bestmove");
-		assertEquals("{}",uciCommand.getResult().toString());
+		assertEquals("{bestMove=}",uciCommand.getResult().toString());
 
 	 }
 	 
