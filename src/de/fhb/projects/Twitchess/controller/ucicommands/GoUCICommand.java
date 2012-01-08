@@ -12,8 +12,8 @@ import de.fhb.projects.Twitchess.exception.UCIException;
  * @version 0.01
  */
 public class GoUCICommand extends UCICommand {
+	public static final int MATE_SCORE = 99999;
 	private Map<String, String> result;
-
 	private Integer movetime;
 	private Integer depth;
 
@@ -41,6 +41,20 @@ public class GoUCICommand extends UCICommand {
 			result.put("bestMove", bestMove);
 
 			setFinished(true);
+		} else if (s.startsWith("info")) {
+			String[] splitString = s.split("\\s+");
+			for (int i = 0; i < splitString.length; ++i) {
+				if (splitString[i].equalsIgnoreCase("score")) {
+					if (i + 2 < splitString.length) {
+						if (splitString[i + 1].equals("mate")) {
+							result.put("score", "" + MATE_SCORE);
+						} else if (splitString[i + 1].equals("cp")){
+							result.put("score", "" + splitString[i + 2]);
+						}
+					}
+					break;
+				}
+			}
 		}
 	}
 
@@ -103,9 +117,18 @@ public class GoUCICommand extends UCICommand {
 		}
 	}
 
-	public int getScore() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getScore() throws UCIException {
+		String score = "";
+		if (isFinished()) {
+			score = result.get("score");
+
+			try {
+				return Integer.valueOf(score);
+			} catch (NumberFormatException e) {
+				throw new UCIException("No score could be retrieved.");
+			}
+		} else
+			throw new UCIException("Calculation has not been finished yet!");
 	}
 
 }

@@ -95,9 +95,10 @@ public class UCIEngine implements UCIEngineInterface {
 		sendCommand(go, SendCommandOptions.WAIT_UNTIL_FINISHED);
 		return go.getBestMove();
 	}
-	
+
 	@Override
-	public int calculateScore(String fen, Integer calculationTime) {
+	public int calculateScore(String fen, Integer calculationTime)
+			throws UCIException {
 		GoUCICommand go;
 		sendCommand(new PositionUCICommand(fen),
 				SendCommandOptions.DO_NOT_WAIT_UNTIL_FINISHED);

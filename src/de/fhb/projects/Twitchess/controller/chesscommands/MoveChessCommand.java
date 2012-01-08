@@ -175,7 +175,7 @@ public class MoveChessCommand implements ChessCommand {
 					"Error while loading from the database.");
 		}
 
-		if (listVO == null || listVO.size() > 1) {
+		if (listVO == null || listVO.size() != 1) {
 			throw new ChessManagerException(
 					"You must have a single ongoing game in order to do a move.");
 		}

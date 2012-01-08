@@ -10,6 +10,7 @@ import de.fhb.projects.Twitchess.controller.chesscommands.CancelGameChessCommand
 import de.fhb.projects.Twitchess.controller.chesscommands.ChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.MoveChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.NewGameChessCommand;
+import de.fhb.projects.Twitchess.controller.chesscommands.OfferDrawChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.PrintGameChessCommand;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
@@ -34,6 +35,8 @@ public class ChessManager implements ManagerInterface {
 		commands.put(PrintGameChessCommand.commandText,
 				new PrintGameChessCommand(dao));
 		commands.put(MoveChessCommand.commandText, new MoveChessCommand(dao,
+				uciEngine));
+		commands.put(OfferDrawChessCommand.commandText, new OfferDrawChessCommand(dao,
 				uciEngine));
 	}
 
@@ -61,8 +64,18 @@ public class ChessManager implements ManagerInterface {
 			m.processInput("hey", "@MatefulBot chess cancel");
 			m.processInput("hey", "@MatefulBot chess new");
 			m.processInput("hey", "@MatefulBot chess print");
-			m.processInput("hey", "@MatefulBot chess move player e2e3");
-			// m.processInput("hey", "@MatefulBot chess move ai");
+			m.processInput("hey", "@MatefulBot chess move player e2e4");
+			m.processInput("hey", "@MatefulBot chess move player e7e5");
+			m.processInput("hey", "@MatefulBot chess move player d1f3");
+			m.processInput("hey", "@MatefulBot chess move player a7a5");
+			m.processInput("hey", "@MatefulBot chess move player f1c4");
+			m.processInput("hey", "@MatefulBot chess move player a5a4");
+			m.processInput("hey", "@MatefulBot chess offerdraw");
+			m.processInput("hey", "@MatefulBot chess move ai");
+			m.processInput("hey", "@MatefulBot chess offerdraw");
+			m.processInput("hey", "@MatefulBot chess move player f3f7");
+			
+			 m.processInput("hey", "@MatefulBot chess move ai");
 			// m.processInput("hey", "@MatefulBot chess move ai");
 			// m.processInput("hey", "@MatefulBot chess move ai");
 			// m.processInput("hey", "@MatefulBot chess move ai");
