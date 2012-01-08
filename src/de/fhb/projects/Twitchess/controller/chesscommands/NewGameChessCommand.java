@@ -9,7 +9,6 @@ import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
 import de.fhb.projects.Twitchess.games.chess.Fen;
-import de.fhb.projects.Twitchess.games.chess.player.Color;
 
 public class NewGameChessCommand implements ChessCommand {
 	public static String commandText = "new";
@@ -23,18 +22,17 @@ public class NewGameChessCommand implements ChessCommand {
 	public String processInput(String player, List<String> parameters)
 			throws ChessManagerException {
 		String result = null;
-		Color c = getColor(parameters);
 
-		if (c == Color.NOCOLOR) {
+		if (parameters != null && parameters.size() > 0) {
 			throw new ChessManagerException("Error! \"" + commandText
-					+ "\" command format: " + commandText + " [w|b]");
+					+ "\" command format: " + commandText);
 		}
 
 		try {
 
 			List<ChessStateVO> state = dao.findNotFinishedGameByPlayer(player);
 			if (state != null && state.size() > 0) {
-				return "You already have a running game. You have to cancel it first before you can play another game.";
+				throw new ChessManagerException("You already have an ongoing game. Finish it in order to play another game.");
 			} else {
 				ChessStateVO game = new ChessStateVO();
 				game.setPlayerName(player);
@@ -42,31 +40,13 @@ public class NewGameChessCommand implements ChessCommand {
 				game.setFen(Fen.START_POSITION);
 				dao.insertIntoTable(game);
 
-				result = "new game successfully started, you are now playing as "
-						+ c.name();
+				result = "A new game has been successfully started!";
 			}
 		} catch (SQLException e) {
-			return "Error! Could not create new game: " + e.getMessage();
+			throw new ChessManagerException("Error! Could not create new game: " + e.getMessage());
 		}
 
 		return result;
-	}
-
-	private Color getColor(List<String> parameters) {
-		Color c = Color.NOCOLOR;
-
-		switch (parameters.size()) {
-			case 0 :
-				c = Color.WHITE;
-				break;
-			case 1 :
-				if (parameters.get(0).equalsIgnoreCase("w"))
-					c = Color.WHITE;
-				else if (parameters.get(0).equalsIgnoreCase("b"))
-					c = Color.BLACK;
-				break;
-		}
-		return c;
 	}
 
 	public ChessStateDAOInterface getDao() {

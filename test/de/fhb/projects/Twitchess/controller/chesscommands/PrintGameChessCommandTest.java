@@ -1,7 +1,5 @@
 package de.fhb.projects.Twitchess.controller.chesscommands;
 
-import static org.junit.Assert.assertEquals;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,60 +35,65 @@ public class PrintGameChessCommandTest {
 		chessState.setDate(null);
 		state.add(chessState);
 	}
-	
-	 @Test
-	 public void processInputTest() throws SQLException, ChessManagerException{
-			EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);		
-			EasyMock.replay(dao);
-			chessCommand.processInput("player1", parameters);		
-		
-			EasyMock.verify(dao);
-	 }
-	 
-	 @Test (expected = ChessManagerException.class)
-	 public void processInputChessManagerExceptionTest() throws SQLException, ChessManagerException{		 
+
+	@Test
+	public void processInputTest() throws SQLException, ChessManagerException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
+		EasyMock.replay(dao);
+		chessCommand.processInput("player1", parameters);
+		EasyMock.verify(dao);
+	}
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputChessManagerExceptionTest() throws SQLException,
+			ChessManagerException {
 		parameters.add("");
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);		
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
 		EasyMock.replay(dao);
-		chessCommand.processInput("player1", parameters);		
-		
+		chessCommand.processInput("player1", parameters);
 		EasyMock.verify(dao);
-	 }
-	
-	 @Test (expected = NullPointerException.class)
-	 public void processInputNullPointerExeptionTest() throws SQLException, ChessManagerException{		 
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);		
+	}
+
+	@Test
+	public void processInputNullPointerExeptionTest() throws SQLException,
+			ChessManagerException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
 		EasyMock.replay(dao);
-		chessCommand.processInput("player1", null);		
-		
+		chessCommand.processInput("player1", null);
 		EasyMock.verify(dao);
-	 }
-	 
-	 @Test 
-	 public void processInputDontFindAGameTest() throws SQLException, ChessManagerException{		 
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(null);		
+	}
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputDontFindAGameTest() throws SQLException,
+			ChessManagerException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				null);
 		EasyMock.replay(dao);
-		assertEquals("You have not a running game hence you cannot print it.",chessCommand.processInput("player1", parameters));		
-		
+		chessCommand.processInput("player1", parameters);
 		EasyMock.verify(dao);
-	 }
-	 
-	 @Test 
-	 public void processInputFindToManyGamesTest() throws SQLException, ChessManagerException{	
+	}
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputFindToManyGamesTest() throws SQLException,
+			ChessManagerException {
 		state.add(state.get(0));
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);		
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
 		EasyMock.replay(dao);
-		assertEquals("You have several running games, something is fishy.",chessCommand.processInput("player1", parameters));		
-		
+		chessCommand.processInput("player1", parameters);
 		EasyMock.verify(dao);
-	 }
-	 
-	 @Test 
-	 public void processInputSQLExceptionTest() throws SQLException, ChessManagerException{	
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(new SQLException());		
+	}
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputSQLExceptionTest() throws SQLException,
+			ChessManagerException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(
+				new SQLException());
 		EasyMock.replay(dao);
-		chessCommand.processInput("player1", parameters);		
-		
+		chessCommand.processInput("player1", parameters);
 		EasyMock.verify(dao);
-	 }
+	}
 }

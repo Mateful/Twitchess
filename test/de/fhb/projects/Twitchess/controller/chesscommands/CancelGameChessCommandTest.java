@@ -77,19 +77,14 @@ public class CancelGameChessCommandTest {
 		EasyMock.verify(dao);
 	}
 
-	@Test
-	public void processInputTestManyGamesAreOpen() throws SQLException {
+	@Test (expected = ChessManagerException.class)
+	public void processInputTestManyGamesAreOpen() throws SQLException, ChessManagerException {
 		state.add(state.get(0));
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
 		EasyMock.replay(dao);
 		chessCommand.setDao(dao);
-		try {
-			chessCommand.processInput("player1", new ArrayList<String>());
-		} catch (ChessManagerException e) {
-			assertEquals("You have several running games, something is fishy.",
-					e.getMessage());
-		}
+		chessCommand.processInput("player1", new ArrayList<String>());
 		EasyMock.verify();
 	}
 

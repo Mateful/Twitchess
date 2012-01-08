@@ -9,4 +9,5 @@ public interface UCIEngineInterface {
 			throws UCIException;
 	public void init() throws IOException;
 	public void destroy() throws Throwable;
+	public int calculateScore(String fen, Integer calculationTime);
 }

@@ -20,7 +20,7 @@ public class PrintGameChessCommand implements ChessCommand {
 			throws ChessManagerException {
 		String result = null;
 
-		if (parameters.size() > 0) {
+		if (parameters != null && parameters.size() > 0) {
 			throw new ChessManagerException("Error! \"" + commandText
 					+ "\" command format: " + commandText);
 		}
@@ -28,17 +28,20 @@ public class PrintGameChessCommand implements ChessCommand {
 		try {
 			List<ChessStateVO> state = dao.findNotFinishedGameByPlayer(player);
 			if (state == null || state.size() <= 0) {
-				return "You have not a running game hence you cannot print it.";
+				throw new ChessManagerException(
+						"You have not a running game hence you cannot print it.");
 			} else if (state.size() > 1) {
-				return "You have several running games, something is fishy.";
+				throw new ChessManagerException(
+						"You have several running games, something is fishy.");
 			} else {
 				ChessStateVO vo = state.get(0);
 
 				result = "Current Position: {" + vo.getFen() + "}";
 			}
 		} catch (SQLException e) {
-			return "Error! Could not retrieve game from database: "
-					+ e.getMessage();
+			throw new ChessManagerException(
+					"Error! Could not retrieve game from database: "
+							+ e.getMessage());
 		}
 
 		return result;

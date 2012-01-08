@@ -1,9 +1,14 @@
 package de.fhb.projects.Twitchess.games.chess.move;
 
+import de.fhb.projects.Twitchess.exception.InvalidMoveException;
 import de.fhb.projects.Twitchess.games.chess.GameState;
 import de.fhb.projects.Twitchess.games.chess.Position;
+import de.fhb.projects.Twitchess.games.chess.figures.Bishop;
 import de.fhb.projects.Twitchess.games.chess.figures.Figure;
+import de.fhb.projects.Twitchess.games.chess.figures.Knight;
 import de.fhb.projects.Twitchess.games.chess.figures.NoFigure;
+import de.fhb.projects.Twitchess.games.chess.figures.Queen;
+import de.fhb.projects.Twitchess.games.chess.figures.Rook;
 
 /**
  * This class contains information about one move in a standard game of chess.
@@ -163,5 +168,42 @@ public final class Move {
 
 	public void setMovingFigure(Figure movingFigure) {
 		this.movingFigure = movingFigure;
+	}
+	
+	public static Move valueOf(final String s) throws InvalidMoveException {
+		Position start = null, destination = null;
+		if (s == null || !s.matches("([a-hA-H][1-8]){2}[QqRrBbNn]?"))
+			throw new InvalidMoveException("Invalid move. Could not parse it.");
+
+		for (int i = 0; i < 2; ++i) {
+			int x = Character.toLowerCase(s.charAt(i * 2)) - 'a';
+			int y = s.charAt(i * 2 + 1) - '1';
+
+			if (i == 0)
+				start = new Position(x, y);
+			else
+				destination = new Position(x, y);
+		}
+
+		Move m = new Move(start, destination);
+
+		if (s.length() == 5) {
+			switch (Character.toLowerCase(s.charAt(4))) {
+				case 'q' :
+					m.setPromoteTo(new Queen(destination));
+					break;
+				case 'r' :
+					m.setPromoteTo(new Rook(destination));
+					break;
+				case 'b' :
+					m.setPromoteTo(new Bishop(destination));
+					break;
+				case 'n' :
+					m.setPromoteTo(new Knight(destination));
+					break;
+			}
+		}
+
+		return m;
 	}
 }

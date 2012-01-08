@@ -151,6 +151,48 @@ public class MoveChessCommandTest {
 		EasyMock.verify(dao);
 		EasyMock.verify(uci);
 	}
+	
+	@Test(expected = ChessManagerException.class)
+	public void processInputInvalidMoveTest2() throws Throwable {
+		parameters.add("a1k1");
+		ChessStateVO vo = new ChessStateVO();
+		vo.setId(1);
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
+		uci.init();
+		EasyMock.expect(
+				uci.calculateMove(
+						"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+						2000)).andReturn("a2a3");
+		uci.destroy();
+		dao.updateTable(vo);
+		EasyMock.replay(dao);
+		EasyMock.replay(uci);
+		mcc.processInput("player1", parameters);
+		EasyMock.verify(dao);
+		EasyMock.verify(uci);
+	}
+	
+	@Test(expected = ChessManagerException.class)
+	public void processInputInvalidMoveAITest() throws Throwable {
+		parameters.add("a2a4");
+		ChessStateVO vo = new ChessStateVO();
+		vo.setId(1);
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
+		uci.init();
+		EasyMock.expect(
+				uci.calculateMove(
+						"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+						2000)).andReturn("a7k5");
+		uci.destroy();
+		dao.updateTable(vo);
+		EasyMock.replay(dao);
+		EasyMock.replay(uci);
+		mcc.processInput("player1", parameters);
+		EasyMock.verify(dao);
+		EasyMock.verify(uci);
+	}
 
 	@Test
 	public void processInputValidMoveTest() throws Throwable {

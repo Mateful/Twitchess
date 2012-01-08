@@ -95,6 +95,18 @@ public class UCIEngine implements UCIEngineInterface {
 		sendCommand(go, SendCommandOptions.WAIT_UNTIL_FINISHED);
 		return go.getBestMove();
 	}
+	
+	@Override
+	public int calculateScore(String fen, Integer calculationTime) {
+		GoUCICommand go;
+		sendCommand(new PositionUCICommand(fen),
+				SendCommandOptions.DO_NOT_WAIT_UNTIL_FINISHED);
+
+		go = new GoUCICommand();
+		go.setMovetime(calculationTime);
+		sendCommand(go, SendCommandOptions.WAIT_UNTIL_FINISHED);
+		return go.getScore();
+	}
 
 	public void close() {
 		try {
@@ -200,5 +212,4 @@ public class UCIEngine implements UCIEngineInterface {
 	public UCICommand getCurrentCommand() {
 		return currentCommand;
 	}
-
 }

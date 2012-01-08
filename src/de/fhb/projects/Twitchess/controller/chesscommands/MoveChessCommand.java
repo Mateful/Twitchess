@@ -14,11 +14,6 @@ import de.fhb.projects.Twitchess.exception.UCIException;
 import de.fhb.projects.Twitchess.games.chess.ChessLogic;
 import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.games.chess.GameState;
-import de.fhb.projects.Twitchess.games.chess.Position;
-import de.fhb.projects.Twitchess.games.chess.figures.Bishop;
-import de.fhb.projects.Twitchess.games.chess.figures.Knight;
-import de.fhb.projects.Twitchess.games.chess.figures.Queen;
-import de.fhb.projects.Twitchess.games.chess.figures.Rook;
 import de.fhb.projects.Twitchess.games.chess.move.Move;
 import de.fhb.projects.Twitchess.games.chess.player.Color;
 
@@ -58,7 +53,6 @@ public class MoveChessCommand implements ChessCommand {
 
 		ChessStateVO vo = getCurrentGame(player);
 		Fen fen = new Fen(vo.getFen());
-
 		GameState state = fen.getGameState();
 
 		if (setResultInChessState(vo, state)) {
@@ -69,59 +63,80 @@ public class MoveChessCommand implements ChessCommand {
 
 		if ((t == MoveType.PLAYER || t == MoveType.AI_AFTER_PLAYER)
 				&& playersMove != null) {
-
-			try {
-				ChessLogic.isValidMove(state, playersMove);
-			} catch (RuntimeException e) {
-				throw new ChessManagerException("Your move is invalid!");
-			}
-
-			state = new GameState(state, playersMove);
-
-			if (setResultInChessState(vo, state)) {
-				if (vo.getResult() == ResultType.REMIS.getNumber())
-					result = "Game's remis! Well played.";
-				else
-					result = "You won the game! Congratulations!";
-			} else {
-				result = "Your move has been executed.";
-			}
+			state = doPlayerMove(playersMove, state);
+			result = getResultPlayer(vo, state);
 		}
-
 		if ((t == MoveType.AI || t == MoveType.AI_AFTER_PLAYER)
 				&& vo.getResult() == null) {
 			fen = new Fen(state);
-			try {
-				aiMove = calculateMove(fen);
-			} catch (Throwable e) {
-				throw new ChessManagerException(
-						"Error while calculating your move: " + e.getMessage());
-			}
-
-			try {
-				ChessLogic.isValidMove(state, aiMove);
-			} catch (RuntimeException e) {
-				throw new ChessManagerException("Computer's move is invalid!");
-			}
-
+			aiMove = doAIMove(fen, state);
 			state = new GameState(state, aiMove);
-
-			result = "Computer move: " + aiMove.getLongNotation();
-
-			if (setResultInChessState(vo, state)) {
-				if (vo.getResult() == ResultType.REMIS.getNumber())
-					result = " -> Game ends with remis.";
-				else
-					result = "#";
-			}
+			result = getResultAI(aiMove, vo, fen, state);
 		}
 
 		fen = new Fen(state);
 		vo.setFen(fen.getFen());
-
 		updateInDatabase(vo);
 
 		return result;
+	}
+
+	protected String getResultAI(Move aiMove, ChessStateVO vo, Fen fen,
+			GameState state) {
+		String result;
+		result = "Computer move: " + aiMove.getLongNotation();
+
+		if (setResultInChessState(vo, state)) {
+			if (vo.getResult() == ResultType.REMIS.getNumber())
+				result += " -> Game ends with remis.";
+			else
+				result += "#";
+			result += " {" + fen.getFen() + "}";
+		}
+		return result;
+	}
+
+	protected Move doAIMove(Fen fen, GameState state)
+			throws ChessManagerException {
+		Move aiMove;
+		try {
+			aiMove = calculateMove(fen);
+		} catch (Throwable e) {
+			throw new ChessManagerException(
+					"Error while calculating your move: " + e.getMessage());
+		}
+
+		try {
+			ChessLogic.isValidMove(state, aiMove);
+		} catch (RuntimeException e) {
+			throw new ChessManagerException("Computer's move is invalid!");
+		}
+		return aiMove;
+	}
+
+	protected String getResultPlayer(ChessStateVO vo, GameState state) {
+		String result;
+		if (setResultInChessState(vo, state)) {
+			if (vo.getResult() == ResultType.REMIS.getNumber())
+				result = "Game's remis! Well played.";
+			else
+				result = "You won the game! Congratulations!";
+		} else {
+			result = "Your move has been executed.";
+		}
+		return result;
+	}
+
+	protected GameState doPlayerMove(Move playersMove, GameState state)
+			throws ChessManagerException {
+		try {
+			ChessLogic.isValidMove(state, playersMove);
+		} catch (RuntimeException e) {
+			throw new ChessManagerException("Your move is invalid!");
+		}
+
+		state = new GameState(state, playersMove);
+		return state;
 	}
 
 	protected boolean setResultInChessState(ChessStateVO vo, GameState state) {
@@ -170,14 +185,18 @@ public class MoveChessCommand implements ChessCommand {
 			throws ChessManagerException {
 		Move playersMove = null;
 
-		if (t != MoveType.AI) {
-			if (t == null) {
-				playersMove = getMove(parameters.get(0));
-			} else if (parameters.size() != 2) {
-				throwCommandSyntaxException();
-			} else {
-				playersMove = getMove(parameters.get(1));
+		try {
+			if (t != MoveType.AI) {
+				if (t == null) {
+					playersMove = Move.valueOf(parameters.get(0));
+				} else if (parameters.size() != 2) {
+					throwCommandSyntaxException();
+				} else {
+					playersMove = Move.valueOf(parameters.get(1));
+				}
 			}
+		} catch (RuntimeException e) {
+			throw new ChessManagerException("Your move could not be parsed!");
 		}
 
 		return playersMove;
@@ -217,45 +236,13 @@ public class MoveChessCommand implements ChessCommand {
 		String calculatedMove = uciEngine.calculateMove(fen.getFen(), 2000);
 		uciEngine.destroy();
 
-		move = getMove(calculatedMove);
+		try {
+			move = Move.valueOf(calculatedMove);
+		} catch (RuntimeException e) {
+			throw new ChessManagerException("Computer's move could not be parsed");
+		}
+		
 		return move;
-	}
-
-	protected Move getMove(String s) throws ChessManagerException {
-		Position start = null, destination = null;
-		if (!s.matches("([a-hA-H][1-8]){2}[QqRrBbNn]?"))
-			throw new ChessManagerException("Invalid move. Could not parse it.");
-
-		for (int i = 0; i < 2; ++i) {
-			int x = Character.toLowerCase(s.charAt(i * 2)) - 'a';
-			int y = s.charAt(i * 2 + 1) - '1';
-
-			if (i == 0)
-				start = new Position(x, y);
-			else
-				destination = new Position(x, y);
-		}
-
-		Move m = new Move(start, destination);
-
-		if (s.length() == 5) {
-			switch (Character.toLowerCase(s.charAt(4))) {
-				case 'q' :
-					m.setPromoteTo(new Queen(new Position(0, 0)));
-					break;
-				case 'r' :
-					m.setPromoteTo(new Rook(new Position(0, 0)));
-					break;
-				case 'b' :
-					m.setPromoteTo(new Bishop(new Position(0, 0)));
-					break;
-				case 'n' :
-					m.setPromoteTo(new Knight(new Position(0, 0)));
-					break;
-			}
-		}
-
-		return m;
 	}
 
 	public ChessStateDAOInterface getDao() {

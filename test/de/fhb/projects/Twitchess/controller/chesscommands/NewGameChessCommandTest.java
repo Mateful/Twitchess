@@ -1,7 +1,6 @@
 package de.fhb.projects.Twitchess.controller.chesscommands;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class NewGameChessCommandTest {
 
 	@Before
 	public void init() {
-		dao = EasyMock.createStrictMock(ChessStateDAOInterface.class);
+		dao = EasyMock.createNiceMock(ChessStateDAOInterface.class);
 		chessCommand = new NewGameChessCommand(dao);
 		state = new ArrayList<ChessStateVO>();
 		parameters = new ArrayList<String>();
@@ -38,58 +37,62 @@ public class NewGameChessCommandTest {
 		chessState.setDate(null);
 		state.add(chessState);
 	}
-	
-	@Test (expected = NullPointerException.class)
-	public void processInputNoColor1Test() throws ChessManagerException, SQLException{
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputParameterIsNullTest() throws ChessManagerException,
+			SQLException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
 		EasyMock.replay(dao);
 		chessCommand.processInput("player1", null);
 		EasyMock.verify(dao);
 	}
-	
-	@Test (expected = ChessManagerException.class)
-	public void processInputNoColor2Test() throws ChessManagerException, SQLException{
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(null);
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputParameterIsWrongTest()
+			throws ChessManagerException, SQLException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				null);
 		EasyMock.replay(dao);
 		parameters.add("d");
 		chessCommand.processInput("player1", parameters);
 		EasyMock.verify(dao);
 	}
-	
-	@Test 
-	public void processInputRunningGameTest() throws SQLException, ChessManagerException{
-		
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputRunningGameTest() throws SQLException,
+			ChessManagerException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
 		EasyMock.replay(dao);
-		
-		assertEquals("You already have a running game. You have to cancel it first before you can play another game.", chessCommand.processInput("player1", parameters));
-		
+		chessCommand.processInput("player1", parameters);
 		EasyMock.verify(dao);
-		
+
 	}
-	
-	@Test 
-	public void processInputSQLExceptionTest() throws SQLException, ChessManagerException {
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(new SQLException());
+
+	@Test(expected = ChessManagerException.class)
+	public void processInputSQLExceptionTest() throws SQLException,
+			ChessManagerException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(
+				new SQLException());
 		EasyMock.replay(dao);
-		
-        chessCommand.processInput("player1", parameters);
-		
+
+		chessCommand.processInput("player1", parameters);
+
 		EasyMock.verify(dao);
 	}
-	
-	
-//	TODO Zeitangabe verhindert momentan das Testen in InsertIntoTable(...)
-//	@Test
-//	public void processInputNewGameTest() throws ChessManagerException, SQLException{
-//		
-//		EasyMock.expect(dao.findNotFinishedGameByPlayer("player2")).andReturn(null);
-//		EasyMock.expect(dao.insertIntoTable(chessState)).andReturn(1);
-//		EasyMock.replay(dao);		
-//		
-//		parameters.add("w");
-//		assertEquals("new game successfully started, you are now playing as white", chessCommand.processInput("player2", parameters));
-//		
-//		EasyMock.verify(dao);
-//	}
+
+	@Test
+	public void processInputNewGameTest() throws ChessManagerException,
+			SQLException {
+
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player2")).andReturn(
+				null);
+		EasyMock.expect(dao.insertIntoTable(EasyMock.isA(ChessStateVO.class))).andReturn(1);
+		EasyMock.replay(dao);
+
+		assertTrue(chessCommand.processInput("player2", parameters) instanceof String);
+
+		EasyMock.verify(dao);
+	}
 }
