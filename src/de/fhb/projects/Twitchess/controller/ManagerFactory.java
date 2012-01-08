@@ -8,14 +8,14 @@ import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 public final class ManagerFactory {
 	public static ManagerInterface getRelevantManager(final String message) {
 		String[] s = message.split("\\s+");
-
+		OperatingSystemValidator osv = new OperatingSystemValidator();
 		if (s != null && s.length >= 2
 				&& s[1].equalsIgnoreCase(ChessManager.indicator)) {
 			try {
 				ChessStateDAOInterface dao = new ChessStateDAO(
 						ChessManager.indicator + ".db");
 
-				OperatingSystem os = OperatingSystemValidator
+				OperatingSystem os = osv
 						.getOperatingSystem();
 				UCIEngineInterface uciEngine = ChessEngineFactory
 						.getUCIEngine(os);
