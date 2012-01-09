@@ -52,8 +52,16 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test (expected = ChessManagerException.class)
-	public void processInputNotSRunningGameTest() throws SQLException, ChessManagerException{
+	public void processInputNotARunningGame1Test() throws SQLException, ChessManagerException{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(null);
+		EasyMock.replay(dao);
+		odcc.processInput("player1", parameters);
+	}
+	
+	@Test (expected = ChessManagerException.class)
+	public void processInputNotARunningGame2Test() throws SQLException, ChessManagerException{
+		state.clear();
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		EasyMock.replay(dao);
 		odcc.processInput("player1", parameters);
 	}

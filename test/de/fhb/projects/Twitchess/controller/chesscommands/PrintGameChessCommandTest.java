@@ -53,12 +53,23 @@ public class PrintGameChessCommandTest {
 	@Test(expected = ChessManagerException.class)
 	public void processInputEmptyParameterTest() throws SQLException,
 			ChessManagerException {
+		parameters.clear();
 		parameters.add("");
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
 		EasyMock.replay(dao);
 		assertNotNull(chessCommand.processInput("player1", parameters));
 		// EasyMock.verify(dao);
+	}
+	
+	@Test (expected = ChessManagerException.class)
+	public void proccessInputNullState() throws SQLException, ChessManagerException{
+		parameters.clear();
+		parameters.add("");
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				null);
+		EasyMock.replay(dao);
+		assertNotNull(chessCommand.processInput("player1", parameters));
 	}
 
 	@Test
