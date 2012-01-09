@@ -1,5 +1,6 @@
 package de.fhb.projects.Twitchess.controller.osvalidator;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -7,10 +8,10 @@ public class OperatingSystemValidatorTest {
 
 	private OperatingSystemValidator osv;
 
-	@Test
-	public void testWindows() throws Exception {
-		String os = "win";
-		//assertTrue(osv.isWindows(os));
+	@Test (expected = Exception.class)
+	public void testWindows() {
+		String os = "mac";
+		//assertFalse(osv.isWindows(os));
 	}
 
 }

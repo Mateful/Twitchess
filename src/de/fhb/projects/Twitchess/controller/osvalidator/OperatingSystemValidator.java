@@ -1,5 +1,7 @@
 package de.fhb.projects.Twitchess.controller.osvalidator;
 
+import de.fhb.projects.Twitchess.exception.OperatingSystemNotSupportedException;
+
 public class OperatingSystemValidator {
 	static OperatingSystem operatingSystem;
 
@@ -19,7 +21,7 @@ public class OperatingSystemValidator {
 		} else if (isSolaris(os)) {
 			operatingSystem = OperatingSystem.SUN;
 		} else {
-			throw new RuntimeException(
+			throw new OperatingSystemNotSupportedException(
 					"Your operating system is not supported.");
 		}
 	}
