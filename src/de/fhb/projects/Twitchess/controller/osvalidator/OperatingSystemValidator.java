@@ -3,23 +3,23 @@ package de.fhb.projects.Twitchess.controller.osvalidator;
 import de.fhb.projects.Twitchess.exception.OperatingSystemNotSupportedException;
 
 public class OperatingSystemValidator {
-	private OperatingSystem operatingSystem;
+	private OperatingSystem os;
 
 	public OperatingSystem getOperatingSystem() {
-		String os = System.getProperty("os.name").toLowerCase();
-		getOperatingSystem(os);
-		return operatingSystem;
+		String systemName = System.getProperty("os.name").toLowerCase();
+		getOperatingSystem(systemName);
+		return os;
 	}
 
 	protected void getOperatingSystem(String os) {
 		if (isWindows(os)) {
-			operatingSystem = OperatingSystem.WINDOWS;
+			this.os = OperatingSystem.WINDOWS;
 		} else if (isMac(os)) {
-			operatingSystem = OperatingSystem.MAC;
+			this.os = OperatingSystem.MAC;
 		} else if (isUnix(os)) {
-			operatingSystem = OperatingSystem.UNIX;
+			this.os = OperatingSystem.UNIX;
 		} else if (isSolaris(os)) {
-			operatingSystem = OperatingSystem.SUN;
+			this.os = OperatingSystem.SUN;
 		} else {
 			throw new OperatingSystemNotSupportedException(
 					"Your operating system is not supported.");
