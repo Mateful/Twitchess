@@ -73,30 +73,35 @@ public class OperatingSystemValidatorTest {
 		assertTrue(osv.isSolaris("solaris 5.9"));
 	}
 	@Test(expected = OperatingSystemNotSupportedException.class)
-	public void getOperatingSystemTest1() {
+	public void getOperatingSystemExceptionTest1() {
 		osv.getOperatingSystem("Any System");
 	}
 	@Test(expected = OperatingSystemNotSupportedException.class)
-	public void getOperatingSystemTest2() {
+	public void getOperatingSystemExceptionTest2() {
 		osv.getOperatingSystem("x86");
 	}
 	@Test(expected = OperatingSystemNotSupportedException.class)
-	public void getOperatingSystemTest3() {
+	public void getOperatingSystemExceptionTest3() {
 		osv.getOperatingSystem("Mamis PC");
 	}
 	@Test(expected = OperatingSystemNotSupportedException.class)
-	public void getOperatingSystemTest4() {
+	public void getOperatingSystemExceptionTest4() {
 		osv.getOperatingSystem("unsupported OS");
 	}
-
 	@Test
 	public void getOperatingSystemWindowsTest() {
-		String name = "windows";
-		OperatingSystem system = OperatingSystem.WINDOWS;
-		if (osv.isWindows(name)) {
-			os = OperatingSystem.WINDOWS;
-		}
-	
-		assertEquals(os,system);
+		assertEquals(osv.getOperatingSystem("windows"), OperatingSystem.WINDOWS);
+	}
+	@Test
+	public void getOperatingSystemMaxTest() {
+		assertEquals(osv.getOperatingSystem("mac os"), OperatingSystem.MAC);
+	}
+	@Test
+	public void getOperatingSystemUnixTest() {
+		assertEquals(osv.getOperatingSystem("unix"), OperatingSystem.UNIX);
+	}
+	@Test
+	public void getOperatingSystemSolarisTest() {
+		assertEquals(osv.getOperatingSystem("solaris"), OperatingSystem.SUN);
 	}
 }
