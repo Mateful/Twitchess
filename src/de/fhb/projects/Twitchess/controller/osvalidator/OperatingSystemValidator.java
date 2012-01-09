@@ -41,8 +41,4 @@ public class OperatingSystemValidator {
 	public boolean isSolaris(String os) {
 		return (os.toLowerCase().indexOf("sunos") >= 0 || os.indexOf("aris") >= 0);
 	}
-
-	public static void main(String[] args) {
-		System.out.println(System.getProperty("os.name").toLowerCase());
-	}
 }
