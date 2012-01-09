@@ -3,8 +3,9 @@ package de.fhb.projects.Twitchess.controller.osvalidator;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-public class OperatingSystemValidatorTest {
+import de.fhb.projects.Twitchess.exception.OperatingSystemNotSupportedException;
 
+public class OperatingSystemValidatorTest {
 	private OperatingSystemValidator osv = new OperatingSystemValidator();
 
 	@Test
@@ -42,5 +43,11 @@ public class OperatingSystemValidatorTest {
 		assertTrue(osv.isSolaris("SunOS"));
 		assertTrue(osv.isSolaris("SunOS 5.9"));
 	}
-
+	@Test(expected = OperatingSystemNotSupportedException.class)
+	public void testInput() {
+		osv.getOperatingSystem("Any System");
+		osv.getOperatingSystem("x86");
+		osv.getOperatingSystem("Mamis PC");
+		osv.getOperatingSystem("unsupported OS");
+	}
 }
