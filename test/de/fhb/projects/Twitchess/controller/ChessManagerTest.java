@@ -15,7 +15,7 @@ import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
 
 
-public class ManagerInterfaceTest{
+public class ChessManagerTest{
 	
 	private UCIEngineInterface uci;
 	private ChessManager cm;
@@ -55,10 +55,24 @@ public class ManagerInterfaceTest{
 		String message="that message throw a exception";
 		cm.getParameters(message);
 	}
+	
 	//zweiter Zweig konnte ich nicht erreichen
 	@Test (expected = ChessManagerException.class)
 	public void getParameterWithoutParameterTest() throws ChessManagerException{
 		String message="@blubb dfnio bsdnuiof";
+		cm.getParameters(message);
+	}
+	
+
+	@Test (expected = ChessManagerException.class)
+	public void getParameterOnlyNameParamTest() throws ChessManagerException{
+		String message="@MatefulBot";
+		cm.getParameters(message);
+	}
+	
+	@Test (expected = ChessManagerException.class)
+	public void getParameterOnlyChessCommandTest() throws ChessManagerException{
+		String message="chess";
 		cm.getParameters(message);
 	}
 	

@@ -28,7 +28,7 @@ public class OfferDrawChessCommand implements ChessCommand {
 			throws ChessManagerException {
 		String result = null;
 
-		if (parameters.size() > 0) {
+		if (parameters == null || parameters.size() > 0) {
 			throw new ChessManagerException("Error! \"" + commandText
 					+ "\" command format: " + commandText);
 		}
@@ -73,8 +73,11 @@ public class OfferDrawChessCommand implements ChessCommand {
 		return result;
 	}
 
-	public boolean acceptDraw(GameState s, int score) {
-		return Math.abs(score) < 100 && s.getFullMoveNumber() > 10;
+	public boolean acceptDraw(GameState s, int score)throws ChessManagerException {
+		if(s!= null)
+			return Math.abs(score) < 100 && s.getFullMoveNumber() > 10;
+		
+		throw new ChessManagerException("Gamestate read fault.");	
 	}
 
 	public ChessStateDAOInterface getDao() {
