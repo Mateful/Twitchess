@@ -1,5 +1,6 @@
 package de.fhb.projects.Twitchess.controller.osvalidator;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import de.fhb.projects.Twitchess.exception.OperatingSystemNotSupportedException;
 
 public class OperatingSystemValidatorTest {
 	private OperatingSystemValidator osv;
+	private OperatingSystem os;
 
 	@Before
 	public void init() {
@@ -85,5 +87,16 @@ public class OperatingSystemValidatorTest {
 	@Test(expected = OperatingSystemNotSupportedException.class)
 	public void getOperatingSystemTest4() {
 		osv.getOperatingSystem("unsupported OS");
+	}
+
+	@Test
+	public void getOperatingSystemWindowsTest() {
+		String name = "windows";
+		OperatingSystem system = OperatingSystem.WINDOWS;
+		if (osv.isWindows(name)) {
+			os = OperatingSystem.WINDOWS;
+		}
+	
+		assertEquals(os,system);
 	}
 }

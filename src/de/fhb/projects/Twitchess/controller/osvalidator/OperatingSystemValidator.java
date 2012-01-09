@@ -7,19 +7,19 @@ public class OperatingSystemValidator {
 
 	public OperatingSystem getOperatingSystem() {
 		String systemName = System.getProperty("os.name").toLowerCase();
-		getOperatingSystem(systemName);
+		os = getOperatingSystem(systemName);
 		return os;
 	}
 
-	protected void getOperatingSystem(String os) {
+	protected OperatingSystem getOperatingSystem(String os) {
 		if (isWindows(os)) {
-			this.os = OperatingSystem.WINDOWS;
+			return OperatingSystem.WINDOWS;
 		} else if (isMac(os)) {
-			this.os = OperatingSystem.MAC;
+			return OperatingSystem.MAC;
 		} else if (isUnix(os)) {
-			this.os = OperatingSystem.UNIX;
+			return OperatingSystem.UNIX;
 		} else if (isSolaris(os)) {
-			this.os = OperatingSystem.SUN;
+			return OperatingSystem.SUN;
 		} else {
 			throw new OperatingSystemNotSupportedException(
 					"Your operating system is not supported.");
