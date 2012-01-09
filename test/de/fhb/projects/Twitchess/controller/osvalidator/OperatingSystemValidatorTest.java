@@ -41,16 +41,23 @@ public class OperatingSystemValidatorTest {
 		assertTrue(osv.isMac("Mac OS 7.5.1"));
 		assertTrue(osv.isMac("Mac OS 8.1"));
 		assertTrue(osv.isMac("Mac OS 9.0"));
-		assertTrue(osv.isMac("Mac OS X 10.1.3"));
+		assertTrue(osv.isMac("Mac OS X 10.1.3.4"));
 		assertTrue(osv.isMac("Mac OS X 10.3.8"));
+		assertTrue(osv.isMac("mac X 10.3.8"));
+		assertTrue(osv.isMac("mac OS 10.3.8"));
+		assertTrue(osv.isMac("mac OS X 3.8"));
 	}
 	@Test
 	public void isUnixTest() {
 		assertTrue(osv.isUnix("Linux"));
 		assertTrue(osv.isUnix("Linux 2.0.31"));
 		assertTrue(osv.isUnix("Digital Unix"));
-		assertTrue(osv.isUnix("Digital Unix 	4.0"));
+		assertTrue(osv.isUnix("Digital Unix 4.0"));
 		assertTrue(osv.isUnix("Unix"));
+		assertTrue(osv.isUnix("unix 4"));
+		assertTrue(osv.isUnix("unix 3.2"));
+		assertTrue(osv.isUnix("unix kernel"));
+		assertTrue(osv.isUnix("linux 1.3.3.7"));
 	}
 	@Test
 	public void isSolarisTest() {
@@ -58,6 +65,10 @@ public class OperatingSystemValidatorTest {
 		assertTrue(osv.isSolaris("SunOS 5.7"));
 		assertTrue(osv.isSolaris("SunOS"));
 		assertTrue(osv.isSolaris("SunOS 5.9"));
+		assertTrue(osv.isSolaris("sun OS 5.9"));
+		assertTrue(osv.isSolaris("sun OS 5.94"));
+		assertTrue(osv.isSolaris("sun 9"));
+		assertTrue(osv.isSolaris("solaris 5.9"));
 	}
 	@Test(expected = OperatingSystemNotSupportedException.class)
 	public void getOperatingSystemTest1() {

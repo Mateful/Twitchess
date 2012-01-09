@@ -35,10 +35,13 @@ public class OperatingSystemValidator {
 	}
 
 	public boolean isUnix(String os) {
-		return (os.toLowerCase().indexOf("nix") >= 0 || os.indexOf("nux") >= 0);
+		return (os.toLowerCase().indexOf("nix") >= 0 || os.toLowerCase()
+				.indexOf("nux") >= 0);
 	}
 
 	public boolean isSolaris(String os) {
-		return (os.toLowerCase().indexOf("sunos") >= 0 || os.indexOf("aris") >= 0);
+		return (os.toLowerCase().indexOf("sun") >= 0
+				|| os.toLowerCase().indexOf("sunos") >= 0 || os.toLowerCase()
+				.indexOf("sol") >= 0);
 	}
 }
