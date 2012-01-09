@@ -1,6 +1,5 @@
 package de.fhb.projects.Twitchess.twitterbot.commands;
 
-import twitter4j.TwitterException;
 import de.fhb.projects.Twitchess.twitterbot.main.TwitterBot;
 
 public class UpdateStatusCommand extends Command {

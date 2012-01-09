@@ -11,6 +11,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import de.fhb.projects.Twitchess.games.chess.Fen;
+import de.fhb.projects.Twitchess.twitterbot.commands.FollowCommand;
+import de.fhb.projects.Twitchess.twitterbot.commands.UpdateStatusCommand;
+
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -261,16 +265,6 @@ public class TwitterBotTest {
 		EasyMock.verify(twitterInterface);
 	}
 	
-	@Ignore
-	@Test
-	public void replaceFenWithImageUrlTest() throws TwitterException{
-		upload = EasyMock.createStrictMock(ImageUpload.class);
-//		EasyMock.expect(upload.upload(new File("generateImage.png"))).andReturn("www.Twitter.de");
-//		EasyMock.replay(upload);
-		tb.setAccessToken(accessToken);
-		System.out.println(tb.replaceFenWithImageUrl("{rnbqkbnr/pppppppp/7p/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}"));
-	}
-	
 	@Test
 	public void answerMention() throws IllegalStateException, TwitterException{
 		EasyMock.expect(status.getUser()).andReturn(user);
@@ -301,4 +295,40 @@ public class TwitterBotTest {
 		EasyMock.verify(twitterInterface);
 	}
 
+
+	@Test
+	public void replaceFenWithImageUrlTest() throws TwitterException{
+		tb.setAccessToken(accessToken);
+		assertEquals("{rnbqkbnr/pppppppp/7p/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}",tb.replaceFenWithImageUrl("{rnbqkbnr/pppppppp/7p/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}"));
+		
+	}
+	
+	//vlt exeption schmeiﬂen 
+	@Test
+	public void replaceFenWithImageUrlNullStringTest(){
+		tb.setAccessToken(accessToken);
+		assertEquals(null,tb.replaceFenWithImageUrl(null));
+	}
+	
+	@Test
+	public void generateImageFromFenTest(){
+		Fen fen = new Fen("rnbqkbnr/pppppppp/7p/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); 
+		assertEquals(new File("generatedImage.png"),tb.generateImageFromFen(fen));
+		assertEquals(null,tb.generateImageFromFen(null));
+	}
+	
+	@Test
+	public void receiveCommandTest(){
+		FollowCommand command = new FollowCommand("@Matefulbot");
+		tb.receiveCommand(command);
+	}
+	
+	@Test
+	public void receiveCommandExeptionTest() throws TwitterException{
+		FollowCommand command = new FollowCommand("@Test");
+		EasyMock.expect(twitterInterface.createFriendship("@Test")).andThrow(new TwitterException(""));
+		EasyMock.replay(twitterInterface);
+		
+		tb.receiveCommand(command);
+	}
 }

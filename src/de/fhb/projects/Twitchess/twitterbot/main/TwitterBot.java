@@ -21,6 +21,7 @@ import twitter4j.media.ImageUpload;
 import twitter4j.media.ImageUploadFactory;
 import de.fhb.projects.Twitchess.controller.ManagerFactory;
 import de.fhb.projects.Twitchess.controller.ManagerInterface;
+import de.fhb.projects.Twitchess.exception.ChessManagerException;
 import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.image.GenerateImage;
 import de.fhb.projects.Twitchess.twitterbot.commands.Command;
@@ -35,43 +36,6 @@ public class TwitterBot extends Observable {
 	private RequestToken requestToken;
 	private AccessToken accessToken;
 	private boolean answering;
-
-	public Twitter getTwitter() {
-		return twitter;
-	}
-
-	public void setTwitter(Twitter twitter) {
-		this.twitter = twitter;
-	}
-
-	public TwitterStream getTwitterStream() {
-		return twitterStream;
-	}
- 
-	public void setTwitterStream(TwitterStream twitterStream) {
-		this.twitterStream = twitterStream;
-	}
-
-	public RequestToken getRequestToken() {
-		return requestToken;
-	}
-
-	public void setRequestToken(RequestToken requestToken) {
-		this.requestToken = requestToken;
-	}
-
-	public AccessToken getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(AccessToken accessToken) {
-		this.accessToken = accessToken;
-	}
-
-	public TwitterBot() {
-		this(new TwitterFactory().getInstance(), new TwitterStreamFactory()
-				.getInstance());
-	}
 
 	public TwitterBot(Twitter t, TwitterStream s) {
 		twitter = t;
@@ -180,8 +144,12 @@ public class TwitterBot extends Observable {
 	}
 
 	protected String replaceFenWithImageUrl(final String param) {
-		int start = param.indexOf('{');
 		String result = param;
+		if(param == null)
+			return result;
+
+		int start = param.indexOf('{');
+		
 
 		if (start >= 0) {
 			int end = param.indexOf('}', start + 1);
@@ -211,6 +179,8 @@ public class TwitterBot extends Observable {
 	}
 
 	protected File generateImageFromFen(Fen fen) {
+		if(fen ==null)
+			return null;
 		GenerateImage gen = new GenerateImage("img/board.properties");
 		File f = new File("generatedImage.png");
 		BufferedImage img = gen.generateImageFromFen(fen.getFen());
@@ -313,5 +283,26 @@ public class TwitterBot extends Observable {
 	protected void notifyObservers(String s) {
 		setChanged();
 		super.notifyObservers(s);
+	}
+	
+	public RequestToken getRequestToken() {
+		return requestToken;
+	}
+
+	public void setRequestToken(RequestToken requestToken) {
+		this.requestToken = requestToken;
+	}
+
+	public AccessToken getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(AccessToken accessToken) {
+		this.accessToken = accessToken;
+	}
+
+	public TwitterBot() {
+		this(new TwitterFactory().getInstance(), new TwitterStreamFactory()
+				.getInstance());
 	}
 }

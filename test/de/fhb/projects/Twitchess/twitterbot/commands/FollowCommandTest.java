@@ -47,8 +47,6 @@ public class FollowCommandTest {
 		fc.execute(tb);
 	}
 	
-	//TODO weis nicht ob der Test durchlaufen soll
-	@Ignore
 	@Test
 	public void executeNullFollowerTest() throws TwitterException{
 		fc.setFollowerName(null);
@@ -60,4 +58,5 @@ public class FollowCommandTest {
 		fc.setFollowerName("");
 		fc.execute(tb);
 	}
+	
 }
