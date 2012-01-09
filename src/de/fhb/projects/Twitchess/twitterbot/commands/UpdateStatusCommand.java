@@ -11,8 +11,18 @@ public class UpdateStatusCommand extends Command {
 	}
 
 	@Override
-	public void execute(TwitterBot twitterBot) throws TwitterException {
+	public void execute(TwitterBot twitterBot) {
+		if(newStatus != null && twitterBot != null)
 		twitterBot.updateStatus(newStatus);
+	}
+
+	public String getNewStatus() {
+		return newStatus;
+	}
+
+	public void setNewStatus(String newStatus) {
+		
+		this.newStatus = newStatus;
 	}
 
 }

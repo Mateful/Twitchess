@@ -12,7 +12,16 @@ public class FollowCommand extends Command {
 
 	@Override
 	public void execute(TwitterBot twitterBot) throws TwitterException {
-		twitterBot.createFriendship(followerName);
+		if(twitterBot!=null && followerName !=null)
+			twitterBot.createFriendship(followerName);
 	}
 
+	public String getFollowerName() {
+		return followerName;
+	}
+
+	public void setFollowerName(String followerName) {
+		this.followerName = followerName;
+	}
+	
 }
