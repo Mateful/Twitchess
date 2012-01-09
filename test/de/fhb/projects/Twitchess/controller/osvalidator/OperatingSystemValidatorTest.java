@@ -16,7 +16,6 @@ import de.fhb.projects.Twitchess.exception.OperatingSystemNotSupportedException;
 
 public class OperatingSystemValidatorTest {
 	private OperatingSystemValidator osv;
-	private OperatingSystem os;
 
 	@Before
 	public void init() {
