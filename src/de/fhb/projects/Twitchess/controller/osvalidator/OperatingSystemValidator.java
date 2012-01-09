@@ -3,7 +3,7 @@ package de.fhb.projects.Twitchess.controller.osvalidator;
 import de.fhb.projects.Twitchess.exception.OperatingSystemNotSupportedException;
 
 public class OperatingSystemValidator {
-	static OperatingSystem operatingSystem;
+	private OperatingSystem operatingSystem;
 
 	public OperatingSystem getOperatingSystem() {
 		String os = System.getProperty("os.name").toLowerCase();
@@ -40,5 +40,9 @@ public class OperatingSystemValidator {
 
 	public boolean isSolaris(String os) {
 		return (os.indexOf("sunos") >= 0);
+	}
+
+	public static void main(String[] args) {
+		System.out.println(System.getProperty("os.name").toLowerCase());
 	}
 }
