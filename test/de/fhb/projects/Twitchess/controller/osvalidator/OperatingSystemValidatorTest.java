@@ -6,12 +6,12 @@ import org.junit.Test;
 
 public class OperatingSystemValidatorTest {
 
-	private OperatingSystemValidator osv;
+	private OperatingSystemValidator osv = new OperatingSystemValidator();
 
-	@Test (expected = Exception.class)
+	@Test 
 	public void testWindows() {
-		String os = "mac";
-		//assertFalse(osv.isWindows(os));
+		String os = "win";
+		assertTrue(osv.isWindows(os));
 	}
 
 }
