@@ -27,19 +27,19 @@ public class OperatingSystemValidator {
 	}
 
 	public boolean isWindows(String os) {
-		return (os.indexOf("win") >= 0);
+		return (os.toLowerCase().indexOf("win") >= 0);
 	}
 
 	public boolean isMac(String os) {
-		return (os.indexOf("mac") >= 0);
+		return (os.toLowerCase().indexOf("mac") >= 0);
 	}
 
 	public boolean isUnix(String os) {
-		return (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0);
+		return (os.toLowerCase().indexOf("nix") >= 0 || os.indexOf("nux") >= 0);
 	}
 
 	public boolean isSolaris(String os) {
-		return (os.indexOf("sunos") >= 0);
+		return (os.toLowerCase().indexOf("sunos") >= 0);
 	}
 
 	public static void main(String[] args) {
