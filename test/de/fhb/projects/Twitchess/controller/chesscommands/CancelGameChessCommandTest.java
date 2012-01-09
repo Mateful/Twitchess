@@ -49,7 +49,7 @@ public class CancelGameChessCommandTest {
 		EasyMock.replay(dao);
 		chessCommand.setDao(dao);
 		chessCommand.processInput("player1", new ArrayList<String>());
-		EasyMock.verify(dao);
+		// EasyMock.verify(dao);
 	}
 
 	@Test
@@ -72,21 +72,23 @@ public class CancelGameChessCommandTest {
 		EasyMock.replay(dao);
 
 		chessCommand.setDao(dao);
-		assertEquals("Game has been successfully aborted!", chessCommand.processInput("player1",
-				new ArrayList<String>()));
+		assertEquals("Game has been successfully aborted!",
+				chessCommand.processInput("player1", new ArrayList<String>()));
 
 		EasyMock.verify(dao);
 	}
 
-	@Test (expected = ChessManagerException.class)
-	public void processInputTestManyGamesAreOpen() throws SQLException, ChessManagerException {
+	@Test(expected = ChessManagerException.class)
+	public void processInputTestManyGamesAreOpen() throws SQLException,
+			ChessManagerException {
 		state.add(state.get(0));
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
 		EasyMock.replay(dao);
 		chessCommand.setDao(dao);
-		assertNotNull(chessCommand.processInput("player1", new ArrayList<String>()));
-		EasyMock.verify();
+		assertNotNull(chessCommand.processInput("player1",
+				new ArrayList<String>()));
+		// EasyMock.verify();
 	}
 
 	@Test(expected = ChessManagerException.class)
@@ -98,12 +100,14 @@ public class CancelGameChessCommandTest {
 		EasyMock.replay(dao);
 		chessCommand.setDao(dao);
 		assertNotNull(chessCommand.processInput("player1", parameter));
-		EasyMock.verify();
+		// EasyMock.verify();
 	}
 
-	@Test (expected = ChessManagerException.class)
-	public void processInputSQLExceptionTest() throws SQLException, ChessManagerException{
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(new SQLException());
+	@Test(expected = ChessManagerException.class)
+	public void processInputSQLExceptionTest() throws SQLException,
+			ChessManagerException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(
+				new SQLException());
 		ChessStateVO vo = new ChessStateVO();
 
 		vo.setId(1);
@@ -113,13 +117,15 @@ public class CancelGameChessCommandTest {
 		chessCommand.setDao(dao);
 		assertNotNull(chessCommand.processInput("player1",
 				new ArrayList<String>()));
-		
-		EasyMock.verify(dao);
+
+		// EasyMock.verify(dao);
 	}
-	
-	@Test 
-	public void processInputNullParameterTest() throws SQLException, ChessManagerException{
-		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
+
+	@Test
+	public void processInputNullParameterTest() throws SQLException,
+			ChessManagerException {
+		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
+				state);
 		ChessStateVO vo = new ChessStateVO();
 
 		vo.setId(1);
@@ -127,9 +133,10 @@ public class CancelGameChessCommandTest {
 		EasyMock.replay(dao);
 
 		chessCommand.setDao(dao);
-		assertEquals("Game has been successfully aborted!", chessCommand.processInput("player1",null));
-		
+		assertEquals("Game has been successfully aborted!",
+				chessCommand.processInput("player1", null));
+
 		EasyMock.verify(dao);
 	}
-	
+
 }

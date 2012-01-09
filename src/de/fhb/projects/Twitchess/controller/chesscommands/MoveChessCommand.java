@@ -243,7 +243,7 @@ public class MoveChessCommand implements ChessCommand {
 		} catch (RuntimeException e) {
 			throw new ChessManagerException("Computer's move could not be parsed");
 		}
-		
+
 		return move;
 	}
 

@@ -11,7 +11,7 @@ public class OperatingSystemValidator {
 		return os;
 	}
 
-	protected OperatingSystem getOperatingSystem(String os) {
+	protected OperatingSystem getOperatingSystem(final String os) {
 		if (isWindows(os)) {
 			return OperatingSystem.WINDOWS;
 		} else if (isMac(os)) {
@@ -26,20 +26,20 @@ public class OperatingSystemValidator {
 		}
 	}
 
-	public boolean isWindows(String os) {
+	public boolean isWindows(final String os) {
 		return (os.toLowerCase().indexOf("win") >= 0);
 	}
 
-	public boolean isMac(String os) {
+	public boolean isMac(final String os) {
 		return (os.toLowerCase().indexOf("mac") >= 0);
 	}
 
-	public boolean isUnix(String os) {
+	public boolean isUnix(final String os) {
 		return (os.toLowerCase().indexOf("nix") >= 0 || os.toLowerCase()
 				.indexOf("nux") >= 0);
 	}
 
-	public boolean isSolaris(String os) {
+	public boolean isSolaris(final String os) {
 		return (os.toLowerCase().indexOf("sun") >= 0
 				|| os.toLowerCase().indexOf("sunos") >= 0 || os.toLowerCase()
 				.indexOf("sol") >= 0);
