@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.fhb.projects.Twitchess.util.TextFileReader;
+
 public class TextFileReaderTest {
 
 	private TextFileReader tfr;

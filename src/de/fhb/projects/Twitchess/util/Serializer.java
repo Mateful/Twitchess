@@ -1,4 +1,4 @@
-package de.fhb.projects.Twitchess.twitterbot.util;
+package de.fhb.projects.Twitchess.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

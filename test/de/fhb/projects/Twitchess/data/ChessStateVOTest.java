@@ -3,6 +3,8 @@ package de.fhb.projects.Twitchess.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,6 +43,14 @@ public class ChessStateVOTest {
 		csvo = new ChessStateVO();
 		csvo.setResult(100);
 		assertEquals(887503781,csvo.hashCode());
+		
+		csvo = new ChessStateVO();
+		csvo.setMoves("a3a4");
+		assertEquals(-580396698,csvo.hashCode());
+		
+		csvo = new ChessStateVO();
+		csvo.setDate(new Date(0));
+		assertEquals(887503681,csvo.hashCode());
 	}
 
 	
@@ -70,7 +80,8 @@ public class ChessStateVOTest {
 		csvo.setPlayerName("player1");
 		csvo.setId(222);
 		csvo.setResult(1234);
-		assertEquals("ChessState [id=222, playerName=player1, fen=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1, moves=a2a3, date=null, result=1234]",csvo.toString());
+		csvo.setDate(new Date(0));
+		assertEquals("ChessState [id=222, playerName=player1, fen=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1, moves=a2a3, date=1970/01/01 01:00:00, result=1234]",csvo.toString());
 	}
 	
 }
