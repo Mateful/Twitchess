@@ -27,7 +27,6 @@ public class TwitterBotTest {
 	private TwitterStream twitterStreamInterface;
 	private RequestToken requestToken;
 	private AccessToken accessToken;
-	// private ImageUpload upload;
 	private Status status;
 	private User user;
 

@@ -1,10 +1,11 @@
-package de.fhb.projects.Twitchess.twitterbot.commands;
+package de.fhb.projects.Twitchess.integrationtests.twitterbot.commands;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import de.fhb.projects.Twitchess.twitterbot.commands.ToggleAnsweringCommand;
 import de.fhb.projects.Twitchess.twitterbot.main.TwitterBot;
 
 public class ToggleAnsweringCommandTest {

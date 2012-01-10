@@ -51,7 +51,7 @@ public class ChessStateVOTest {
 		
 		assertTrue(csvo.equals(csvo));
 		assertTrue(!csvo.equals(null));
-		assertTrue(!csvo.equals(new Integer(1)));
+		assertTrue(!csvo.equals(1));
 		
 		csvo2= new ChessStateVO("player1","rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",null,null,null);
 		assertTrue(csvo.equals(csvo2));

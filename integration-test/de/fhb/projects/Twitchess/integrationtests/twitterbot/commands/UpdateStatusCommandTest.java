@@ -1,4 +1,4 @@
-package de.fhb.projects.Twitchess.twitterbot.commands;
+package de.fhb.projects.Twitchess.integrationtests.twitterbot.commands;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -7,6 +7,7 @@ import org.junit.Test;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
+import de.fhb.projects.Twitchess.twitterbot.commands.UpdateStatusCommand;
 import de.fhb.projects.Twitchess.twitterbot.main.TwitterBot;
 
 public class UpdateStatusCommandTest {
