@@ -40,68 +40,6 @@ public class ChessManager implements ManagerInterface {
 				uciEngine));
 	}
 
-	public static void main(String[] args) {
-		ChessManager m;
-		try {
-			Fen f = new Fen(Fen.START_POSITION);
-			GameState s = f.getGameState();
-			List<Move> l = new ArrayList<Move>();
-
-			for (Figure fig : s.getCurrentPlayer().getFiguresInGame())
-				l.addAll(ChessLogic.getAllMoves(s, fig));
-
-			System.out.println(l.size());
-			for (Move mov : l)
-				System.out.println(mov);
-
-			m = (ChessManager) ManagerFactory
-					.getRelevantManager("@MatefulBot chess");
-			ChessStateDAOInterface dao = ((NewGameChessCommand) m.commands
-					.get("new")).getDao();
-
-			dao.truncateTable();
-//			m.processInput("hey", "@MatefulBot chess new");
-//			m.processInput("hey", "@MatefulBot chess cancel");
-			m.processInput("hey", "@MatefulBot chess new");
-			m.processInput("hey", "@MatefulBot chess print");
-			m.processInput("hey", "@MatefulBot chess move player e2e4");
-			m.processInput("hey", "@MatefulBot chess print");
-			m.processInput("hey", "@MatefulBot chess move player e7e5");
-			m.processInput("hey", "@MatefulBot chess print");
-			m.processInput("hey", "@MatefulBot chess move player g1f3");
-			m.processInput("hey", "@MatefulBot chess move player g8f6");
-			m.processInput("hey", "@MatefulBot chess move player f1c4");
-			m.processInput("hey", "@MatefulBot chess move player f8c5");
-			m.processInput("hey", "@MatefulBot chess move player e1g1");
-			m.processInput("hey", "@MatefulBot chess move player e8e7");
-			m.processInput("hey", "@MatefulBot chess move player a2a4");
-			m.processInput("hey", "@MatefulBot chess move player e7e8");
-			m.processInput("hey", "@MatefulBot chess move player a4a5");
-			m.processInput("hey", "@MatefulBot chess move player e8g8");
-//			m.processInput("hey", "@MatefulBot chess move player e7e5");
-//			m.processInput("hey", "@MatefulBot chess move player d1f3");
-//			m.processInput("hey", "@MatefulBot chess move player a7a5");
-//			m.processInput("hey", "@MatefulBot chess move player f1c4");
-//			m.processInput("hey", "@MatefulBot chess move player a5a4");
-//			m.processInput("hey", "@MatefulBot chess offerdraw");
-//			m.processInput("hey", "@MatefulBot chess move ai");
-//			m.processInput("hey", "@MatefulBot chess offerdraw");
-//			m.processInput("hey", "@MatefulBot chess move player f3f7");
-//			
-//			 m.processInput("hey", "@MatefulBot chess move ai");
-			// m.processInput("hey", "@MatefulBot chess move ai");
-			// m.processInput("hey", "@MatefulBot chess move ai");
-			// m.processInput("hey", "@MatefulBot chess move ai");
-			// m.processInput("hey", "@MatefulBot chess move ai");
-			m.processInput("hey", "@MatefulBot chess print");
-
-			dao.showAll();
-			dao.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	@Override
 	public String processInput(String player, String message) {
 		String result = null;
