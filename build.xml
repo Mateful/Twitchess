@@ -17,7 +17,6 @@
 		<mkdir dir="${inst.dir}" />
 		<mkdir dir="${cob.rep.html}" />
 		<mkdir dir="${cob.rep.xml}" />
-		<mkdir dir="${jar.dir}" />
 	</target>
 
 	<target name="clean" description="Remove all files created by the build/test process.">
@@ -27,7 +26,6 @@
 		<delete file="${cobdata}" />
 		<delete dir="${inst.dir}" />
 		<delete dir="${cob.rep}" />
-		<delete dir="${jar.dir}" />
 	</target>
 
 	<target name="compile" depends="init">
@@ -129,7 +127,7 @@
 		          target: Jar
 		 ================================= -->
 	<target name="jar" depends="compile" description="erzeugt ausfuehrbare Jar-Datei">
-		<jar destfile="${jar.dir}/twitchess.jar" filesetmanifest="skip">
+		<jar destfile="twitchess.jar" filesetmanifest="skip">
     		<fileset dir="${classes.dir}" excludes="**/*Test.class"/>
     		<zipgroupfileset dir="${lib.dir}" includes="${jar.lib.includes}" excludes=""/>
 			
