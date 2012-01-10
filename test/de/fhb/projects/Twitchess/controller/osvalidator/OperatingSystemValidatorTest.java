@@ -3,15 +3,9 @@ package de.fhb.projects.Twitchess.controller.osvalidator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.fhb.projects.Twitchess.controller.chesscommands.NewGameChessCommand;
-import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
-import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.OperatingSystemNotSupportedException;
 
 public class OperatingSystemValidatorTest {

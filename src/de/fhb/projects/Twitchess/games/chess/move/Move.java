@@ -137,7 +137,19 @@ public final class Move {
 	}
 
 	public String getLongNotation() {
-		return start.toString() + destination.toString();
+		String s = start.toString() + destination.toString();
+		
+		if (promoteTo instanceof Queen) {
+			s += 'q';
+		} else if (promoteTo instanceof Rook) {
+			s += 'r';
+		} else if (promoteTo instanceof Bishop) {
+			s += 'b';
+		} else if (promoteTo instanceof Knight) {
+			s += 'n';
+		}
+		
+		return s;
 	}
 
 	public Figure getHitTarget() {

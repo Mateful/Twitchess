@@ -121,7 +121,6 @@ public class GoUCICommand extends UCICommand {
 		String score = "";
 		if (isFinished()) {
 			score = result.get("score");
-			System.out.println(score);
 			try {
 				return Integer.valueOf(score);
 			} catch (NumberFormatException e) {

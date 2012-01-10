@@ -21,7 +21,6 @@ import twitter4j.media.ImageUpload;
 import twitter4j.media.ImageUploadFactory;
 import de.fhb.projects.Twitchess.controller.ManagerFactory;
 import de.fhb.projects.Twitchess.controller.ManagerInterface;
-import de.fhb.projects.Twitchess.exception.ChessManagerException;
 import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.image.GenerateImage;
 import de.fhb.projects.Twitchess.twitterbot.commands.Command;

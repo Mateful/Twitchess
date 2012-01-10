@@ -103,7 +103,7 @@ public class OfferDrawChessCommandTest {
 		EasyMock.verify(uci);
 		EasyMock.verify(dao);
 	}
-	//TODO assertTrue müsste nen Fehler ausspucken
+
 	@Test (expected = ChessManagerException.class)
 	public void processInputIOExceptionTest() throws SQLException, IOException, ChessManagerException{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);

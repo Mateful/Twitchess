@@ -17,7 +17,7 @@ import de.fhb.projects.Twitchess.controller.ucicommands.UcinewgameUCICommand;
 import de.fhb.projects.Twitchess.exception.UCIException;
 
 public class UCIEngine implements UCIEngineInterface {
-	public static boolean debug = true;
+	public static boolean debug = false;
 
 	private String filename;
 
@@ -68,7 +68,7 @@ public class UCIEngine implements UCIEngineInterface {
 						}
 					}
 				} catch (IOException e) {
-					System.out.println("error in run(): " + e.getMessage());
+					System.err.println("error in run(): " + e.getMessage());
 				}
 			}
 		};

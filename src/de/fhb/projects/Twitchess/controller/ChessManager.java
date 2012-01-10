@@ -1,6 +1,5 @@
 package de.fhb.projects.Twitchess.controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,11 +13,6 @@ import de.fhb.projects.Twitchess.controller.chesscommands.OfferDrawChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.PrintGameChessCommand;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
-import de.fhb.projects.Twitchess.games.chess.ChessLogic;
-import de.fhb.projects.Twitchess.games.chess.Fen;
-import de.fhb.projects.Twitchess.games.chess.GameState;
-import de.fhb.projects.Twitchess.games.chess.figures.Figure;
-import de.fhb.projects.Twitchess.games.chess.move.Move;
 
 public class ChessManager implements ManagerInterface {
 	public static final String indicator = "chess";
@@ -52,15 +46,12 @@ public class ChessManager implements ManagerInterface {
 			if (command != null) {
 				result = command.processInput(player, parameters);
 			} else {
-				throw new ChessManagerException("This is not a valid command!");
+				throw new ChessManagerException("\"" + commandString + "\" is not a valid command!");
 			}
 
 		} catch (ChessManagerException e) {
-			result = "Error while processing your request: " + e.getMessage();
+			result = "Error: " + e.getMessage();
 		}
-
-		System.out.println("return value of ChessManager.processInput(...) = "
-				+ result);
 
 		return result;
 	}

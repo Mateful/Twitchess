@@ -8,11 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.controller.ucicommands.GoUCICommand;
-import de.fhb.projects.Twitchess.controller.ucicommands.UCICommand;
 import de.fhb.projects.Twitchess.exception.UCIException;
 
 public class GoUCICommandTest {
@@ -39,7 +37,7 @@ public class GoUCICommandTest {
 	@Test
 	public void processResponseInfoScoreMateTest() {
 		uciCommand.processResponse("info ... score mate 10 ..");
-		assertEquals("{score=" + uciCommand.MATE_SCORE + "}", uciCommand
+		assertEquals("{score=" + GoUCICommand.MATE_SCORE + "}", uciCommand
 				.getResult().toString());
 	}
 

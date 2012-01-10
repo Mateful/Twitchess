@@ -1,10 +1,8 @@
 package de.fhb.projects.Twitchess.image;
 
 import java.awt.HeadlessException;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,18 +13,19 @@ import javax.imageio.ImageIO;
 
 import de.fhb.projects.Twitchess.games.chess.Fen;
 
-public class GenerateImage implements ImageObserver {
+public class GenerateImage {
 	private int fieldDimension;
 	private Point origin;
 	private String boardFilename;
 	private String figureFilenamePatter;
 
-	public GenerateImage(String propertyFilename) throws HeadlessException {
+	public GenerateImage(final String propertyFilename)
+			throws HeadlessException {
 		super();
 		initialiseFromPropertyFile(propertyFilename);
 	}
 
-	private void initialiseFromPropertyFile(String propertyFilename) {
+	private void initialiseFromPropertyFile(final String propertyFilename) {
 		try {
 			int x, y;
 			FileInputStream input = new FileInputStream(propertyFilename);
@@ -57,7 +56,7 @@ public class GenerateImage implements ImageObserver {
 		}
 	}
 
-	public BufferedImage generateImageFromFen(String fen) {
+	public BufferedImage generateImageFromFen(final String fen) {
 		BufferedImage backgroundImage = null;
 
 		try {
@@ -71,12 +70,13 @@ public class GenerateImage implements ImageObserver {
 		return backgroundImage;
 	}
 
-	private void addFiguresToImage(String fen, BufferedImage backgroundImage) {
+	private void addFiguresToImage(final String fen,
+			final BufferedImage backgroundImage) {
 		char c;
 		int row = 0, column = 0;
 
-		Fen f = new Fen(fen);
-		
+		new Fen(fen);
+
 		for (int i = 0; ' ' != fen.charAt(i); i++) {
 			c = fen.charAt(i);
 
@@ -94,19 +94,19 @@ public class GenerateImage implements ImageObserver {
 		}
 	}
 
-	public void generateImage(String filename, int row, int column,
-			BufferedImage backgroundImage) {
+	public void generateImage(final String filename, final int row,
+			final int column, final BufferedImage backgroundImage) {
 		try {
 			BufferedImage foregroundImage = ImageIO.read(new File(filename));
 			backgroundImage.getGraphics().drawImage(foregroundImage,
-					columnToCoordinate(column), rowToCoordinate(row), this);
+					columnToCoordinate(column), rowToCoordinate(row), null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public void saveImage(File file, BufferedImage bimg) {
+	public void saveImage(final File file, final BufferedImage bimg) {
 		try {
 			ImageIO.write(bimg, "png", file);
 		} catch (IOException e) {
@@ -114,7 +114,7 @@ public class GenerateImage implements ImageObserver {
 		}
 	}
 
-	private String getFigureFilename(char c) {
+	private String getFigureFilename(final char c) {
 		String result = figureFilenamePatter;
 
 		result = result.replace("%c", Character.isUpperCase(c) ? "w" : "b");
@@ -130,11 +130,11 @@ public class GenerateImage implements ImageObserver {
 		return backgroundImage;
 	}
 
-	public int columnToCoordinate(int column) {
+	public int columnToCoordinate(final int column) {
 		return origin.x + column * fieldDimension;
 	}
 
-	public int rowToCoordinate(int row) {
+	public int rowToCoordinate(final int row) {
 		return origin.y + row * fieldDimension;
 	}
 
@@ -142,7 +142,7 @@ public class GenerateImage implements ImageObserver {
 		return fieldDimension;
 	}
 
-	public void setFieldDimension(int fieldDimension) {
+	public void setFieldDimension(final int fieldDimension) {
 		this.fieldDimension = fieldDimension;
 	}
 
@@ -158,7 +158,7 @@ public class GenerateImage implements ImageObserver {
 		return boardFilename;
 	}
 
-	public void setBoardFilename(String boardFilename) {
+	public void setBoardFilename(final String boardFilename) {
 		this.boardFilename = boardFilename;
 	}
 
@@ -166,7 +166,7 @@ public class GenerateImage implements ImageObserver {
 		return figureFilenamePatter;
 	}
 
-	public void setFigureFilenamePatter(String figureFilenamePatter) {
+	public void setFigureFilenamePatter(final String figureFilenamePatter) {
 		if (figureFilenamePatter == null
 				|| !figureFilenamePatter.contains("%f")
 				|| !figureFilenamePatter.contains("%c"))
@@ -174,12 +174,4 @@ public class GenerateImage implements ImageObserver {
 		else
 			this.figureFilenamePatter = figureFilenamePatter;
 	}
-
-	@Override
-	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,
-			int arg4, int arg5) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

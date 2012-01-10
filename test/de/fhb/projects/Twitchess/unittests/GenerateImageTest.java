@@ -65,13 +65,14 @@ public class GenerateImageTest {
 		assertTrue(Integer.MAX_VALUE == gi.rowToCoordinate(Integer.MAX_VALUE));
 	}
 
-	@Test (expected = RuntimeException.class)
+	@Test(expected = RuntimeException.class)
 	public void testGenerateInvalidFenTest() {
-		
+
 		gi = new GenerateImage("test-files/board.properties");
 		assertNotNull(gi
 				.generateImageFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
-		assertNull(gi.generateImageFromFen("rnbqdsfafkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+		assertNull(gi
+				.generateImageFromFen("rnbqdsfafkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
 	}
 
 	@Test
@@ -98,13 +99,13 @@ public class GenerateImageTest {
 		assertEquals("test-files/field.png", gi.getBoardFilename());
 		assertEquals("test-files/%f-%c.png", gi.getFigureFilenamePatter());
 	}
-	
+
 	@Test
-	public void setFigureFilenamePatterNullFileNameTest(){
-		System.out.println(gi.getFigureFilenamePatter());
+	public void setFigureFilenamePatterNullFileNameTest() {
+		gi.getFigureFilenamePatter();
 		gi.setFigureFilenamePatter(null);
-		System.out.println(gi.getFigureFilenamePatter());
-		assertEquals("%f-%c.png",gi.getFigureFilenamePatter());
+		gi.getFigureFilenamePatter();
+		assertEquals("%f-%c.png", gi.getFigureFilenamePatter());
 	}
 
 	private byte[] getMD5Hash(BufferedImage buffImg) throws Exception {
@@ -116,6 +117,5 @@ public class GenerateImageTest {
 		byte[] hash = md.digest();
 		return hash;
 	}
-	
-	
+
 }
