@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
+import de.fhb.projects.Twitchess.controller.configuration.Configuration;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.data.ResultType;
@@ -43,26 +44,30 @@ public class OfferDrawChessCommand implements ChessCommand {
 						"You have several running games, something is fishy.");
 			} else {
 				ChessStateVO vo = state.get(0);
-				Fen fen = new Fen (vo.getFen());
+				Fen fen = new Fen(vo.getFen());
 				GameState s = fen.getGameState();
-				
+
 				try {
 					uciEngine.init();
-					int score = uciEngine.calculateScore(fen.getFen(), 2000);
-					
+					int score = uciEngine.calculateScore(fen.getFen(),
+							Configuration.getInt("Engine.TimePerMove", 2000));
+
 					if (acceptDraw(s, score)) {
 						vo.setResult(ResultType.REMIS.getNumber());
 						dao.updateTable(vo);
-						result = "Fair enough, I accept your offer! {" + vo.getFen() + "}"; 
+						result = "Fair enough, I accept your offer! {"
+								+ vo.getFen() + "}";
 					} else {
 						result = "It is too early to call it a draw!";
 					}
-						
+
 					uciEngine.destroy();
 				} catch (IOException e) {
-					throw new ChessManagerException("Error while accessing the chess engine.");
+					throw new ChessManagerException(
+							"Error while accessing the chess engine.");
 				} catch (Throwable e) {
-					throw new ChessManagerException("Error while closing the chess engine.");
+					throw new ChessManagerException(
+							"Error while closing the chess engine.");
 				}
 			}
 		} catch (SQLException e) {
@@ -73,11 +78,15 @@ public class OfferDrawChessCommand implements ChessCommand {
 		return result;
 	}
 
-	public boolean acceptDraw(GameState s, int score)throws ChessManagerException {
-		if(s!= null)
-			return Math.abs(score) < 100 && s.getFullMoveNumber() > 10;
-		
-		throw new ChessManagerException("Gamestate read fault.");	
+	public boolean acceptDraw(GameState s, int score)
+			throws ChessManagerException {
+		if (s != null)
+			return Math.abs(score) < Configuration.getInt(
+					"AcceptDraw.AbsScoreLessThan", 100)
+					&& s.getFullMoveNumber() > Configuration.getInt(
+							"AcceptDraw.FullMoveCountGreaterThan", 10);
+
+		throw new ChessManagerException("Gamestate read fault.");
 	}
 
 	public ChessStateDAOInterface getDao() {

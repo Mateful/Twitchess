@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
+import de.fhb.projects.Twitchess.controller.configuration.Configuration;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.data.ResultType;
@@ -235,7 +236,7 @@ public class MoveChessCommand implements ChessCommand {
 			Throwable, ChessManagerException {
 		Move move;
 		uciEngine.init();
-		String calculatedMove = uciEngine.calculateMove(fen.getFen(), 2000);
+		String calculatedMove = uciEngine.calculateMove(fen.getFen(), Configuration.getInt("Engine.TimePerMove", 2000));
 		uciEngine.destroy();
 
 		try {

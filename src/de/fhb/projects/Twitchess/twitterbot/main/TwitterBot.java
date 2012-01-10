@@ -1,11 +1,13 @@
 package de.fhb.projects.Twitchess.twitterbot.main;
 
+
+import static de.fhb.projects.Twitchess.controller.configuration.Configuration.getString;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Observable;
-
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -28,7 +30,7 @@ import de.fhb.projects.Twitchess.twitterbot.exceptions.TokenNotFoundException;
 import de.fhb.projects.Twitchess.twitterbot.util.Serializer;
 
 public class TwitterBot extends Observable {
-	public final String STANDARD_ACCOUNT = "MatefulBot";
+	public final String STANDARD_ACCOUNT = getString("Twitter.StandardAccount", "MatefulBot");
 
 	private Twitter twitter;
 	private TwitterStream twitterStream;
@@ -36,6 +38,11 @@ public class TwitterBot extends Observable {
 	private AccessToken accessToken;
 	private boolean answering;
 
+	public TwitterBot() {
+		this(new TwitterFactory().getInstance(), new TwitterStreamFactory()
+				.getInstance());
+	}
+	
 	public TwitterBot(Twitter t, TwitterStream s) {
 		twitter = t;
 		twitterStream = s;
@@ -298,10 +305,5 @@ public class TwitterBot extends Observable {
 
 	public void setAccessToken(AccessToken accessToken) {
 		this.accessToken = accessToken;
-	}
-
-	public TwitterBot() {
-		this(new TwitterFactory().getInstance(), new TwitterStreamFactory()
-				.getInstance());
 	}
 }

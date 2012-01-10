@@ -28,4 +28,20 @@ public class Configuration {
 			return '!' + FILE_NAME + " is missing" + '!';
 		}
 	}
+	
+	public static String getString(String key, String defaultValue) {
+		try {
+			return (String) p.get(key);
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+	
+	public static int getInt(String key, int defaultValue) {
+		try {
+			return Integer.valueOf((String) p.get(key)); 
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
 }
