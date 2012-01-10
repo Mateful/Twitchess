@@ -23,14 +23,14 @@ import twitter4j.media.ImageUpload;
 import twitter4j.media.ImageUploadFactory;
 import de.fhb.projects.Twitchess.controller.ManagerFactory;
 import de.fhb.projects.Twitchess.controller.ManagerInterface;
+import de.fhb.projects.Twitchess.exception.TokenNotFoundException;
 import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.image.GenerateImage;
 import de.fhb.projects.Twitchess.twitterbot.commands.Command;
-import de.fhb.projects.Twitchess.twitterbot.exceptions.TokenNotFoundException;
-import de.fhb.projects.Twitchess.twitterbot.util.Serializer;
+import de.fhb.projects.Twitchess.util.Serializer;
 
-public class TwitterBot extends Observable {
-	public final String STANDARD_ACCOUNT = getString("Twitter.StandardAccount", "MatefulBot");
+public class TwitterBot extends TwitterBotAbstract {
+	
 
 	private Twitter twitter;
 	private TwitterStream twitterStream;

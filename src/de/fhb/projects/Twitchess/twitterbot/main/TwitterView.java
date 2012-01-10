@@ -6,20 +6,20 @@ import java.io.InputStreamReader;
 import java.util.Observable;
 import java.util.Observer;
 
+import de.fhb.projects.Twitchess.exception.TokenNotFoundException;
 import de.fhb.projects.Twitchess.twitterbot.commands.ExitCommand;
 import de.fhb.projects.Twitchess.twitterbot.commands.FollowCommand;
 import de.fhb.projects.Twitchess.twitterbot.commands.ToggleAnsweringCommand;
 import de.fhb.projects.Twitchess.twitterbot.commands.UpdateStatusCommand;
-import de.fhb.projects.Twitchess.twitterbot.exceptions.TokenNotFoundException;
 
 public class TwitterView implements Runnable, Observer {
-	private TwitterBot twitterbot;
+	private TwitterBotAbstract twitterbot;
 	private Thread thread;
 	private BufferedReader inputReader;
 	private boolean running;
 
-	public TwitterView(TwitterBot controller) {
-		this.twitterbot = controller;
+	public TwitterView(TwitterBotAbstract tb) {
+		this.twitterbot = tb;
 		inputReader = new BufferedReader(new InputStreamReader(System.in));
 		twitterbot.addObserver(this);
 		login();
@@ -87,7 +87,7 @@ public class TwitterView implements Runnable, Observer {
 		}
 	}
 
-	private void processInput(String input) {
+	protected void processInput(String input) {
 		switch (getCommandNumber(input)) {
 			case 0 :
 				twitterbot.receiveCommand(new ExitCommand());
@@ -161,4 +161,13 @@ public class TwitterView implements Runnable, Observer {
 		else if (argument instanceof String)
 			printMessage((String) argument);
 	}
+
+	public BufferedReader getInputReader() {
+		return inputReader;
+	}
+
+	public void setInputReader(BufferedReader inputReader) {
+		this.inputReader = inputReader;
+	}
+	
 }
