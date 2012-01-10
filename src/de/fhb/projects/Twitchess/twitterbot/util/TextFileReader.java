@@ -16,6 +16,8 @@ public class TextFileReader {
 	public static ArrayList<String> readTextFileLineByLine(String filename)
 			throws IOException {
 		ArrayList<String> lines = new ArrayList<String>();
+		if(filename == null)
+			return lines;
 		String input;
 		BufferedReader br = new BufferedReader(new FileReader(filename));
 		do {
