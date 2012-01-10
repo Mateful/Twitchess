@@ -80,6 +80,7 @@ public class MoveChessCommand implements ChessCommand {
 		vo.setFen(fen.getFen());
 		updateInDatabase(vo);
 
+		result += " {" + fen.getFen() + "}";
 		return result;
 	}
 
@@ -93,7 +94,6 @@ public class MoveChessCommand implements ChessCommand {
 				result += " -> Game ends with remis.";
 			else
 				result += "#";
-			result += " {" + fen.getFen() + "}";
 		}
 		return result;
 	}
