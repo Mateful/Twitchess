@@ -19,11 +19,17 @@ Twitchess ist eine Konsolenanwendung, welche es ermöglicht, über Twitter gegen
 Verwendete APIs
 ---------------
 * Schachmotor
+
 	https://github.com/mcostalba/Stockfish
+	
 * SQLite-DB
+
 	http://www.zentus.com/sqlitejdbc
+	
 * Twitter4j
-	http://twitter4j.org	
+
+	http://twitter4j.org
+		
 
 
 Anforderungen
@@ -31,26 +37,26 @@ Anforderungen
 
 Mindestanforderungen des Projekts:
 
-  -Spielen gegen KI (Anbindung einer Schachengine) (erfüllt)
+* Spielen gegen KI (Anbindung einer Schachengine) (erfüllt)
   
-  -Anbindung an Twitter (Steuerung über Nachrichten) (erfüllt)
+* Anbindung an Twitter (Steuerung über Nachrichten) (erfüllt)
   
-  -Aktuelle Status-/Spielfeldanzeige durch Grafiken (über Twitter) (erfüllt)
+* Aktuelle Status-/Spielfeldanzeige durch Grafiken (über Twitter) (erfüllt)
   
-  -Speicherung laufender und vergangener Spiele/Spieler (erfüllt)
+* Speicherung laufender und vergangener Spiele/Spieler (erfüllt)
   
 
 Zusatzanforderungen:
 
-  -Änderung des Schwierigkeitsgrades (erfüllt -> Änderung von Engine.TimePerMove in configuration.properties)
+* Änderung des Schwierigkeitsgrades (erfüllt -> Änderung von Engine.TimePerMove in configuration.properties)
   
-  -Eigene KI (nicht erfüllt, sehr komplex)
+* Eigene KI (nicht erfüllt, sehr komplex)
   
-  -Spieler gegen Spieler (nicht erfüllt, aber einfach implementierbar)
+* Spieler gegen Spieler (nicht erfüllt, aber einfach implementierbar)
   
-  -GUI (nicht erfüllt, bringt keinen Mehrwert)
+* GUI (nicht erfüllt, bringt keinen Mehrwert)
   
-  -Andere Spiele wie TicTacToe oder Vier Gewinnt (nicht erfüllt, aber einfach hinzufügbar durch Änderungen in ManagerFactory und das Anlegen eines neuen Managers)
+* Andere Spiele wie TicTacToe oder Vier Gewinnt (nicht erfüllt, aber einfach hinzufügbar durch Änderungen in ManagerFactory und das Anlegen eines neuen Managers)
     
 
 Erzeugung einer ausführbaren Jar
@@ -64,4 +70,4 @@ Ausführen in der Konsole:
 
 Ausführliche Dokumentation
 ==========================
-siehe Unterordner doc/
+siehe Unterordner doc/document.pdf (https://github.com/Mateful/Twitchess/blob/master/doc/document.pdf)
