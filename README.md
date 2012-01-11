@@ -46,13 +46,14 @@ Zusatzanforderungen:
   
 * GUI (`nicht erfüllt`, bringt keinen Mehrwert)
   
-* Andere Spiele wie TicTacToe oder Vier Gewinnt (  `nicht erfüllt`, aber einfach hinzufügbar durch Änderungen in 
+* Andere Spiele wie TicTacToe oder Vier Gewinnt (`nicht erfüllt`, aber einfach hinzufügbar durch Änderungen in 
 ManagerFactory und das Anlegen eines neuen Managers)
     
 
 Erzeugung einer ausführbaren Jar
 ================================
 Nutzen Sie dazu das Ant Build mit folgendem Befehl:
+
     ant jar
 Ausführen in der Konsole:
 =========================
