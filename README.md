@@ -38,7 +38,7 @@ Mindestanforderungen des Projekts:
 
 Zusatzanforderungen:
 
-* Änderung des Schwierigkeitsgrades (`erfüllt` -> Ã„nderung von Engine.TimePerMove in configuration.properties)
+* Änderung des Schwierigkeitsgrades (`erfüllt` -> Änderung von Engine.TimePerMove in configuration.properties)
   
 * Eigene KI (`nicht erfüllt`, sehr komplex)
   
@@ -52,7 +52,7 @@ ManagerFactory und das Anlegen eines neuen Managers)
 
 Erzeugung einer ausführbaren Jar
 ================================
-* "ant jar"
+	* "ant jar"
 
 Ausführen in der Konsole:
 =========================
