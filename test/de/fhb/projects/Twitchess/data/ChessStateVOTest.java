@@ -80,8 +80,7 @@ public class ChessStateVOTest {
 		csvo.setPlayerName("player1");
 		csvo.setId(222);
 		csvo.setResult(1234);
-		csvo.setDate(new Date(0));
-		assertEquals("ChessState [id=222, playerName=player1, fen=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1, moves=a2a3, date=1970/01/01 01:00:00, result=1234]",csvo.toString());
+		assertEquals("ChessState [id=222, playerName=player1, fen=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1, moves=a2a3, date=null, result=1234]",csvo.toString());
 	}
 	
 }
