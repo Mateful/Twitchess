@@ -16,15 +16,17 @@ import java.security.MessageDigest;
 
 import javax.imageio.ImageIO;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.internal.ArrayComparisonFailure;
+
+import de.fhb.projects.Twitchess.image.GenerateImage;
 
 public class GenerateImageTest {
 	private static GenerateImage gi;
 
-	@Before
-	public static void init() throws Exception {
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
 		gi = new GenerateImage("test-files/board.properties");
 	}
 
