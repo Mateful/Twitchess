@@ -60,21 +60,21 @@ Zusatzanforderungen:
 ManagerFactory und das Anlegen eines neuen Managers)
     
 
-Erzeugung einer ausfÃ¼hrbaren Jar
+Erzeugung einer ausführbaren Jar
 ================================
 * "ant jar"
 
 Ausführen in der Konsole:
 =========================
 
-Zum Ausführen von Twitchess bietet sich zwei Wege. Zum einen haben wir für Windows und Unix Systeme fertige 
-Scripte angelegt, die das Starten vereinfachen. Falls ein solches System nicht zur Verfügung steht oder es 
+Zum Ausführen von Twitchess bietet sich zwei Wege an. Zum einen haben wir für Windows und Unix Systeme fertige 
+Scripte bereits angelegt, die das Starten vereinfachen. Falls ein solches System nicht zur Verfügung steht oder es 
 Probleme gibt, genügt auch das Ausführen folgenden Befehls:
 
 * "java -jar jar/twitchess.jar"
-(img/*, chessengines/* und configuration.properties müssen sich im gleichen Ordner befinden)
+("img/*", "chessengines/*", "configuration.properties" sowie die alternativen Scripte müssen sich im gleichen Ordner befinden)
 
-AusfÃ¼hrliche Dokumentation
+Ausführliche Dokumentation
 ==========================
 Um näheren Einblick zu erlangen bedienen Sie sich gerne unserer ausführlichen Dokumentation.
 Sehen Sie hierzu bitte in den Unterordner doc/Twitchess.pdf (https://github.com/Mateful/Twitchess/blob/master/doc/Twitchess.pdf)
