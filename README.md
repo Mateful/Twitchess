@@ -65,7 +65,7 @@ Erzeugung einer ausfÃ¼hrbaren Jar
 
 AusfÃ¼hren in der Konsole:
 =========================
-
+öüä
 Zum AusfÃ¼hren von Twitchess bietet sich zwei Wege. Zum einen haben wir fÃ¼r Windows und Unix Systeme fertige 
 Scripte angelegt, die das Starten vereinfachen. Falls ein solches System nicht zur VerfÃ¼gung steht oder es 
 Probleme gibt, genÃ¼gt auch das AusfÃ¼hren folgenden Befehls:
