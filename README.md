@@ -52,8 +52,7 @@ ManagerFactory und das Anlegen eines neuen Managers)
 
 Erzeugung einer ausführbaren Jar
 ================================
-	* "ant jar"
-    gem install github-markup
+    ant jar
 Ausführen in der Konsole:
 =========================
 
@@ -61,6 +60,8 @@ Zum Ausführen von Twitchess bietet sich zwei Wege an. Zum einen haben wir für 
 Scripte bereits angelegt, die das Starten vereinfachen. Falls ein solches System nicht zur Verfügung steht oder es 
 Probleme gibt, genügt auch das Ausführen folgenden Befehls:
 
+    ant jar
+    
 * "java -jar jar/twitchess.jar"
 ("img/*", "chessengines/*", "configuration.properties" sowie die alternativen Scripte müssen sich im gleichen Ordner befinden)
 
