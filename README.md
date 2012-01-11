@@ -29,7 +29,7 @@ Mindestanforderungen des Projekts:
 
 * Spielen gegen KI (Anbindung einer Schachengine) `erfüllt`
   
-* Anbindung an Twitter (Steuerung Ã¼ber Nachrichten) `erfüllt`
+* Anbindung an Twitter (Steuerung über Nachrichten) `erfüllt`
   
 * Aktuelle Status-/Spielfeldanzeige durch Grafiken (über Twitter) `erfüllt`
   
@@ -52,6 +52,7 @@ ManagerFactory und das Anlegen eines neuen Managers)
 
 Erzeugung einer ausführbaren Jar
 ================================
+Nutzen Sie dazu das Ant Build mit folgendem Befehl:
     ant jar
 Ausführen in der Konsole:
 =========================
