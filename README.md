@@ -13,7 +13,7 @@ Autoren
 * Sebastian
 
 Kurzbeschreibung
-===============
+================
 Twitchess ist eine Konsolenanwendung, welche es ermöglicht, über Twitter gegen einen Schachmotor zu spielen.
 
 Verwendete APIs
@@ -23,7 +23,7 @@ Verwendete APIs
 * [Twitter4j](http://twitter4j.org)
 
 Anforderungen
-----------------
+-------------
 
 Mindestanforderungen des Projekts:
 
@@ -51,12 +51,12 @@ ManagerFactory und das Anlegen eines neuen Managers)
     
 
 Erzeugung einer ausführbaren Jar
-================================
+--------------------------------
 Nutzen Sie dazu das Ant Build mit folgendem Befehl:
 
     ant jar
-Ausführen in der Konsole:
-=========================
+    
+### Ausführen in der Konsole:
 
 Zum Ausführen von Twitchess bietet sich zwei Wege an. Zum einen haben wir für Windows und Unix Systeme fertige 
 Scripte bereits angelegt, die das Starten vereinfachen. Falls ein solches System nicht zur Verfügung steht oder es 
