@@ -1,5 +1,5 @@
 Projekt Twitchess
-========================
+=================
 
 Version
 -------
@@ -18,19 +18,9 @@ Twitchess ist eine Konsolenanwendung, welche es ermöglicht, über Twitter gegen
 
 Verwendete APIs
 ---------------
-* Schachmotor
-
-	https://github.com/mcostalba/Stockfish
-	
-* SQLite-DB
-
-	http://www.zentus.com/sqlitejdbc
-	
-* Twitter4j
-
-	http://twitter4j.org
-		
-
+* [Schachmotor](https://github.com/mcostalba/Stockfish)
+* [SQLite-DB](http://www.zentus.com/sqlitejdbc)
+* [Twitter4j](http://twitter4j.org)
 
 Anforderungen
 ----------------
@@ -77,4 +67,4 @@ Probleme gibt, genügt auch das Ausführen folgenden Befehls:
 Ausführliche Dokumentation
 ==========================
 Um näheren Einblick zu erlangen bedienen Sie sich gerne unserer ausführlichen Dokumentation.
-Sehen Sie hierzu bitte in den Unterordner doc/Twitchess.pdf (https://github.com/Mateful/Twitchess/blob/master/doc/Twitchess.pdf)
+Sehen Sie hierzu bitte in den Unterordner "doc/Twitchess.pdf" (https://github.com/Mateful/Twitchess/blob/master/doc/Twitchess.pdf)
