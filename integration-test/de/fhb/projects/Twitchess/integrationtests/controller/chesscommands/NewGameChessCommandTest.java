@@ -1,4 +1,4 @@
-package de.fhb.projects.Twitchess.controller.chesscommands;
+package de.fhb.projects.Twitchess.integrationtests.controller.chesscommands;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +10,7 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.fhb.projects.Twitchess.controller.chesscommands.NewGameChessCommand;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
@@ -39,51 +40,46 @@ public class NewGameChessCommandTest {
 	}
 
 	@Test(expected = ChessManagerException.class)
-	public void processInputParameterIsNullTest() throws ChessManagerException,
+	public void testProcessInputParameterIsNull() throws ChessManagerException,
 			SQLException {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
 		EasyMock.replay(dao);
 		chessCommand.processInput("player1", null);
-		// EasyMock.verify(dao);
+
 	}
 
 	@Test(expected = ChessManagerException.class)
-	public void processInputParameterIsWrongTest()
+	public void testProcessInputParameterIsWrong()
 			throws ChessManagerException, SQLException {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				null);
 		EasyMock.replay(dao);
 		parameters.add("d");
 		chessCommand.processInput("player1", parameters);
-		// EasyMock.verify(dao);
 	}
 
 	@Test(expected = ChessManagerException.class)
-	public void processInputRunningGameTest() throws SQLException,
+	public void testProcessInputRunningGame() throws SQLException,
 			ChessManagerException {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
 		EasyMock.replay(dao);
 		chessCommand.processInput("player1", parameters);
-		// EasyMock.verify(dao);
-
 	}
 
 	@Test(expected = ChessManagerException.class)
-	public void processInputSQLExceptionTest() throws SQLException,
+	public void testProcessInputSQLException() throws SQLException,
 			ChessManagerException {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(
 				new SQLException());
 		EasyMock.replay(dao);
 
 		chessCommand.processInput("player1", parameters);
-
-		// EasyMock.verify(dao);
 	}
 
 	@Test
-	public void processInputNewGameTest() throws ChessManagerException,
+	public void testProcessInputNewGame() throws ChessManagerException,
 			SQLException {
 
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player2")).andReturn(

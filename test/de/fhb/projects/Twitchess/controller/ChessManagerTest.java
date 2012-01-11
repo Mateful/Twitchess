@@ -11,6 +11,8 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.fhb.projects.Twitchess.controller.ChessManager;
+import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
@@ -40,7 +42,7 @@ public class ChessManagerTest {
 	}
 
 	@Test
-	public void getParameterTest() throws ChessManagerException {
+	public void testGetParameter() throws ChessManagerException {
 		String message = "@MatefulBot chess print";
 		assertEquals("print", cm.getParameters(message).get(0));
 		message = "chess d4d2 dasisteintest param3 param4";
@@ -51,33 +53,32 @@ public class ChessManagerTest {
 	}
 
 	@Test(expected = ChessManagerException.class)
-	public void getParameterWithoutStartCommandTest()
+	public void testGetParameterWithoutStartCommand()
 			throws ChessManagerException {
 		String message = "that message throw a exception";
 		cm.getParameters(message);
 	}
 
-	// zweiter Zweig konnte ich nicht erreichen
 	@Test(expected = ChessManagerException.class)
-	public void getParameterWithoutParameterTest() throws ChessManagerException {
+	public void testGetParameterWithoutParameter() throws ChessManagerException {
 		String message = "@blubb dfnio bsdnuiof";
 		cm.getParameters(message);
 	}
 
 	@Test(expected = ChessManagerException.class)
-	public void getParameterOnlyNameParamTest() throws ChessManagerException {
+	public void testGetParameterOnlyNameParam() throws ChessManagerException {
 		String message = "@MatefulBot";
 		cm.getParameters(message);
 	}
 
 	@Test(expected = ChessManagerException.class)
-	public void getParameterOnlyChessCommandTest() throws ChessManagerException {
+	public void testGetParameterOnlyChessCommand() throws ChessManagerException {
 		String message = "chess";
 		cm.getParameters(message);
 	}
 
 	@Test
-	public void processInputTest() throws SQLException {
+	public void testProcessInput() throws SQLException {
 		String message = "@MateFulBot chess print";
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
@@ -89,7 +90,7 @@ public class ChessManagerTest {
 	}
 
 	@Test
-	public void processInputInvalidComandTest() throws SQLException {
+	public void testProcessInputInvalidComand() throws SQLException {
 		String message = "@MatefulBot chess invaldiCommand";
 		assertTrue(cm.processInput("player1", message).contains("Error"));
 	}

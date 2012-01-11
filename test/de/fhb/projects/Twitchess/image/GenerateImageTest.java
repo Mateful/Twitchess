@@ -1,4 +1,4 @@
-package de.fhb.projects.Twitchess.unittests;
+package de.fhb.projects.Twitchess.image;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -16,17 +16,15 @@ import java.security.MessageDigest;
 
 import javax.imageio.ImageIO;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.internal.ArrayComparisonFailure;
-
-import de.fhb.projects.Twitchess.image.GenerateImage;
 
 public class GenerateImageTest {
 	private static GenerateImage gi;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@Before
+	public static void init() throws Exception {
 		gi = new GenerateImage("test-files/board.properties");
 	}
 
@@ -66,7 +64,7 @@ public class GenerateImageTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testGenerateInvalidFenTest() {
+	public void testGenerateInvalidFen() {
 
 		gi = new GenerateImage("test-files/board.properties");
 		assertNotNull(gi
@@ -101,7 +99,7 @@ public class GenerateImageTest {
 	}
 
 	@Test
-	public void setFigureFilenamePatterNullFileNameTest() {
+	public void testSetFigureFilenamePatterNullFileName() {
 		gi.getFigureFilenamePatter();
 		gi.setFigureFilenamePatter(null);
 		gi.getFigureFilenamePatter();

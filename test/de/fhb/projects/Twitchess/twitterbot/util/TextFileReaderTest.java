@@ -20,12 +20,12 @@ public class TextFileReaderTest {
 	}
 	
 	@Test (expected = IOException.class)
-	public void readTextFileLineByLineFileNotFoundTest() throws IOException{
+	public void testReadTextFileLineByLineFileNotFound() throws IOException{
 		tfr.readTextFileLineByLine("");
 	}
 	
 	@Test
-	public void readTextFileByLineTest() throws IOException{
+	public void testReadTextFileByLine() throws IOException{
 		List<String> list= tfr.readTextFileLineByLine("test-files/configuration.properties");
 		assertEquals("ChessEngineFactory.Linux=chessengines/stockfish-211-32-ja-linux",list.get(0));
 		assertEquals("AcceptDraw.FullMoveCountGreaterThan=10",list.get(list.size()-1));

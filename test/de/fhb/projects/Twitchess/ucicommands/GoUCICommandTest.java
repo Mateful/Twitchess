@@ -23,26 +23,26 @@ public class GoUCICommandTest {
 	}
 
 	@Test
-	public void processResponseBestMoveTest() {
+	public void testProcessResponseBestMove() {
 		uciCommand.processResponse("bestmove g1f3 ponder g8f6");
 		assertEquals("{bestMove=g1f3}", uciCommand.getResult().toString());
 	}
 
 	@Test
-	public void processResponseNullStringTest() {
+	public void testProcessResponseNullString() {
 		uciCommand.processResponse(null);
 		assertEquals(new HashMap<String, String>(), uciCommand.getResult());
 	}
 
 	@Test
-	public void processResponseInfoScoreMateTest() {
+	public void testProcessResponseInfoScoreMate() {
 		uciCommand.processResponse("info ... score mate 10 ..");
 		assertEquals("{score=" + GoUCICommand.MATE_SCORE + "}", uciCommand
 				.getResult().toString());
 	}
 
 	@Test
-	public void processResponseInfoOnlyTest() {
+	public void testProcessResponseInfoOnly() {
 		uciCommand.processResponse("info");
 		assertEquals("{}", uciCommand.getResult().toString());
 
@@ -50,19 +50,19 @@ public class GoUCICommandTest {
 		assertEquals("{}", uciCommand.getResult().toString());
 	}
 	@Test
-	public void processResponseEmptyStringTest() {
+	public void testProcessResponseEmptyString() {
 		uciCommand.processResponse("");
 		assertEquals("{}", uciCommand.getResult().toString());
 	}
 
 	@Test
-	public void processResponseInfoScoreCPTest() {
+	public void testProcessResponseInfoScoreCP() {
 		uciCommand.processResponse("info score cp 100");
 		assertEquals("{score=100}", uciCommand.getResult().toString());
 	}
 
 	@Test
-	public void processResponseSwitchInputTest() {
+	public void testProcessResponseSwitchInput() {
 		uciCommand.processResponse("score info cp 100");
 		assertEquals("{}", uciCommand.getResult().toString());
 		uciCommand.processResponse("info cp 100 score mate");
@@ -70,17 +70,17 @@ public class GoUCICommandTest {
 	}
 
 	@Test(expected = UCIException.class)
-	public void getBestMoveIsNotFinishedTest() throws UCIException {
+	public void testGetBestMoveIsNotFinished() throws UCIException {
 		assertNotNull(uciCommand.getBestMove());
 	}
 	@Test
-	public void getBestMoveTest() throws UCIException {
+	public void testGetBestMove() throws UCIException {
 		uciCommand.processResponse("bestmove g1f3 ponder g8f6");
 		uciCommand.getBestMove();
 	}
 
 	@Test(expected = UCIException.class)
-	public void getBestMoveNoneTest() throws UCIException {
+	public void testGetBestMoveNone() throws UCIException {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("bestMove", "(none)");
 		uciCommand.setFinished(true);
@@ -90,21 +90,21 @@ public class GoUCICommandTest {
 	}
 
 	@Test
-	public void generateFullCommandStringDepthNullTest() {
+	public void testGenerateFullCommandStringDepthNull() {
 		uciCommand.setDepth(null);
 		assertEquals("go movetime " + uciCommand.getMovetime(),
 				uciCommand.generateFullCommandString());
 	}
 
 	@Test
-	public void generateFullCommandStringDepthNotNullTest() {
+	public void testGenerateFullCommandStringDepthNotNull() {
 		uciCommand.setDepth(1);
 		assertEquals("go depth " + uciCommand.getDepth(),
 				uciCommand.generateFullCommandString());
 	}
 
 	@Test
-	public void generateFullDepthMaxMINIntTest() {
+	public void testGenerateFullDepthMaxMINInt() {
 		uciCommand.setDepth(Integer.MIN_VALUE);
 		assertEquals("go movetime " + uciCommand.getMovetime(),
 				uciCommand.generateFullCommandString());
@@ -114,20 +114,20 @@ public class GoUCICommandTest {
 	}
 
 	@Test
-	public void generateFullCommandStringMovetimeNullTest() {
+	public void testGenerateFullCommandStringMovetimeNull() {
 		uciCommand.setMovetime(null);
 		assertEquals("go movetime " + uciCommand.getMovetime(),
 				uciCommand.generateFullCommandString());
 	}
 
 	@Test(expected = UCIException.class)
-	public void getScoreNoScoreTest() throws UCIException {
+	public void testGetScoreNoScore() throws UCIException {
 		uciCommand.setFinished(true);
 		uciCommand.getScore();
 	}
 
 	@Test
-	public void getScoreTest() throws UCIException {
+	public void testGetScore() throws UCIException {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("score", "1");
 		uciCommand.setResult(map);
@@ -136,12 +136,12 @@ public class GoUCICommandTest {
 	}
 
 	@Test(expected = UCIException.class)
-	public void getScoreNotFinishedTest() throws UCIException {
+	public void testGetScoreNotFinished() throws UCIException {
 		uciCommand.getScore();
 	}
 
 	@Test
-	public void setMoveTimeInvalidInput() {
+	public void testSetMoveTimeInvalidInput() {
 		uciCommand.setMovetime(null);
 		assertTrue(10000 == uciCommand.getMovetime());
 		uciCommand.setMovetime(Integer.MIN_VALUE);
@@ -149,14 +149,14 @@ public class GoUCICommandTest {
 	}
 
 	@Test
-	public void MoveTimeNullDepthTimeNullTest() {
+	public void testMoveTimeNullDepthTimeNull() {
 		uciCommand.processResponse("bestmove");
 		assertEquals("{bestMove=}", uciCommand.getResult().toString());
 
 	}
 
 	@Test
-	public void processResponseInfoScoreTest() {
+	public void testProcessResponseInfoScore() {
 		uciCommand.processResponse("info score fail input");
 		assertEquals("{}", uciCommand.getResult().toString());
 	}

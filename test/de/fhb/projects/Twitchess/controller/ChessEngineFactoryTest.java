@@ -10,7 +10,7 @@ import de.fhb.projects.Twitchess.controller.osvalidator.OperatingSystem;
 
 public class ChessEngineFactoryTest {
 	@Test
-	public void getUCIEngineMacTest() throws IOException {
+	public void testGetUCIEngine() throws IOException {
 		assertEquals("chessengines/stockfish-211-32-mac", ChessEngineFactory
 				.getUCIEngine(OperatingSystem.MAC).getFilename());
 		assertEquals("chessengines/stockfish-211-32-ja-windows.exe",

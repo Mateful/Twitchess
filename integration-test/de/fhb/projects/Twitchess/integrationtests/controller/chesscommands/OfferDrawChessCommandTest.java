@@ -1,4 +1,4 @@
-package de.fhb.projects.Twitchess.controller.chesscommands;
+package de.fhb.projects.Twitchess.integrationtests.controller.chesscommands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
+import de.fhb.projects.Twitchess.controller.chesscommands.OfferDrawChessCommand;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
@@ -46,20 +47,20 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test (expected = ChessManagerException.class)
-	public void processNullParameterTest() throws ChessManagerException{
+	public void testProcessNullParameter() throws ChessManagerException{
 		
 		odcc.processInput("player1",null);
 	}
 	
 	@Test (expected = ChessManagerException.class)
-	public void processInputNotARunningGame1Test() throws SQLException, ChessManagerException{
+	public void testProcessInputNotARunningGame1() throws SQLException, ChessManagerException{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(null);
 		EasyMock.replay(dao);
 		odcc.processInput("player1", parameters);
 	}
 	
 	@Test (expected = ChessManagerException.class)
-	public void processInputNotARunningGame2Test() throws SQLException, ChessManagerException{
+	public void testProcessInputNotARunningGame2() throws SQLException, ChessManagerException{
 		state.clear();
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		EasyMock.replay(dao);
@@ -67,7 +68,7 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test (expected = ChessManagerException.class)
-	public void processInputToManyGamesTest() throws SQLException, ChessManagerException{
+	public void testProcessInputToManyGames() throws SQLException, ChessManagerException{
 		state.add(state.get(0));
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		EasyMock.replay(dao);
@@ -75,7 +76,7 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test 
-	public void processInputTest() throws Throwable{
+	public void testProcessInput() throws Throwable{
 		state.get(0).setFen("7k/8/8/8/8/8/8/7K w KQkq - 20 21");
 		ChessStateVO vo = new ChessStateVO();
 		vo.setId(1);
@@ -92,7 +93,7 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test
-	public void processInputDontAcceptDrawTest() throws Throwable{
+	public void testProcessInputDontAcceptDraw() throws Throwable{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		uci.init();
 		EasyMock.expect(uci.calculateScore("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", 2000)).andReturn(100);		
@@ -105,7 +106,7 @@ public class OfferDrawChessCommandTest {
 	}
 
 	@Test (expected = ChessManagerException.class)
-	public void processInputIOExceptionTest() throws SQLException, IOException, ChessManagerException{
+	public void testProcessInputIOException() throws SQLException, IOException, ChessManagerException{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		uci.init();
 		EasyMock.expectLastCall().andThrow(new IOException());
@@ -115,7 +116,7 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test (expected = ChessManagerException.class)
-	public void processInputThrowableExceptionTest() throws Throwable{
+	public void testProcessInputThrowableException() throws Throwable{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		uci.init();
 		EasyMock.expect(uci.calculateScore("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", 2000)).andReturn(100);		
@@ -127,14 +128,14 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test (expected = ChessManagerException.class)
-	public void processInputSQLExceptionTest() throws Throwable{
+	public void testProcessInputSQLException() throws Throwable{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andThrow(new SQLException());
 		EasyMock.replay(dao);
 		odcc.processInput("player1", parameters);
 	}
 	
 	@Test
-	public void acceptDrawScoreLimitValueTest() throws ChessManagerException{
+	public void testAcceptDrawScoreLimitValue() throws ChessManagerException{
 		state.get(0).setFen("7k/8/8/8/8/8/8/7K w KQkq - 20 21");
 		Fen fen = new Fen (state.get(0).getFen());
 		GameState s = fen.getGameState();
@@ -145,7 +146,7 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test
-	public void acceptDrawGameStateTest() throws ChessManagerException{
+	public void testAcceptDrawGameState() throws ChessManagerException{
 		Fen fen = new Fen (state.get(0).getFen());
 		GameState s = fen.getGameState();
 		assertTrue(!odcc.acceptDraw(s, 0));
@@ -162,7 +163,7 @@ public class OfferDrawChessCommandTest {
 	}
 	
 	@Test (expected = ChessManagerException.class)
-	public void acceptDrawNullStateTest() throws ChessManagerException{
+	public void testAcceptDrawNullState() throws ChessManagerException{
 		odcc.acceptDraw(null, 0);
 	}
 }

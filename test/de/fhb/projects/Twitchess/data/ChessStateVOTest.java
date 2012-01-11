@@ -19,7 +19,7 @@ public class ChessStateVOTest {
 	
 	
 	@Test
-	public void hashCodeChangeAllTest(){
+	public void testHashCodeChangeAll(){
 		assertEquals(887503681,csvo.hashCode());
 		csvo.setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		assertEquals(1921833681,csvo.hashCode());
@@ -32,7 +32,7 @@ public class ChessStateVOTest {
 	}
 	
 	@Test
-	public void hashCodeChangeOneParameterTest(){
+	public void testHashCodeChangeOneParameter(){
 		csvo.setId(10);		
 		assertEquals(887801591,csvo.hashCode());
 		
@@ -55,7 +55,7 @@ public class ChessStateVOTest {
 
 	
 	@Test
-	public void equalsTest(){
+	public void testEquals(){
 		ChessStateVO csvo2 = new ChessStateVO();		
 		assertTrue(csvo.equals(csvo2));	
 		
@@ -71,7 +71,7 @@ public class ChessStateVOTest {
 	}
 	
 	@Test
-	public void toStringTest(){
+	public void testToString(){
 		assertEquals("ChessState [id=0, playerName=null, fen=null, moves=null, date=null, result=null]",csvo.toString());
 		csvo.setMoves("a2a3");
 		

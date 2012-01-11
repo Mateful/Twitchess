@@ -17,13 +17,13 @@ public class IsreadyUCICommandTest {
 	}
 
 	@Test
-	public void processResponseTest() {
+	public void testProcessResponse() {
 		uciCommand.processResponse("readyok");
 		assertTrue(uciCommand.isFinished());
 	}
 
 	@Test
-	public void processResponsNullTest() {
+	public void testProcessResponsNull() {
 		uciCommand.processResponse(null);
 		assertTrue(!uciCommand.isFinished());
 		uciCommand.processResponse("null");
@@ -33,7 +33,7 @@ public class IsreadyUCICommandTest {
 	}
 
 	@Test
-	public void processResponsInvalidCommandTest() {
+	public void testProcessResponsInvalidCommand() {
 		uciCommand.processResponse("thats a test");
 		assertTrue(!uciCommand.isFinished());
 		uciCommand.processResponse("READYOK");

@@ -19,6 +19,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import de.fhb.projects.Twitchess.games.chess.Fen;
 import de.fhb.projects.Twitchess.twitterbot.commands.FollowCommand;
+import de.fhb.projects.Twitchess.twitterbot.main.TwitterBot;
 
 public class TwitterBotTest {
 
@@ -44,7 +45,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void getAccessTokenFromTwitterTest() throws TwitterException {
+	public void testGetAccessTokenFromTwitter() throws TwitterException {
 		EasyMock.expect(
 				twitterInterface.getOAuthAccessToken(requestToken, "pin"))
 				.andReturn(accessToken);
@@ -56,7 +57,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void getAccessTokenFromTwitterWithoutPinTest()
+	public void testGetAccessTokenFromTwitterWithoutPin()
 			throws TwitterException {
 		EasyMock.expect(twitterInterface.getOAuthAccessToken()).andReturn(
 				accessToken);
@@ -68,7 +69,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void getAccessTokenFromTwitterExeptionTest() throws TwitterException {
+	public void testGetAccessTokenFromTwitterExeption() throws TwitterException {
 		EasyMock.expect(twitterInterface.getOAuthAccessToken()).andThrow(
 				new TwitterException(""));
 		EasyMock.replay(twitterInterface);
@@ -78,7 +79,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void isMentionTest() throws TwitterException {
+	public void testIsMention() throws TwitterException {
 		EasyMock.expect(status.getText()).andReturn("@twitterBot Hallo");
 		EasyMock.replay(status);
 		EasyMock.expect(twitterInterface.getScreenName()).andReturn(
@@ -90,7 +91,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void isMentionWithoutATTest() throws TwitterException {
+	public void testIsMentionWithoutAT() throws TwitterException {
 		EasyMock.expect(status.getText()).andReturn("twitterBot Hallo");
 		EasyMock.replay(status);
 		EasyMock.expect(twitterInterface.getScreenName()).andReturn(
@@ -102,7 +103,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void isMentionWrongNameTest() throws TwitterException {
+	public void testIsMentionWrongName() throws TwitterException {
 		EasyMock.expect(status.getText()).andReturn("@twitterBot Hallo");
 		EasyMock.replay(status);
 		EasyMock.expect(twitterInterface.getScreenName()).andReturn("OtherBot");
@@ -113,7 +114,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void isMentionWithoutNameTest() throws TwitterException {
+	public void testIsMentionWithoutName() throws TwitterException {
 		EasyMock.expect(status.getText()).andReturn("@");
 		EasyMock.replay(status);
 		EasyMock.expect(twitterInterface.getScreenName()).andReturn("OtherBot");
@@ -124,7 +125,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void hasOwnUsernameTest() throws IllegalStateException,
+	public void testHasOwnUsername() throws IllegalStateException,
 			TwitterException {
 		EasyMock.expect(status.getUser()).andReturn(user);
 		EasyMock.expect(user.getScreenName()).andReturn("twitterBot");
@@ -140,7 +141,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void hasOwnUsernameFailTest() throws IllegalStateException,
+	public void testHasOwnUsernameFail() throws IllegalStateException,
 			TwitterException {
 		EasyMock.expect(status.getUser()).andReturn(user);
 		EasyMock.expect(user.getScreenName()).andReturn("twitterBot");
@@ -155,7 +156,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void startAuthentificationTest() throws TwitterException {
+	public void testStartAuthentification() throws TwitterException {
 		EasyMock.expect(twitterInterface.getOAuthRequestToken()).andReturn(
 				requestToken);
 		EasyMock.replay(twitterInterface);
@@ -165,17 +166,16 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void startAuthentificationFailTest() throws TwitterException {
+	public void testStartAuthentificationFail() throws TwitterException {
 		EasyMock.expect(twitterInterface.getOAuthRequestToken()).andThrow(
 				new TwitterException(""));
 		EasyMock.replay(twitterInterface);
-		// TODO komme nicht an die exception ran
 		tb.startAuthentification();
 		EasyMock.verify(twitterInterface);
 	}
 
 	@Test
-	public void onIncomingStatusTest() throws IllegalStateException,
+	public void testOnIncomingStatus() throws IllegalStateException,
 			TwitterException {
 		EasyMock.expect(status.getText()).andReturn("@twitterBot Hallo");
 		EasyMock.expect(twitterInterface.getScreenName()).andReturn(
@@ -197,31 +197,29 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void onIncomingStatusIllegalStateExceptionTest()
+	public void testOnIncomingStatusIllegalStateException()
 			throws IllegalStateException, TwitterException {
 		EasyMock.expect(status.getText()).andThrow(new IllegalStateException());
 		EasyMock.replay(status);
-		// TODO komme nicht an die exception ran
 		tb.onIncomingStatus(status);
 		EasyMock.verify(status);
 	}
 
 	@Test
-	public void onIncomingStatusTwitterExceptionTest()
+	public void testOnIncomingStatusTwitterException()
 			throws IllegalStateException, TwitterException {
 		EasyMock.expect(status.getText()).andReturn("@twitterBot Hallo");
 		EasyMock.expect(twitterInterface.getScreenName()).andThrow(
 				new TwitterException(""));
 		EasyMock.replay(status);
 		EasyMock.replay(twitterInterface);
-		// TODO komme nicht an die exception ran
 		tb.onIncomingStatus(status);
 		EasyMock.verify(status);
 		EasyMock.verify(twitterInterface);
 	}
 
 	@Test
-	public void updateStatusTest() throws TwitterException {
+	public void testUpdateStatus() throws TwitterException {
 		EasyMock.expect(twitterInterface.updateStatus("@twitterBot Hallo"))
 				.andReturn(status);
 		EasyMock.replay(twitterInterface);
@@ -230,23 +228,22 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void updateStatusExceptionTest() throws TwitterException {
+	public void testUpdateStatusException() throws TwitterException {
 		EasyMock.expect(twitterInterface.updateStatus("@twitterBot Hallo"))
 				.andThrow(new TwitterException(""));
 		EasyMock.replay(twitterInterface);
-		// TODO Exception so wie schon so oft^^
 		tb.updateStatus("@twitterBot Hallo");
 		EasyMock.verify(twitterInterface);
 	}
 
 	@Test
-	public void generateStatusResponseTest() {
+	public void testGenerateStatusResponse() {
 		assertTrue(null != tb.generateStatusResponse("TwitterBot",
 				"@TwitterBot chess"));
 	}
 
 	@Test
-	public void generateStateResponseInvalidInputTest() {
+	public void testGenerateStateResponseInvalidInput() {
 		assertTrue(null == tb.generateStatusResponse("TwitterBot", "chess"));
 		assertTrue(null == tb.generateStatusResponse("", "@TwitterBot chess"));
 		assertTrue(null == tb.generateStatusResponse("TwitterBot", ""));
@@ -256,7 +253,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void getUserNameTest() throws IllegalStateException,
+	public void testGetUserName() throws IllegalStateException,
 			TwitterException {
 		EasyMock.expect(twitterInterface.getScreenName()).andReturn(
 				"TwitterBot");
@@ -266,7 +263,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void getUserNameIllegalStateExceptionTest()
+	public void testGetUserNameIllegalStateException()
 			throws IllegalStateException, TwitterException {
 		EasyMock.expect(twitterInterface.getScreenName()).andThrow(
 				new IllegalStateException());
@@ -276,7 +273,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void getUserNameTwitterExceptionTest() throws IllegalStateException,
+	public void testGetUserNameTwitterException() throws IllegalStateException,
 			TwitterException {
 		EasyMock.expect(twitterInterface.getScreenName()).andThrow(
 				new TwitterException(""));
@@ -286,7 +283,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void answerMention() throws IllegalStateException, TwitterException {
+	public void testAnswerMention() throws IllegalStateException, TwitterException {
 		EasyMock.expect(status.getUser()).andReturn(user);
 		EasyMock.expect(user.getScreenName()).andReturn("twitterBot");
 		EasyMock.expect(status.getText()).andReturn("@twitterBot chess");
@@ -304,7 +301,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void onMentionTest() throws IllegalStateException, TwitterException {
+	public void testOnMention() throws IllegalStateException, TwitterException {
 		EasyMock.expect(status.getUser()).andReturn(user).times(2);
 		EasyMock.expect(user.getScreenName()).andReturn("twitterBot").times(2);
 		EasyMock.expect(twitterInterface.getScreenName()).andReturn(
@@ -320,7 +317,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void replaceFenWithImageUrlTest() throws TwitterException {
+	public void testReplaceFenWithImageUrl() throws TwitterException {
 		tb.setAccessToken(accessToken);
 		assertEquals(
 				"{rnbqkbnr/pppppppp/7p/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}",
@@ -328,7 +325,6 @@ public class TwitterBotTest {
 
 	}
 
-	// vlt exeption schmei�en
 	@Test
 	public void replaceFenWithImageUrlNullStringTest() {
 		tb.setAccessToken(accessToken);
@@ -336,7 +332,7 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void generateImageFromFenTest() {
+	public void testGenerateImageFromFen() {
 		Fen fen = new Fen(
 				"rnbqkbnr/pppppppp/7p/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		assertEquals(new File("generatedImage.png"),
@@ -345,13 +341,13 @@ public class TwitterBotTest {
 	}
 
 	@Test
-	public void receiveCommandTest() {
+	public void testReceiveCommand() {
 		FollowCommand command = new FollowCommand("@Matefulbot");
 		tb.receiveCommand(command);
 	}
 
 	@Test
-	public void receiveCommandExeptionTest() throws TwitterException {
+	public void testReceiveCommandExeption() throws TwitterException {
 		FollowCommand command = new FollowCommand("@Test");
 		EasyMock.expect(twitterInterface.createFriendship("@Test")).andThrow(
 				new TwitterException(""));
