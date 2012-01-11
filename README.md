@@ -60,12 +60,11 @@ Zum Ausführen von Twitchess bietet sich zwei Wege an. Zum einen haben wir für 
 Scripte bereits angelegt, die das Starten vereinfachen. Falls ein solches System nicht zur Verfügung steht oder es 
 Probleme gibt, genügt auch das Ausführen folgenden Befehls:
 
-    ant jar
+    java -jar jar/twitchess.jar
     
-* "java -jar jar/twitchess.jar"
 ("img/*", "chessengines/*", "configuration.properties" sowie die alternativen Scripte müssen sich im gleichen Ordner befinden)
 
 Ausführliche Dokumentation
 ==========================
 Um näheren Einblick zu erlangen bedienen Sie sich gerne unserer ausführlichen Dokumentation.
-Sehen Sie hierzu bitte in den Unterordner "doc/Twitchess.pdf" (https://github.com/Mateful/Twitchess/blob/master/doc/Twitchess.pdf)
+Sehen Sie hierzu bitte in den Unterordner `doc/Twitchess.pdf` (https://github.com/Mateful/Twitchess/blob/master/doc/Twitchess.pdf)
