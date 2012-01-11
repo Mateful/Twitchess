@@ -13,7 +13,7 @@
 		\cite{Github}Twitchess ist wie der Name schon verrät eine Mischung aus Twitter
 		und Chess, zu Deutsch Schach. 
 		
-		Unsere Aufgabe war daher es einen \cite{Github}Twitterbot zu entwickeln,
+		Unsere Aufgabe war es einen \cite{Github}Twitterbot zu entwickeln,
 		welcher es erlaubt Schach gegen ihn zu spielen.
 
 	\section{Anforderungen}
@@ -28,7 +28,8 @@
 		in unsere Mindestanforderung, die wir unbedingt umsetzen wollten. 
 		\subsection{Zusatzanforderungen}
 		Zusätzlich zu den Mindestanforderungen dachten wir natürlich über spezielle
-		Features nach, die bei entsprechende Zeit zu integrieren wären. Folgende Punkte
+		Features nach, die bei entsprechender Zeit zu integrieren wären. Folgende
+		Punkte
 		\begin{itemize}
 			\item Änderung des Schwierigkeitsgrades
 			\item Eigene KI
@@ -66,7 +67,8 @@
 				\item ``Twitter.StandardAccount=Twitchess1''
 			\end{itemize}
 			\item Zeit, die der Schachengine für die Berechnung eines Zuges maximal zur
-			Verfügung steht (in ms)
+			Verfügung steht (in ms). Je größer die zur Verfügung stehende Zeit, desto
+			stärker spielt die Schachengine.
 			\begin{itemize}
 				\item ``Engine.TimePerMove=2000''
 			\end{itemize}
@@ -92,8 +94,11 @@
 		gesetzt ist} \footnote{Beispiel: @Twitchess1 chess new} \footnote{Nachfolgend
 		immer als @Name bezeichnet}
 			\begin{itemize}
-				\item ``@Name chess move e2e4'' oder
-				\item ``@Name chess move player e2e4'' 
+				\item ``@Name chess move e2e4''
+			\end{itemize}
+			\item Der Computer zieht nicht
+			\begin{itemize}
+				\item ``@Name chess move player e2e4''
 			\end{itemize}
 			\item Spieler lässt seinen Zug von Twitchess machen
 			\begin{itemize}
@@ -162,7 +167,7 @@
 		welche wir leider keinen Einfluss haben. Zum Einen ist es das Nachrichtenlimit,
 		welches theoretisch ziemlich schnell erschöpft ist. Auf Grund dessen ist es
 		auch nicht möglich nach jedem Zug ein neues Bild zu generieren. Da wir aber beim Hochladen
-		der Bild unabhängig von anderen Servern sein wollten, wählten wir das Image
+		der Bilder unabhängig von anderen Servern sein wollten, wählten wir das Image
 		Feature von Twitter. Dies stellt jedoch die einzige Limitierung dar.
 \chapter{Spielgeschehen}
 	\section{Spielstart}
@@ -198,29 +203,30 @@
 		\subsection{Bot starten}
 		Aufruf der Skripte oder alternativ ``java -jar twitchess.jar''.
 		Achten Sie darauf, dass die von Ihnen benutzte Schachengine (z.B.
-		``chessengines/stockfish-211-32-ja-linux'' ausführbar ist).
+		``chessengines/stockfish-211-32-ja-linux'') ausführbar ist.
 		\subsection{Verbindung mit Twitter}
-		Um Twitchess mit dem eigenen Twitteraccount zu verbinden, gib am Anfang
-		einfach deinen Benutzernamen ein. Danach erhälst du die Nachricht, dass noch kein Token zu
-		deinem Account existiert. Wähle ``neues Token erstellen''. Kopiere den
-		erscheinenden Link in deinen Browser und gib somit Twitchess Zugriff auf
-		deinen Account. Gib den auf der nächsten Seite erscheinenden Pin in die Konsole ein.
-		Jetzt bist du mit deinem Twitter Account eingeloggt. Ab dem nächsten Start
-		reicht es deinen Twitternamen einzugeben und du wirst verbunden. 
+		Um Twitchess mit dem eigenen Twitteraccount zu verbinden, geben Sie am Anfang
+		einfach deinen Benutzernamen ein. Danach erhalten Sie die Nachricht, welche
+		besagt, dass noch kein Token zu deinem Account existiert. Wähle Sie nun
+		``neues Token erstellen''. Kopieren Sie den erscheinenden Link in deinen
+		Browser und geben Sie somit Twitchess Zugriff auf deinen Account. Geben Sie
+		daraufhin den auf der nächsten Seite erscheinenden Pin in die Konsole ein.
+		Jetzt sind Sie mit Ihrem Twitter Account eingeloggt. Ab dem nächsten Start
+		reicht es deinen Twitternamen einzugeben und Sie werden verbunden. 
 			\subsubsection{Twitchess entfernen}
-			Um deinen Account wieder für Twitchess zu sperren gehe in deinem
+			Um Ihren Account wieder für Twitchess zu sperren gehen Sie in Ihrem
 			Twitteraccount auf ``Einstellungen'' $\to$ ``Applikationen'' $\to$ ``Name
 			des Twitteraccounts'' $\to$ ``Zugriff widerrufen''.
 			
-			Hinweis: Den Standard-Twitter-Account kannst du in der ``configuration.properties''
-			Datei ändern. (``Twitter.StandardAccount=Name'')
+			Hinweis: Den Standard-Twitter-Account können Sie in der
+			``configuration.properties'' Datei ändern. (``Twitter.StandardAccount=Name'')
 	\section{Spielablauf}
 		Hier wird Ihnen nun ein exemplarischer Spielablauf aufgezeigt.\\
 		Am Anfang muss natürlich erst einmal ein neues Spiel erstellt werden
 		\begin{itemize}
 			\item Befehl: ``@Name chess new''
 		\end{itemize}
-		Wenn alles geklappt hat, erhälst du eine Bestätigung.
+		Wenn alles geklappt hat, erhalten Sie eine Bestätigung.
 		Danach können Züge wie folgt durchgeführt werden.
 		Spieler macht Zug
 		\begin{itemize}
@@ -264,8 +270,8 @@
 			\item Windows Seven
 			\item Ubuntu 10.10
 		\end{itemize}
-		Dabei wurde	vor allem Aspekt auf die möglichst einfache Ausführbarkeit, sowie Spielablauf
-		und -verlauf gelegt. Abstürze gab es bei unseren Tests keine.
+		Dabei wurde	großer  Wert auf die möglichst einfache Ausführbarkeit, sowie
+		Spielablauf und -verlauf gelegt. Abstürze gab es bei unseren Tests keine.
 	
 \chapter{Verwendete Software}
 	\section{Verwendete Engine}
@@ -273,15 +279,15 @@
 			Unsere verwendete Engine nennt sich \cite{StockWeb}Stockfish Engine. Diese
 			kann auch im \cite{StockGit}Quellcode eingsehen werden, da diese Open Source,
 			sowie frei nutzbar ist.
-			\cite{StockWeb}Stockfish brauch sich auch gar nicht hinter kommerziellen
+			\cite{StockWeb}Stockfish braucht sich auch gar nicht hinter kommerziellen
 			Alternativen wie Rybka 4 and Houdini verstecken. \cite{StockWeb}Stockfish ist derzeit noch
 			unerreicht was Schachengines im freien Markt anbelangt. Über
 			\cite{SfcTwit}Twitter gibt es auch von Zeit zu Zeit neue Updates bezüglich der Engine.
 		\subsubsection{Lizenz}
 			Stockfish  steht unter der \cite{GPLv3}GPLv3 license. Das bedeutet, dass
 			Änderungen nicht nur  vorgenommen werden sondern auch frei wieder veröffentlicht werden  können.
-			Dies bietet eine gute Grundlage für Weiterentwicklungen. Dies  war unter anderem
-			in Grund zur Wahl dieser Engine.
+			Dies bietet eine gute Grundlage für Weiterentwicklungen. Dies war unter anderem
+			ein Grund zur Wahl dieser Engine.
 		\subsubsection{Tests}
 			Nach ausführlichen Tests der \cite{StockWeb}Stockfish Engine mit
 			herkömmlichen angesagten Programmen wie \cite{Arena3}Arena 3.0, kamen wir zum Schluss,
@@ -289,9 +295,10 @@
 		\subsubsection{Cross Platforms} 
 			Ein anderer Grund \cite{StockWeb}Stockfish zu wählen war die nahezuhe
 			Unabhängigkeit, gegeben durch die verschiedenen Binaries, welche
-			\cite{StockWeb}Stockfish von Hause mitliefert. So ziemlich jede große
+			\cite{StockWeb}Stockfish von Hause aus mitliefert. So ziemlich jede große
 			Plattform wird unterstützt. Darüber  hinaus gibt es sogar eine
-			\cite{SfcApp}App für iPhone, iPod touch, and iPad welche natürlich auf der Stockfishengine beruht.
+			\cite{SfcApp}App für iPhone, iPod touch, and iPad welche natürlich auf der
+			Stockfish Engine beruht.
 		\subsubsection{Benutzte Version} 
 			Unsere genutzte \cite{StockWeb}Stockfish Version innerhalb von Twitchess ist
 			die Version \cite{UsedSfcEng}2-1-1. Die derzeit neueste Version von Stockfish
@@ -323,7 +330,7 @@
 	
 \chapter{Anmerkungen}
 	\section{Kommentare zum Quellcode}
-		Wir verwenden eine Schichtenarchitektur
+		Verwendet wird eine Schichtenarchitektur
 		\begin{itemize}
 			\item Präsentationsschicht: ``TwitterView''
 			\item Geschäftslogik: ``TwitterBot'', ``ChessManager''
