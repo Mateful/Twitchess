@@ -1,0 +1,364 @@
+
+
+\chapter{Einführung}
+	\section{Vorwort}
+		In dieser Dokumentation schildern wir welche Funktionen
+		\cite{Github}Twitchess bietet und wie sich dieser Bot sich benutzen lässt.
+		
+		Auf dem \cite{Jenkins}Jenkins Server lässt sich der aktuelle Status einsehen
+		inklusive der Testabdeckung, welche bei Projektende etwa bei 88\% lag.
+		
+		Ein besonderes Dankeschön geht an Mark Rambow für die gute Betreuung.
+	\section{Akronym Twitchess}
+		\cite{Github}Twitchess ist wie der Name schon verrät eine Mischung aus Twitter
+		und Chess, zu Deutsch Schach. 
+		
+		Unsere Aufgabe war daher es einen \cite{Github}Twitterbot zu entwickeln,
+		welcher es erlaubt Schach gegen ihn zu spielen.
+
+	\section{Anforderungen}
+		\subsection{Mindestanforderungen}
+		Im Großen und Ganzen kamen folgende Punkte 
+		\begin{itemize}
+			\item Spielen gegen KI (Anbindung einer Schachengine)
+			\item Anbindung an Twitter (Steuerung über Nachrichten)
+			\item Aktuelle Status-/Spielfeldanzeige durch Grafiken (über Twitter)
+			\item Speicherung laufender und vergangener Spiele/Spieler 
+		\end{itemize}
+		in unsere Mindestanforderung, die wir unbedingt umsetzen wollten. 
+		\subsection{Zusatzanforderungen}
+		Zusätzlich zu den Mindestanforderungen dachten wir natürlich über spezielle
+		Features nach, die bei entsprechende Zeit zu integrieren wären. Folgende Punkte
+		\begin{itemize}
+			\item Änderung des Schwierigkeitsgrades
+			\item Eigene KI
+			\item Spieler gegen Spieler 
+			\item GUI  
+			\item Andere Spiele wie TicTacToe oder Vier Gewinnt
+		\end{itemize}
+		wurden aus Zeitmangel daher nur teilweise umgesetzt.
+\chapter{Anforderungen und Konfiguration}
+	\section{Systemanforderungen}
+		Auf dem Zielsystem muss \cite{Java}JAVA JRE Mindestversion 1.6.26
+		\footnote{Sollte aber auch mit JAVA 7 funktioneren} installiert sein.
+		Sollte Ihr System nicht über \cite{Java}JAVA verfügen können Sie es hier
+		kostenlos herunterladen.
+	\section{Konfigurationsmöglichkeiten}
+		Die Einstellungen erfolgen in der Properties Datei
+		``configuration.properties''
+		\begin{itemize}
+			\item Pfad der Schachengine unter Linux:
+			\begin{itemize}
+				\item ``ChessEngineFactory.Linux=chessengines/stockfish-211-32-ja-linux''
+			\end{itemize}
+			\item Pfad der Schachengine unter Mac:
+			\begin{itemize}
+				\item ``ChessEngineFactory.Mac=chessengines/stockfish-211-32-mac''
+			\end{itemize}
+			\item Pfad der Schachengine unter Windows (wird standardmäßig auch verwendet,
+			wenn das Betriebssystem nicht korrekt erkannt wird):
+			\begin{itemize}
+				\item
+			``ChessEngineFactory.Windows=chessengines/stockfish-211-32-ja-windows.exe''
+			\end{itemize}
+			\item Twitteraccountname, der standardmäßig beim Starten verwendet wird:
+			\begin{itemize}
+				\item ``Twitter.StandardAccount=Twitchess1''
+			\end{itemize}
+			\item Zeit, die der Schachengine für die Berechnung eines Zuges maximal zur
+			Verfügung steht (in ms)
+			\begin{itemize}
+				\item ``Engine.TimePerMove=2000''
+			\end{itemize}
+			\item Regeln für das Akzeptieren eines Unentschiedens: Wenn die Bewertung der
+			Schachengine kleiner ist als der Wert(ein Bauer mehr/weniger macht einen
+			Unterschied von 100, eine Dame mehr/weniger macht einen Unterschied von 900)
+			\begin{itemize}
+				\item ``AcceptDraw.AbsScoreLessThan=100''
+			\end{itemize}
+			\item Anzahl der ganzen Züge (d.h. Weiß und Schwarz ziehen in einem ganzen Zug) 
+			bevor ein Unentschieden überhaupt erst in Frage kommt
+			\begin{itemize}
+				\item ``AcceptDraw.FullMoveCountGreaterThan=10''
+			\end{itemize}
+		\end{itemize}
+		
+\chapter{Kommandos und Limitierung}
+	\section{Befehlskommandos}
+		Ein kleines Beispiel zum Einstieg
+		\begin{itemize}
+			\item Der Spieler macht einen Zug, dann der Computer\footnote{Mit Name ist der 
+		Token gemeint, welcher standardmäßig auf Twitchess1
+		gesetzt ist} \footnote{Beispiel: @Twitchess1 chess new} \footnote{Nachfolgend
+		immer als @Name bezeichnet}
+			\begin{itemize}
+				\item ``@Name chess move e2e4'' oder
+				\item ``@Name chess move player e2e4'' 
+			\end{itemize}
+			\item Spieler lässt seinen Zug von Twitchess machen
+			\begin{itemize}
+				\item ``@Name chess move ai''
+			\end{itemize}
+		\end{itemize}
+		Zugarten
+		\begin{itemize}
+			\item Beispielzüge:
+			\begin{itemize}
+				\item ``e2e4''
+				\item ``e3d4''
+				\item ``g1f3''
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item Rochade:
+			\begin{itemize}
+				\item ``e1g1''
+				\item ``e1c1''
+				\item ``e8g8''
+				\item ``e8c8''
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item Umwandlung von Bauern in eine/n:
+			\begin{itemize}
+				\item Dame: ``e7e8q''
+				\item Turm: ``e7e8r''
+				\item Läufer: ``e7e8b''
+				\item Springer: ``e7e8n''
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item print
+			\begin{itemize}
+				\item Wichtig um zu sehen wie das Spielfeld aktuell aussieht.
+				\item Befehl: ``@Name chess print''
+			\end{itemize}
+		\end{itemize}
+		Kontrollbefehle
+		\begin{itemize}
+			\item new
+			\begin{itemize}
+				\item Hiermit kann man ein neues Spiel starten. Falls bereits ein
+				existierendes Spiel vorhanden war bekommt man einen Hinweis.
+				\item Befehl: ``@Name chess new''
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item offerdraw
+			\begin{itemize}
+				\item Nutzer bietet Remis(Unentschieden) an.
+				\item Befehl: ``@Name chess offerdraw''
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item cancel
+			\begin{itemize}
+		  		\item Gut um ein laufendes Spiel abzubrechen.
+		  		\item Befehl: ``@Name chess cancel''
+			\end{itemize}
+		\end{itemize}
+	\section{Limitierungen}
+		Auf Grund von Twitter müssen wir Sie über folgende Beschränkungen hinweisen auf
+		welche wir leider keinen Einfluss haben. Zum Einen ist es das Nachrichtenlimit,
+		welches theoretisch ziemlich schnell erschöpft ist. Auf Grund dessen ist es
+		auch nicht möglich nach jedem Zug ein neues Bild zu generieren. Da wir aber beim Hochladen
+		der Bild unabhängig von anderen Servern sein wollten, wählten wir das Image
+		Feature von Twitter. Dies stellt jedoch die einzige Limitierung dar.
+\chapter{Spielgeschehen}
+	\section{Spielstart}
+		\subsection{Installation}
+		Aus Useablity Gründen haben wir bereits für Windows und Unix Systeme
+		fertige Scripte angelegt, welche Sie nutzen können. Durch diese Scripte lässt
+		sich Twitchess nun ohne Probleme starten.
+		 
+		Diese Skripte befinden sich im Hauptverzeichnis und sind nach den System
+		benannt. Bei Windows Systemen lässt sich die Batch sehr bequem ausführen.
+		\begin{itemize}
+			\item ``Windows.bat'' 
+		\end{itemize}
+		Bei Unix Systemen lässt sich das bereits ausführbar gemachte Shell Skript
+		ausführen.
+		\begin{itemize}
+			\item ``Unix.sh''
+		\end{itemize}
+		Der erste Schritt ist es den Bot zu erstellen 
+		\begin{itemize}
+			\item Befehl: ``ant jar''
+		\end{itemize}
+		Folgende Unterordner/Dateien müssen im Verzeichnis der Jar Datei vorliegen:
+		\begin{itemize}
+			\item Ordner: ``img/''
+			\item Ordner: ``chessengines/''
+			\item Datei: ``configuration.properties''
+			\item Datei: wahlweise den Accesstoken für den Twitteraccount
+			\begin{itemize}
+		  		\item Beispiel: ``Twitchess1''
+			\end{itemize}  
+		\end{itemize}
+		\subsection{Bot starten}
+		Aufruf der Skripte oder alternativ ``java -jar twitchess.jar''.
+		Achten Sie darauf, dass die von Ihnen benutzte Schachengine (z.B.
+		``chessengines/stockfish-211-32-ja-linux'' ausführbar ist).
+		\subsection{Verbindung mit Twitter}
+		Um Twitchess mit dem eigenen Twitteraccount zu verbinden, gib am Anfang
+		einfach deinen Benutzernamen ein. Danach erhälst du die Nachricht, dass noch kein Token zu
+		deinem Account existiert. Wähle ``neues Token erstellen''. Kopiere den
+		erscheinenden Link in deinen Browser und gib somit Twitchess Zugriff auf
+		deinen Account. Gib den auf der nächsten Seite erscheinenden Pin in die Konsole ein.
+		Jetzt bist du mit deinem Twitter Account eingeloggt. Ab dem nächsten Start
+		reicht es deinen Twitternamen einzugeben und du wirst verbunden. 
+			\subsubsection{Twitchess entfernen}
+			Um deinen Account wieder für Twitchess zu sperren gehe in deinem
+			Twitteraccount auf ``Einstellungen'' $\to$ ``Applikationen'' $\to$ ``Name
+			des Twitteraccounts'' $\to$ ``Zugriff widerrufen''.
+			
+			Hinweis: Den Standard-Twitter-Account kannst du in der ``configuration.properties''
+			Datei ändern. (``Twitter.StandardAccount=Name'')
+	\section{Spielablauf}
+		Hier wird Ihnen nun ein exemplarischer Spielablauf aufgezeigt.\\
+		Am Anfang muss natürlich erst einmal ein neues Spiel erstellt werden
+		\begin{itemize}
+			\item Befehl: ``@Name chess new''
+		\end{itemize}
+		Wenn alles geklappt hat, erhälst du eine Bestätigung.
+		Danach können Züge wie folgt durchgeführt werden.
+		Spieler macht Zug
+		\begin{itemize}
+			\item Befehl: ``@Name chess move e2e4'' 
+		\end{itemize}
+		Als Antwort bekommt man den Zug von \cite{Github}Twitchess und einen Link zum
+		Bild der Stellung.\footnote{Mit Spieler ist der Account von Twitter gemeint,
+		  welcher mit dem Bot gerade spielt}
+		\begin{itemize}
+			\item Antwort: ``@Spieler e7e5 Link zum Bild'' \footnote{Der Link(URL)
+			sollte in der Regel von einem sogenannten Linkshortener kommen und dann
+			weiterverlinken auf die Twitter Fotoseite.}
+		\end{itemize}
+		Die Aktuelle Stellung als Bild anzeigen.
+		\begin{itemize}
+			\item Befehl: ``@Name chess print''
+			\begin{itemize}
+				\item Beispielbild: 
+			    \begin{figure}[htbp]
+				    \centering
+					\includegraphics[scale=0.3]{pic/picAfterPrintCommand.png}
+					\caption{Beispielbild nach dem print Befehl zu Beginn}
+					\label{labelname} 
+				\end{figure}
+        	\end{itemize}
+		\end{itemize}
+		
+	\section{Plattformen}
+	\subsection{Unterstützte Plattformen}
+		Folgende Betriebssysteme werden unterstützt.
+		\begin{itemize}
+			\item Windows XP, CE, ME, 2003, Vista, Seven
+			\item Linux sowie sämtliche Unix Distributionen
+			\item SunOS/Solaris
+			\item Mac OS/Mac OS X
+		\end{itemize}
+		\subsection{Getestete Plattformen}
+		Selbst getestet wurde das Programm unter folgenden Betriebssystemen
+		\begin{itemize}
+			\item Windows XP
+			\item Windows Seven
+			\item Ubuntu 10.10
+		\end{itemize}
+		Dabei wurde	vor allem Aspekt auf die möglichst einfache Ausführbarkeit, sowie Spielablauf
+		und -verlauf gelegt. Abstürze gab es bei unseren Tests keine.
+	
+\chapter{Verwendete Software}
+	\section{Verwendete Engine}
+		\subsection{Stockfish}
+			Unsere verwendete Engine nennt sich \cite{StockWeb}Stockfish Engine. Diese
+			kann auch im \cite{StockGit}Quellcode eingsehen werden, da diese Open Source,
+			sowie frei nutzbar ist.
+			\cite{StockWeb}Stockfish brauch sich auch gar nicht hinter kommerziellen
+			Alternativen wie Rybka 4 and Houdini verstecken. \cite{StockWeb}Stockfish ist derzeit noch
+			unerreicht was Schachengines im freien Markt anbelangt. Über
+			\cite{SfcTwit}Twitter gibt es auch von Zeit zu Zeit neue Updates bezüglich der Engine.
+		\subsubsection{Lizenz}
+			Stockfish  steht unter der \cite{GPLv3}GPLv3 license. Das bedeutet, dass
+			Änderungen nicht nur  vorgenommen werden sondern auch frei wieder veröffentlicht werden  können.
+			Dies bietet eine gute Grundlage für Weiterentwicklungen. Dies  war unter anderem
+			in Grund zur Wahl dieser Engine.
+		\subsubsection{Tests}
+			Nach ausführlichen Tests der \cite{StockWeb}Stockfish Engine mit
+			herkömmlichen angesagten Programmen wie \cite{Arena3}Arena 3.0, kamen wir zum Schluss,
+			dass wir es wirklich mit einer ausgereiften Engine zu tun haben.
+		\subsubsection{Cross Platforms} 
+			Ein anderer Grund \cite{StockWeb}Stockfish zu wählen war die nahezuhe
+			Unabhängigkeit, gegeben durch die verschiedenen Binaries, welche
+			\cite{StockWeb}Stockfish von Hause mitliefert. So ziemlich jede große
+			Plattform wird unterstützt. Darüber  hinaus gibt es sogar eine
+			\cite{SfcApp}App für iPhone, iPod touch, and iPad welche natürlich auf der Stockfishengine beruht.
+		\subsubsection{Benutzte Version} 
+			Unsere genutzte \cite{StockWeb}Stockfish Version innerhalb von Twitchess ist
+			die Version \cite{UsedSfcEng}2-1-1. Die derzeit neueste Version von Stockfish
+			ist die Verison \cite{ActualSfcEng}2-2-1. Ganz nach dem Prinzip never change
+			a running System haben wir daher kein Update vollzogen. Theoretisch ist hier
+			ein Update jedoch ohne Probleme zu vollziehen.
+	\section{Verwendete APIs}
+		Wir nutzten folgende APIs
+		\begin{itemize}
+			\item \cite{Twitter4j} Twitter4j 
+			\item \cite{sqlitejdbc} sqlitejdbc
+			\item \cite{UCI} Universal Chess Interface (UCI)
+		\end{itemize}
+		Beispiel-Kommunikation zwischen der Schachengine und \cite{Github}Twitchess
+		(UCIEngine und ucicommands.*)
+		\begin{itemize}
+			\item $>$ \grqq uci\grqq 
+			\item $<$ \grqq [...]\grqq 
+			\item $<$ \grqq uciok"
+			\item $>$ \grqq ucinewgame\grqq 
+			\item $>$ \grqq isready\grqq 
+			\item $<$ \grqq readyok\grqq 
+			\item $>$ \grqq position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w
+			KQkq - 0 1\grqq 
+			\item $>$ \grqq go movetime 2000\grqq 
+			\item $<$ \grqq info [...]\grqq 
+			\item $<$ \grqq bestmove e2e4\grqq 
+		\end{itemize}
+	
+\chapter{Anmerkungen}
+	\section{Kommentare zum Quellcode}
+		Wir verwenden eine Schichtenarchitektur
+		\begin{itemize}
+			\item Präsentationsschicht: ``TwitterView''
+			\item Geschäftslogik: ``TwitterBot'', ``ChessManager''
+			\item Persistenzschicht: ``ChessStateDAO''
+		\end{itemize}
+		
+		\cite{Github}Twitchess bekommt eingehende Befehle entweder direkt von Twitter
+		oder von der View und verarbeitet diese. Dazu ruft er den ChessManager auf, der die
+		empfangene Zeichenkette auswertet.
+		
+		Wir verwenden dazu ein Command-Pattern, der je nach dem ankommendem Befehl die 
+		Aufgabe an die entsprechende Klassen
+		\begin{itemize}
+			\item ``CancelGameChessCommand''
+			\item ``MoveChessCommand''
+			\item ``NewGameChessCommand''
+			\item ``OfferDrawChessCommand''
+			\item ``PrintGameChessCommand''
+		\end{itemize}deligiert. 
+		
+		Die jeweiligen Befehle greifen über das Interface
+		ChessStateDAOInterface direkt auf die Datenbank zu und holen sich das jeweils
+		aktuelle Spiel.
+		
+		Der größte Teil der Arbeit wird in MoveChessCommand verrichtet:
+		Dieser greift nicht nur auf die Datenbank zu, sondern muss auch den 
+		eingehenden Zug parsen, auf Gültigkeit/Richtigkeit überprüfen, dann die 
+		Schachengine befragen und schließlich das Ergebnis persistent in einer 
+		SQLite-Datenbank speichern und einen String als Antwort generieren.
+		Die Speicherung der aktuellen Stellung erfolgt als \cite{FEN}FEN. Dieser wird
+		bei der Überprüfung des Zuges zunächst einmal in ein Objekt der Klasse ``GameState''
+		umgewandelt. Mit Hilfe der Klasse ``ChessLogic''  und deren Methode
+		``isValidMove(GameState s, Move m)'' kann dann getestet werden, ob der
+		auszuführende Zug überhaupt möglich ist. Dabei ist  anzumerken, dass wir uns
+		bemüht haben, wirklich jeder Schachregel gerecht zu werden, d.h. wir
+		unterstützen Rochade, Enpassant-Regel und auch das Umwandeln von Bauern nach
+		Erreichen der ersten bzw. achten Reihe in Springer, Läufer, Turm oder Dame.
+		

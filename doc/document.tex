@@ -1,0 +1,19 @@
+% das Papierformat zuerst
+\documentclass[a4paper, 11pt]{report}
+% deutsche Silbentrennung
+\usepackage[ngerman]{babel}
+% wegen deutschen Umlauten
+\usepackage[ansinew]{inputenc}
+% nutzt Bilder
+\usepackage{graphicx}
+% umschlieﬂt Bilder
+\usepackage{wrapfig}
+\usepackage{fancyhdr}
+\pagestyle{headings}
+\begin{document}
+\include{src/Deckblatt} 
+\include{src/Gliederung}
+\include{src/Inhalt}
+\include{src/Literaturverzeichnis}
+\include{src/Abbildungsverzeichnis}
+\end{document}
