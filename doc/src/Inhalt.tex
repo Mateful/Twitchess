@@ -96,11 +96,11 @@
 			\begin{itemize}
 				\item ``@Name chess move e2e4''
 			\end{itemize}
-			\item Der Computer zieht nicht
+			\item Der Spieler macht einen Zug, der Computer zieht nicht
 			\begin{itemize}
 				\item ``@Name chess move player e2e4''
 			\end{itemize}
-			\item Spieler lässt seinen Zug von Twitchess machen
+			\item Spieler lässt einen Zug von Twitchess machen
 			\begin{itemize}
 				\item ``@Name chess move ai''
 			\end{itemize}
@@ -165,10 +165,15 @@
 	\section{Limitierungen}
 		Auf Grund von Twitter müssen wir Sie über folgende Beschränkungen hinweisen auf
 		welche wir leider keinen Einfluss haben. Zum Einen ist es das Nachrichtenlimit,
-		welches theoretisch ziemlich schnell erschöpft ist. Auf Grund dessen ist es
-		auch nicht möglich nach jedem Zug ein neues Bild zu generieren. Da wir aber beim Hochladen
-		der Bilder unabhängig von anderen Servern sein wollten, wählten wir das Image
-		Feature von Twitter. Dies stellt jedoch die einzige Limitierung dar.
+		welches theoretisch ziemlich schnell erschöpft ist. Da wir nach jedem Zug
+		ein Bild generieren und es bei Twitter hochladen entstehen durch jeden Zug
+		zwei Statusupdates. Außerdem kann es sein, dass wenn Sie versuchen eine
+		Nachricht zu senden, eine Meldung auftritt, die Ihnen sagt, dass Sie bereits
+		dasselbe getwittert hätten. Dies können Sie umgehen, indem Sie zwischen den
+		einzelnen Parametern der Befehle weitere Leerzeichen einfügen (z.B. statt "
+		chess new" schreiben Sie "chess  new".
+		
+		
 \chapter{Spielgeschehen}
 	\section{Spielstart}
 		\subsection{Installation}
