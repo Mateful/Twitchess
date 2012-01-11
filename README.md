@@ -63,7 +63,7 @@ Scripte bereits angelegt, die das Starten vereinfachen. Falls ein solches System
 Probleme gibt, genügt auch das Ausführen folgenden Befehls:
 
     java -jar jar/twitchess.jar
-    
+     
 (`img/*`, `chessengines/*`, `configuration.properties` sowie die alternativen Scripte müssen sich im gleichen Ordner befinden)
 
 Ausführliche Dokumentation
