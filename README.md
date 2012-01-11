@@ -65,9 +65,15 @@ Erzeugung einer ausfÃ¼hrbaren Jar
 
 AusfÃ¼hren in der Konsole:
 =========================
+
+Zum Ausführen von Twitchess bietet sich zwei Wege. Zum einen haben wir für Windows und Unix Systeme fertige 
+Scripte angelegt, die das Starten vereinfachen. Falls ein solches System nicht zur Verfügung steht oder es 
+Probleme gibt, genügt auch das Ausführen folgenden Befehls:
+
 * "java -jar jar/twitchess.jar"
 (img/*, chessengines/* und configuration.properties mÃ¼ssen sich im gleichen Ordner befinden)
 
 AusfÃ¼hrliche Dokumentation
 ==========================
-siehe Unterordner doc/document.pdf (https://github.com/Mateful/Twitchess/blob/master/doc/document.pdf)
+Um näheren Einblick zu erlangen bedienen Sie sich gerne unserer ausführlichen Dokumentation.
+Sehen Sie hierzu bitte in den Unterordner doc/Twitchess.pdf (https://github.com/Mateful/Twitchess/blob/master/doc/Twitchess.pdf)
