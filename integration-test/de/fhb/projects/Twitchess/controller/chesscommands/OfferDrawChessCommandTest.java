@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
 import de.fhb.projects.Twitchess.controller.chesscommands.OfferDrawChessCommand;
+import de.fhb.projects.Twitchess.controller.configuration.Configuration;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
@@ -82,12 +83,14 @@ public class OfferDrawChessCommandTest {
 		vo.setId(1);
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		uci.init();
-		EasyMock.expect(uci.calculateScore("7k/8/8/8/8/8/8/7K w KQkq - 20 21", 2000)).andReturn(10);		
+		EasyMock.expect(
+				uci.calculateScore("7k/8/8/8/8/8/8/7K w KQkq - 20 21",
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn(10);		
 		dao.updateTable(vo);
 		uci.destroy();
 		EasyMock.replay(uci);
 		EasyMock.replay(dao);
-		assertEquals("Fair enough, I accept your offer! {7k/8/8/8/8/8/8/7K w KQkq - 20 21}",odcc.processInput("player1", parameters));		
+		assertEquals("Fair enough, I accept your offer! Score = 10 {7k/8/8/8/8/8/8/7K w KQkq - 20 21}",odcc.processInput("player1", parameters));		
 		EasyMock.verify(uci);
 		EasyMock.verify(dao);
 	}
@@ -96,11 +99,11 @@ public class OfferDrawChessCommandTest {
 	public void testProcessInputDontAcceptDraw() throws Throwable{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		uci.init();
-		EasyMock.expect(uci.calculateScore("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", 2000)).andReturn(100);		
+		EasyMock.expect(uci.calculateScore("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", Configuration.getInt("Engine.TimePerMove", 2000))).andReturn(100);		
 		uci.destroy();
 		EasyMock.replay(uci);
 		EasyMock.replay(dao);
-		assertEquals("It is too early to call it a draw!",odcc.processInput("player1", parameters));		
+		assertEquals("It is too early to call it a draw! Score = 100",odcc.processInput("player1", parameters));		
 		EasyMock.verify(uci);
 		EasyMock.verify(dao);
 	}
@@ -119,7 +122,7 @@ public class OfferDrawChessCommandTest {
 	public void testProcessInputThrowableException() throws Throwable{
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(state);
 		uci.init();
-		EasyMock.expect(uci.calculateScore("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", 2000)).andReturn(100);		
+		EasyMock.expect(uci.calculateScore("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", Configuration.getInt("Engine.TimePerMove", 2000))).andReturn(100);		
 		uci.destroy();
 		EasyMock.expectLastCall().andThrow(new Throwable());
 		EasyMock.replay(uci);

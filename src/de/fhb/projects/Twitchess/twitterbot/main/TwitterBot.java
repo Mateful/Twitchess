@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -206,6 +208,15 @@ public class TwitterBot extends TwitterBotAbstract {
 		} catch (TwitterException e) {
 			if (!isDuplicateStatusUpdateError(e))
 				notifyObservers(e);
+			else {
+				SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+				String time = format.format(new Date());
+				try {
+					twitter.updateStatus(status + " (" + time + ")");
+				} catch (TwitterException e1) {
+					notifyObservers(e);
+				}
+			}
 		}
 	}
 

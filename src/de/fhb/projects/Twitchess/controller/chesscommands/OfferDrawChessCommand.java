@@ -55,10 +55,10 @@ public class OfferDrawChessCommand implements ChessCommand {
 					if (acceptDraw(s, score)) {
 						vo.setResult(ResultType.REMIS.getNumber());
 						dao.updateTable(vo);
-						result = "Fair enough, I accept your offer! {"
+						result = "Fair enough, I accept your offer! Score = " + score + " {"
 								+ vo.getFen() + "}";
 					} else {
-						result = "It is too early to call it a draw!";
+						result = "It is too early to call it a draw! Score = " + score;
 					}
 
 					uciEngine.destroy();

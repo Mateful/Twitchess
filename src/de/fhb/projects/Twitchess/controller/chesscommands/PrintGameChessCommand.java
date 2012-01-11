@@ -36,7 +36,7 @@ public class PrintGameChessCommand implements ChessCommand {
 			} else {
 				ChessStateVO vo = state.get(0);
 
-				result = "Current Position: {" + vo.getFen() + "}";
+				result = "FEN: " + vo.getFen() + " {" + vo.getFen() + "}";
 			}
 		} catch (SQLException e) {
 			throw new ChessManagerException(
