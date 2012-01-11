@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
 import de.fhb.projects.Twitchess.controller.chesscommands.MoveChessCommand.MoveType;
+import de.fhb.projects.Twitchess.controller.configuration.Configuration;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
@@ -74,7 +75,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-						2000)).andReturn("a2a3");
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn("a2a3");
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
@@ -115,7 +116,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR b KQkq - 0 1",
-						2000)).andReturn("a7a6");
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn("a7a6");
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
@@ -137,7 +138,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-						2000)).andReturn("a2a3");
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn("a2a3");
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
@@ -156,7 +157,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-						2000)).andReturn("a2a3");
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn("a2a3");
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
@@ -175,7 +176,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-						2000)).andReturn("a7k5");
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn("a7k5");
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
@@ -194,7 +195,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"rnbqkbnr/pppppppp/8/8/8/2P5/PP1PPPPP/RNBQKBNR b KQkq - 0 1",
-						2000)).andReturn("a7a6");
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn("a7a6");
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
@@ -215,7 +216,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"rnbqkbnr/pppppppp/8/8/8/2P5/PP1PPPPP/RNBQKBNR b KQkq - 0 1",
-						2000)).andThrow(new UCIException(""));
+						Configuration.getInt("Engine.TimePerMove", 2000))).andThrow(new UCIException(""));
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
@@ -390,7 +391,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/P1Q2PPP/nNB1KB1R w Kkq - 0 7",
-						2000)).andReturn("c2b2");
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn("c2b2");
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);
@@ -445,7 +446,7 @@ public class MoveChessCommandTest {
 		EasyMock.expect(
 				uci.calculateMove(
 						"rnbqkbnr/1ppp1pp1/7p/p3p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq a6 0 4",
-						2000)).andReturn("f3f7");
+						Configuration.getInt("Engine.TimePerMove", 2000))).andReturn("f3f7");
 		uci.destroy();
 		dao.updateTable(vo);
 		EasyMock.replay(dao);

@@ -45,7 +45,7 @@ public class PrintGameChessCommandTest {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
 		EasyMock.replay(dao);
-		assertEquals("Current Position: {"
+		assertEquals("FEN: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 {"
 				+ "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 				+ "}", chessCommand.processInput("player1", parameters));
 		EasyMock.verify(dao);
@@ -78,7 +78,7 @@ public class PrintGameChessCommandTest {
 		EasyMock.expect(dao.findNotFinishedGameByPlayer("player1")).andReturn(
 				state);
 		EasyMock.replay(dao);
-		assertEquals("Current Position: {"
+		assertEquals("FEN: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 {"
 				+ "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 				+ "}", chessCommand.processInput("player1", null));
 		EasyMock.verify(dao);
