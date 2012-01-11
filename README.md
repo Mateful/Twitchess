@@ -53,7 +53,7 @@ ManagerFactory und das Anlegen eines neuen Managers)
 Erzeugung einer ausführbaren Jar
 ================================
 	* "ant jar"
-
+    gem install github-markup
 Ausführen in der Konsole:
 =========================
 
