@@ -3,17 +3,19 @@ package de.fhb.projects.Twitchess.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChessStateDaoTest {
+public class ChessStateDAOTest {
 	
 	private ChessStateDAO dao;	
-	
+	private Connection c;
 	@Before
 	public void init() throws SQLException, ClassNotFoundException{
 		dao =new ChessStateDAO("test-files/chess.db");
@@ -38,5 +40,20 @@ public class ChessStateDaoTest {
 	@Test (expected = SQLException.class)
 	public void testUpdateTableNullVO() throws SQLException{
 		dao.updateTable(null);
+	}
+	
+	@Test
+	public void testClose() throws SQLException{
+		c = EasyMock.createStrictMock(Connection.class);
+		dao.connection=c;
+		EasyMock.expect(c.isClosed()).andReturn(true);
+		EasyMock.expect(c.isClosed()).andReturn(false);
+		c.close();
+		EasyMock.replay(c);
+		dao.close();
+		dao.close();
+		dao.connection = null;
+		dao.close();
+		EasyMock.verify(c);
 	}
 }
