@@ -7,7 +7,7 @@ public class ChessStateVO {
 	private int id;
 	private String playerName;
 	private String fen;
-	private String moves;
+	private String moves; // not used yet but useful for expandability
 	private Date date;
 	private Integer result;
 

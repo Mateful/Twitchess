@@ -3,23 +3,27 @@ Projekt Twitchess
 
 Version
 -------
-* Version Alpha
+* Version 1.0
 
 Autoren
 ------- 
-* BH
-* CM
-* MK
-* SM
+* Benjamin
+* Curtis
+* Marco
+* Sebastian
 
 Kurzbeschreibung
 ===============
-...
+Twitchess ist eine Konsolenanwendung, welche es ermöglicht, über Twitter gegen einen Schachmotor zu spielen.
 
+Verwendete APIs
+---------------
 * Schachmotor
 	https://github.com/mcostalba/Stockfish
-* SQLite
+* SQLite-DB
 	http://www.zentus.com/sqlitejdbc
+* Twitter4j
+	http://twitter4j.org	
 
 
 Anforderungen
@@ -27,27 +31,27 @@ Anforderungen
 
 Mindestanforderungen des Projekts:
 
-  -Spielen gegen KI (Anbindung einer Schachengine)
+  -Spielen gegen KI (Anbindung einer Schachengine) (erfüllt)
   
-  -Anbindung an Twitter (Steuerung über Nachrichten)
+  -Anbindung an Twitter (Steuerung über Nachrichten) (erfüllt)
   
-  -Aktuelle Status-/Spielfeldanzeige durch Grafiken (über Twitter)
+  -Aktuelle Status-/Spielfeldanzeige durch Grafiken (über Twitter) (erfüllt)
   
-  -Speicherung laufender und vergangener Spiele/Spieler
+  -Speicherung laufender und vergangener Spiele/Spieler (erfüllt)
   
 
 Zusatzanforderungen:
 
-  -Änderung des Schwierigkeitsgrades
+  -Änderung des Schwierigkeitsgrades (erfüllt -> Änderung von Engine.TimePerMove in configuration.properties)
   
-  -Eigene KI
+  -Eigene KI (nicht erfüllt, sehr komplex)
   
-  -Spieler gegen Spieler
+  -Spieler gegen Spieler (nicht erfüllt, aber einfach implementierbar)
   
-  -GUI
+  -GUI (nicht erfüllt, bringt keinen Mehrwert)
   
-  -Andere Spiele wie TicTacToe, Vier Gewinnt
-  
+  -Andere Spiele wie TicTacToe oder Vier Gewinnt (nicht erfüllt, aber einfach hinzufügbar durch Änderungen in ManagerFactory und das Anlegen eines neuen Managers)
+    
 
 Erzeugung einer ausführbaren Jar
 ================================
@@ -56,9 +60,8 @@ Erzeugung einer ausführbaren Jar
 Ausführen in der Konsole:
 =========================
 * "java -jar jar/twitchess.jar"
+(img/*, chessengines/* und configuration.properties müssen sich im gleichen Ordner befinden)
 
-Verbinde Twitchess mit deinem Twitteraccount
----------------------------------------------------
-
-Um Twitchess mit dem eigenen Twitteraccount zu verbinden, gebe am Anfang deinen Benutzernamen ein. Danach erhaelst du die Nachricht, dass noch kein Token zu deinem Account existiert, waehle neues Token erstellen. Kopiere den erscheinenden Link in deinen Browser und gib Twitchess Zugriff auf deinen Account. Gib den auf der naechsten Seite erscheinenden Pin in die Konsole ein. Jetzt bist du mit deinem Account eingeloggt. Ab dem naechsten Start reicht es deinen Twitternamen einzugeben und du wirst verbunden.
-Um deinen Account wieder fuer Twitchess zu sperren gehe in deinem Twitteraccount auf Einstellungen->Applikationen->MatefulBot->Zugriff widerrufen.
+Ausführliche Dokumentation
+==========================
+siehe Unterordner doc/

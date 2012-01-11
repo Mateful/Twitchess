@@ -1,23 +1,19 @@
 package de.fhb.projects.Twitchess.controller.chesscommands;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.easymock.EasyMock;
-import org.easymock.IAnswer;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.fhb.projects.Twitchess.controller.UCIEngineInterface;
-import de.fhb.projects.Twitchess.controller.chesscommands.MoveChessCommand;
 import de.fhb.projects.Twitchess.controller.chesscommands.MoveChessCommand.MoveType;
 import de.fhb.projects.Twitchess.data.ChessStateDAOInterface;
 import de.fhb.projects.Twitchess.data.ChessStateVO;
-import de.fhb.projects.Twitchess.data.ResultType;
 import de.fhb.projects.Twitchess.exception.ChessManagerException;
 import de.fhb.projects.Twitchess.exception.ChessManagerGameAlreadyOverException;
 import de.fhb.projects.Twitchess.exception.UCIException;

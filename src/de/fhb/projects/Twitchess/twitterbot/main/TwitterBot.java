@@ -1,13 +1,11 @@
 package de.fhb.projects.Twitchess.twitterbot.main;
 
 
-import static de.fhb.projects.Twitchess.controller.configuration.Configuration.getString;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Observable;
+
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
